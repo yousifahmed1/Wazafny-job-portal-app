@@ -65,7 +65,7 @@ class ForgetPasswordCustomAppBar extends StatelessWidget
     return Padding(
       padding: const EdgeInsets.only(top: 20.0), // Adjust the value as needed
       child: AppBar(
-        backgroundColor: Colors.transparent,
+        backgroundColor: scaffoldColor,
         centerTitle: true,
         elevation: 0,
         title: const Text(
@@ -109,7 +109,7 @@ class JobCustomAppBar extends StatelessWidget implements PreferredSizeWidget {
     return Padding(
       padding: const EdgeInsets.only(top: 15.0),
       child: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: scaffoldColor,
         centerTitle: true,
         elevation: 1,
         title: title != null

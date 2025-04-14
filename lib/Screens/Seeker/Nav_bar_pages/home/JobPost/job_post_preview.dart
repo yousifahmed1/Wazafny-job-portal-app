@@ -136,7 +136,7 @@ class JobPostPreview extends StatelessWidget {
               ),
 
               child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16,horizontal: 15),
+                padding: const EdgeInsets.symmetric(vertical: 30,horizontal: 15),
                 child: GestureDetector(
                   onTap: () {
                     slideUp(context,const ApplyJobPost());

@@ -154,14 +154,15 @@ class _CompanyViewState extends State<CompanyView> {
                               child: Container(
                                 height: 60,
                                 width: 270,
-                                decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(70),
-                                ),
-                                child: const TabBar(
+                                color: Colors.white,
+                                child: TabBar(
+                                  overlayColor: MaterialStateProperty.all(Colors.transparent),
+
+                                  dividerColor: Colors.transparent,
                                   labelColor: darkPrimary,
+
                                   unselectedLabelColor: darkPrimary,
-                                  indicator: BoxDecoration(
+                                  indicator: const  BoxDecoration(
                                     border: Border(
                                       bottom: BorderSide(
                                         color: primaryColor,
@@ -169,7 +170,7 @@ class _CompanyViewState extends State<CompanyView> {
                                       ),
                                     ),
                                   ),
-                                  tabs: [
+                                  tabs: const [
                                     Tab(
                                       child: Text(
                                         'Overview',

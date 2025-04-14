@@ -53,6 +53,8 @@ class HomePage extends StatelessWidget {
                     ),
                     const SizedBox(height: 35),
                     // TabBar
+
+                    // TabBar
                     Container(
                       height: 60,
                       width: 330,
@@ -62,34 +64,44 @@ class HomePage extends StatelessWidget {
                       ),
                       child: TabBar(
                         labelColor: Colors.white,
+                        overlayColor: MaterialStateProperty.all(Colors.transparent),
                         unselectedLabelColor: Colors.black,
                         indicator: BoxDecoration(
                           color: primaryColor,
                           borderRadius: BorderRadius.circular(70),
                         ),
-                         tabs: const [
-                           Tab(
-                            child: Text(
-                              'Jobs',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w700,
-                                fontSize: 20,
+                        indicatorSize: TabBarIndicatorSize.tab,
+                        indicatorColor: Colors.transparent,
+                        enableFeedback: false,
+                        dividerColor: Colors.transparent,
+                        labelPadding: EdgeInsets.zero,
+                        tabs: const [
+                          Tab(
+                            child: Center(
+                              child: Text(
+                                'Jobs',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 20,
+                                ),
                               ),
                             ),
                           ),
                           Tab(
-                            child: Text(
-                              'Company',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w700,
-                                fontSize: 20,
+                            child: Center(
+                              child: Text(
+                                'Company',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 20,
+                                ),
                               ),
                             ),
                           ),
                         ],
                       ),
                     ),
-                  
+
                   ],
                 ),
               ),
@@ -105,8 +117,8 @@ class HomePage extends StatelessWidget {
                     CompaniesListView(),
                   ],
                 ),
-              
-              
+
+
               ),
             ],
           ),

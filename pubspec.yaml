@@ -40,12 +40,12 @@ dependencies:
   country_picker: ^2.0.23
   dio: ^5.8.0+1
   navigation_view: ^1.0.6
-  device_preview: ^1.1.0
+  #device_preview: ^1.1.0
   flutter_bloc: ^8.1.6
   equatable: ^2.0.5
-  file_picker: ^5.3.0
+  file_picker: ^10.1.2
   dotted_border: ^2.0.0
-  multi_chip_picker: ^0.0.4
+  #multi_chip_picker: ^0.0.4
 
 
 

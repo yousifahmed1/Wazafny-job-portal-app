@@ -30,7 +30,7 @@ class _NavBarState extends State<NavBar> {
         children: [
           Expanded(child: _screens[_selectedIndex]),
           Container(
-            height: 95,
+            height: 105,
             decoration: BoxDecoration(
               color: Colors.white, // Set your container color
               boxShadow: [
@@ -124,7 +124,7 @@ class IconNav extends StatelessWidget {
           height: 30,
         ),
         const SizedBox(
-          height: 3,
+          height: 8,
         ),
         Text(
           title,

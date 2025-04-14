@@ -20,33 +20,35 @@ class SearchTextField extends StatelessWidget {
           width: 2.0,        // border thickness
         ),
       ),
-      child: TextFormField(
-        controller: controller,
-        cursorColor: loginTextColor,
-        style: const TextStyle(
-          color: loginTextColor,
-          fontSize: 20,
-          fontWeight: FontWeight.w600,
-        ),
-        decoration: InputDecoration(
-          prefixIcon: Padding(
-            padding: const EdgeInsets.only(left: 15, right: 15),
-            child: SvgPicture.asset(
-              "assets/Icons/search_icon.svg",
-              width: 24.0,
-              height: 24.0,
+      child: Center(
+        child: TextFormField(
+          controller: controller,
+          cursorColor: loginTextColor,
+          style: const TextStyle(
+            color: loginTextColor,
+            fontSize: 20,
+            fontWeight: FontWeight.w600,
+          ),
+          decoration: InputDecoration(
+            prefixIcon: Padding(
+              padding: const EdgeInsets.only(left: 15, right: 15),
+              child: SvgPicture.asset(
+                "assets/Icons/search_icon.svg",
+                width: 24.0,
+                height: 24.0,
+              ),
             ),
+            hintText: "Search",
+            hintStyle: const TextStyle(
+              color: bordersColor,
+              fontWeight: FontWeight.w400,
+              fontSize: 18,
+            ),
+            border: InputBorder.none,
+            enabledBorder: InputBorder.none,
+            focusedBorder: InputBorder.none,
           ),
-          hintText: "Search",
-          hintStyle: const TextStyle(
-            color: bordersColor,
-            fontWeight: FontWeight.w400,
-            fontSize: 18,
-          ),
-          border: InputBorder.none,
-          enabledBorder: InputBorder.none,
-          focusedBorder: InputBorder.none,
-        ), 
+        ),
       ),
     );
   }
