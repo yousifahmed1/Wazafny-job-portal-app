@@ -10,6 +10,9 @@ const linesColor = Color(0xffC7C7C7);
 const bordersColor = Color(0xff7d7c7c);
 const hintText = Color(0xff8E8E8E);
 const scaffoldColor = Color(0xfff6f3f7);
+const acceptedColor = Color(0xff1B7908);
+const pendingColor = Color(0xffEFA600);
+const rejectedColor = Color(0xffC60000);
 
 const double normalPadding = 30;
 
