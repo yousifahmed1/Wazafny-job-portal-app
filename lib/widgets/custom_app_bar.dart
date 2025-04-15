@@ -134,8 +134,8 @@ class JobCustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               ),
             ),
           ),
-          Spacer(),
-          Divider(thickness: 0.5,height: 1,color: linesColor,)
+          const Spacer(),
+          const Divider(thickness: 0.5,height: 1,color: linesColor,)
         ],
       ),
     );
