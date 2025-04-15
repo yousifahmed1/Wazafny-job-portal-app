@@ -5,9 +5,12 @@ import '../constants.dart';
 class Button extends StatelessWidget {
   const Button({
     super.key,
-    required this.text,
+    required this.text, this.btnColor, this.txtColor,
   });
   final String text;
+  final Color? btnColor;
+  final Color? txtColor;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -15,13 +18,13 @@ class Button extends StatelessWidget {
       width: SizeConfig.screenWidth,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
-        color: primaryColor,
+        color: btnColor ?? primaryColor,
       ),
       child: Center(
         child: Text(
           text,
-          style: const TextStyle(
-            color: Colors.white,
+          style: TextStyle(
+            color: txtColor ??Colors.white,
             fontWeight: FontWeight.w700,
             fontSize: 25,
           ),

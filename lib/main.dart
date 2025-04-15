@@ -2,7 +2,7 @@
 //import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 //import 'package:wazafny/Screens/Seeker/home/home_page.dart';
-//import 'package:wazafny/Screens/welcome.dart';
+import 'package:wazafny/Screens/welcome.dart';
 import 'Screens/Seeker/Nav_bar_pages/nav_bar.dart';
 import 'constants.dart';
 
@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
 
       ),
 
-      home: const NavBar(),
+      home:  WelcomePage(),
     );
   }
 }
