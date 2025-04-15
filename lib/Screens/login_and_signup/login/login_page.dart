@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:wazafny/Screens/Seeker/Nav_bar_pages/home/home_page/home_page.dart';
 import 'package:wazafny/constants.dart';
 import 'package:wazafny/services/textfields_validators.dart';
 import 'package:wazafny/widgets/button.dart';
