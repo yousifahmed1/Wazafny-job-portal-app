@@ -8,6 +8,7 @@ import 'package:wazafny/widgets/Navigators/slide_to.dart';
 import 'package:wazafny/widgets/text_fields/password_text_filed.dart';
 import 'package:wazafny/widgets/text_fields/regular_text_field.dart';
 
+import '../../Seeker/Nav_bar_pages/nav_bar.dart';
 import '../signup/sign_up.dart';
 import 'forget_password/enter_email.dart';
 
@@ -87,9 +88,11 @@ class _LoginPageState extends State<LoginPage> {
                   const SizedBox(height: 40),
                   GestureDetector(
                     onTap: () {
-                      if (_formKey.currentState!.validate()) {
-                        slideTo(context, HomePage());
-                      }
+                      // if (_formKey.currentState!.validate()) {
+                      //   slideTo(context, HomePage());
+                      // }
+                        slideTo(context, const NavBar());
+
                     },
                     child: Opacity(
                         opacity: _isButtonEnabled ? 1.0 : 0.5,

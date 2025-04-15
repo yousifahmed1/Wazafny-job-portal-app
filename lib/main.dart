@@ -21,7 +21,6 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         scaffoldBackgroundColor: scaffoldColor,
         fontFamily: 'Somar Sans',
-
       ),
 
       home:  WelcomePage(),

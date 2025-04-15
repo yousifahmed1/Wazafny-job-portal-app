@@ -19,7 +19,7 @@ class _NavBarState extends State<NavBar> {
   final List<Widget> _screens = [
     HomePage(), // This will contain the TabBar for Jobs and Company
     ApplicationPage(), // For "My Applications"
-    const Placeholder(), // For "Notifications"
+    Scaffold(), // For "Notifications"
     const Placeholder(), // For "Profile"
   ];
 

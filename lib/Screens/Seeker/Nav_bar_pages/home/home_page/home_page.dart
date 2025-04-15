@@ -10,12 +10,12 @@ class HomePage extends StatelessWidget {
 
   final TextEditingController _searchController = TextEditingController();
 
-
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
       length: 2,
       child: SafeArea(
+        bottom: false,
         child: Scaffold(
           body: Column(
             children: [
@@ -31,7 +31,8 @@ class HomePage extends StatelessWidget {
                         Expanded(
                           child: SizedBox(
                             height: 60,
-                            child: SearchTextField(controller: _searchController),
+                            child:
+                                SearchTextField(controller: _searchController),
                           ),
                         ),
 
@@ -43,10 +44,10 @@ class HomePage extends StatelessWidget {
                           backgroundColor: darkPrimary,
                           child: Text(
                             "YA",
-                            style: TextStyle(color: Colors.white,
-                            fontWeight: FontWeight.w600,
-                              fontSize: 22
-                            ),
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 22),
                           ),
                         ),
                       ],
@@ -64,7 +65,8 @@ class HomePage extends StatelessWidget {
                       ),
                       child: TabBar(
                         labelColor: Colors.white,
-                        overlayColor: MaterialStateProperty.all(Colors.transparent),
+                        overlayColor:
+                            MaterialStateProperty.all(Colors.transparent),
                         unselectedLabelColor: Colors.black,
                         indicator: BoxDecoration(
                           color: primaryColor,
@@ -101,7 +103,6 @@ class HomePage extends StatelessWidget {
                         ],
                       ),
                     ),
-
                   ],
                 ),
               ),
@@ -110,15 +111,13 @@ class HomePage extends StatelessWidget {
               const Expanded(
                 child: TabBarView(
                   physics: BouncingScrollPhysics(),
-                  children:  [
+                  children: [
                     // Jobs Tab Content
                     JobsListView(),
                     // Company Tab Content
                     CompaniesListView(),
                   ],
                 ),
-
-
               ),
             ],
           ),
@@ -127,4 +126,3 @@ class HomePage extends StatelessWidget {
     );
   }
 }
-
