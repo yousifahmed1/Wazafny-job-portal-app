@@ -1,9 +1,5 @@
-//import 'package:device_preview/device_preview.dart';
-//import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-//import 'package:wazafny/Screens/Seeker/home/home_page.dart';
 import 'package:wazafny/Screens/welcome.dart';
-import 'Screens/Seeker/Nav_bar_pages/nav_bar.dart';
 import 'constants.dart';
 
 void main() {
@@ -23,7 +19,7 @@ class MyApp extends StatelessWidget {
         fontFamily: 'Somar Sans',
       ),
 
-      home:  WelcomePage(),
+      home: const WelcomePage(),
     );
   }
 }
