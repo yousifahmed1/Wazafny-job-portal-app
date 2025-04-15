@@ -65,7 +65,7 @@ class ForgetPasswordCustomAppBar extends StatelessWidget
     return Padding(
       padding: const EdgeInsets.only(top: 20.0), // Adjust the value as needed
       child: AppBar(
-        backgroundColor: scaffoldColor,
+        backgroundColor: Colors.transparent,
         centerTitle: true,
         elevation: 0,
         title: const Text(
@@ -107,30 +107,36 @@ class JobCustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 15.0),
-      child: AppBar(
-        backgroundColor: scaffoldColor,
-        centerTitle: true,
-        elevation: 1,
-        title: title != null
-            ? Text(
-                title!,
-                style: const TextStyle(
-                  color: loginTextColor,
-                  fontSize: 25,
-                  fontWeight: FontWeight.w700,
-                ),
-              )
-            : null, // If title is null, no title is displayed
-        leading: IconButton(
-          enableFeedback: false,
-          onPressed: onBackPressed,
-          icon: SvgPicture.asset(
-            "assets/Icons/Exit.svg",
-            width: 22,
-            height: 22,
+      padding: const EdgeInsets.only(top: 0.0),
+      child: Column(
+        children: [
+          AppBar(
+            backgroundColor: Colors.white,
+            centerTitle: true,
+            elevation: 0,
+            title: title != null
+                ? Text(
+                    title!,
+                    style: const TextStyle(
+                      color: loginTextColor,
+                      fontSize: 25,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  )
+                : null, // If title is null, no title is displayed
+            leading: IconButton(
+              enableFeedback: false,
+              onPressed: onBackPressed,
+              icon: SvgPicture.asset(
+                "assets/Icons/Exit.svg",
+                width: 22,
+                height: 22,
+              ),
+            ),
           ),
-        ),
+          Spacer(),
+          Divider(thickness: 0.5,height: 1,color: linesColor,)
+        ],
       ),
     );
   }
