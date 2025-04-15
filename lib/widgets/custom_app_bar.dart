@@ -20,6 +20,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       padding: const EdgeInsets.only(top: 20.0),
       child: AppBar(
         backgroundColor: Colors.transparent,
+        scrolledUnderElevation: 0,
+
         centerTitle: true,
         elevation: 0,
         title: title != null
@@ -66,6 +68,7 @@ class ForgetPasswordCustomAppBar extends StatelessWidget
       padding: const EdgeInsets.only(top: 20.0), // Adjust the value as needed
       child: AppBar(
         backgroundColor: Colors.transparent,
+        scrolledUnderElevation: 0,
         centerTitle: true,
         elevation: 0,
         title: const Text(
@@ -107,10 +110,11 @@ class JobCustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 0.0),
+      padding: const EdgeInsets.only(top: 20.0),
       child: Column(
         children: [
           AppBar(
+            scrolledUnderElevation: 0,
             backgroundColor: Colors.white,
             centerTitle: true,
             elevation: 0,
@@ -134,8 +138,14 @@ class JobCustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               ),
             ),
           ),
-          const Spacer(),
-          const Divider(thickness: 0.5,height: 1,color: linesColor,)
+          const SizedBox(
+            height: 5,
+          ),
+          const Divider(
+            thickness: 1,
+            height: 1,
+            color: linesColor,
+          )
         ],
       ),
     );
@@ -143,5 +153,5 @@ class JobCustomAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Size get preferredSize => const Size.fromHeight(
-      kToolbarHeight + 20.0); // Default AppBar height + padding
+      kToolbarHeight + 26.0); // Default AppBar height + padding
 }
