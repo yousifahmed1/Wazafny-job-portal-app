@@ -32,7 +32,8 @@ class _NavBarState extends State<NavBar> {
           Container(
             height: 105,
             decoration: BoxDecoration(
-              color: Colors.white, // Set your container color
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(23),// Set your container color
               boxShadow: [
                 BoxShadow(
                   color: Colors.black.withOpacity(0.05), // Shadow color
