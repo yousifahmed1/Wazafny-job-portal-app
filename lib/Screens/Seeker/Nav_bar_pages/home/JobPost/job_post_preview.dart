@@ -14,14 +14,13 @@ class JobPostPreview extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: JobCustomAppBar(
+      appBar: CustomAppBar1(
         onBackPressed: () => Navigator.pop(context),
       ),
       body: Stack(
         children: [
           SingleChildScrollView(
             physics: const BouncingScrollPhysics(),
-
             child: Padding(
               padding: const EdgeInsets.all(20),
               child: Column(
@@ -36,8 +35,11 @@ class JobPostPreview extends StatelessWidget {
                           fit: BoxFit.fill,
                         ),
                       ),
-                      const SizedBox(width: 10,),
-                      const Text("Vodafone Egypt",
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      const Text(
+                        "Vodafone Egypt",
                         style: TextStyle(
                           fontWeight: FontWeight.w600,
                           fontSize: 15,
@@ -45,7 +47,9 @@ class JobPostPreview extends StatelessWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 20,),
+                  const SizedBox(
+                    height: 20,
+                  ),
                   const HeadingText(title: "Flutter Mobile App Developer"),
                   const Row(
                     children: [
@@ -54,11 +58,13 @@ class JobPostPreview extends StatelessWidget {
                       Text("4 days ago")
                     ],
                   ),
-                  const SizedBox(height: 20,),
-
+                  const SizedBox(
+                    height: 20,
+                  ),
                   const HeadingText(title: "Skills"),
-                  const SizedBox(height: 10,),
-
+                  const SizedBox(
+                    height: 10,
+                  ),
                   Wrap(
                     spacing: 15, // Space between items
                     runSpacing: 10, // Space between lines
@@ -66,10 +72,10 @@ class JobPostPreview extends StatelessWidget {
                       return Container(
                         decoration: BoxDecoration(
                             color: lightPrimary,
-                            borderRadius: BorderRadius.circular(12)
-                        ),
+                            borderRadius: BorderRadius.circular(12)),
                         child: const Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 15, vertical: 8),
+                          padding:
+                              EdgeInsets.symmetric(horizontal: 15, vertical: 8),
                           child: Text(
                             "Flutter",
                             style: TextStyle(
@@ -81,18 +87,17 @@ class JobPostPreview extends StatelessWidget {
                       );
                     }),
                   ),
-                  const SizedBox(height: 20,),
+                  const SizedBox(
+                    height: 20,
+                  ),
                   const CustomLine(),
                   const SizedBox(height: 20),
-
-
                   const HeadingText(title: "About the job"),
                   const SizedBox(height: 8),
                   const Paragraph(
                     paragraph:
-                    "We’re seeking an experienced Mobile Software Engineer with a passion for development and a team-oriented attitude, ready to bring powerful software to life.",
+                        "We’re seeking an experienced Mobile Software Engineer with a passion for development and a team-oriented attitude, ready to bring powerful software to life.",
                   ),
-
                   const SizedBox(height: 8),
                   Column(
                     children: List.generate(5, (index) {
@@ -104,16 +109,14 @@ class JobPostPreview extends StatelessWidget {
                           SizedBox(height: 10),
                           Paragraph(
                             paragraph:
-                            "We’re seeking an experienced Mobile Software Engineer with a passion for development and a team-oriented attitude, ready to bring powerful software to life.",
+                                "We’re seeking an experienced Mobile Software Engineer with a passion for development and a team-oriented attitude, ready to bring powerful software to life.",
                           ),
                           SizedBox(height: 15), // Separator between items
-
                         ],
                       );
                     }),
                   ),
                   const SizedBox(height: 80),
-
                 ],
               ),
             ),
@@ -134,27 +137,27 @@ class JobPostPreview extends StatelessWidget {
                   ),
                 ],
               ),
-
               child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 30,horizontal: 15),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 30, horizontal: 15),
                 child: GestureDetector(
                   onTap: () {
-                    slideUp(context,const ApplyJobPost());
+                    slideUp(context, const ApplyJobPost());
                   },
                   child: Center(
                     child: Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
                         color: primaryColor,
-
                       ),
                       child: const Center(
                         child: Padding(
                           padding: EdgeInsets.all(8.0),
-                          child: Text("Apply Now",
+                          child: Text(
+                            "Apply Now",
                             style: TextStyle(
                               color: Colors.white,
-                              fontWeight:FontWeight.w700,
+                              fontWeight: FontWeight.w700,
                               fontSize: 25,
                             ),
                           ),
@@ -171,5 +174,3 @@ class JobPostPreview extends StatelessWidget {
     );
   }
 }
-
-

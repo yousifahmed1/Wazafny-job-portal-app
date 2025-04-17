@@ -24,21 +24,23 @@ class ApplyJobPost extends StatefulWidget {
 
 class _ApplyJobPostState extends State<ApplyJobPost> {
   int currentPage = 1;
-  int totalPages = 3; 
-  bool isQuestionsEmpty = true; 
+  int totalPages = 3;
+  bool isQuestionsEmpty = true;
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  late Future<List<QuestionsModel>> _questionsFuture; 
+  late Future<List<QuestionsModel>> _questionsFuture;
 
   @override
   void initState() {
     super.initState();
     // Initialize questions fetch
-    _questionsFuture = GetQuestions().getQuestions(jobID: widget.jobID ?? 3);
+    _questionsFuture = GetQuestions().getQuestions(jobID: widget.jobID ?? 2);
     // Update isQuestionsEmpty and totalPages when future completes
     _questionsFuture.then((questions) {
       setState(() {
         isQuestionsEmpty = questions.isEmpty;
-        totalPages = isQuestionsEmpty ? 2 : 3; // Set totalPages based on isQuestionsEmpty
+        totalPages = isQuestionsEmpty
+            ? 2
+            : 3; // Set totalPages based on isQuestionsEmpty
       });
     }).catchError((error) {
       setState(() {
@@ -56,7 +58,7 @@ class _ApplyJobPostState extends State<ApplyJobPost> {
       create: (context) => JobApplyCubit(),
       child: Scaffold(
         backgroundColor: Colors.white,
-        appBar: JobCustomAppBar(
+        appBar: CustomAppBar1(
           onBackPressed: () => Navigator.pop(context),
         ),
         body: Column(
@@ -71,9 +73,10 @@ class _ApplyJobPostState extends State<ApplyJobPost> {
                     padding: const EdgeInsets.all(20),
                     child: Column(
                       children: [
-
-                        ProgressBar(progress: progress, currentPage: currentPage, totalPages: totalPages),
-                        
+                        ProgressBar(
+                            progress: progress,
+                            currentPage: currentPage,
+                            totalPages: totalPages),
                         if (currentPage == 1) ...[
                           const ApplyPageOne(),
                         ] else if (currentPage == 2) ...[
@@ -189,7 +192,7 @@ class _ApplyJobPostState extends State<ApplyJobPost> {
                             ),
                           ),
                         ),
-                  
+
                   const Spacer(),
                   //Next button & submit button
                   Padding(
@@ -246,4 +249,3 @@ class _ApplyJobPostState extends State<ApplyJobPost> {
     );
   }
 }
-
