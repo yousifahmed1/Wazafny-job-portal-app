@@ -96,7 +96,7 @@ class ApplicationsListView extends StatelessWidget {
                     const Spacer(),
                     Text(filteredJobPosts[index].timeAgo,
                         style: const TextStyle(
-                          fontWeight: FontWeight.w500,
+                          fontWeight: FontWeight.w600,
                         )),
                   ],
                 ),
