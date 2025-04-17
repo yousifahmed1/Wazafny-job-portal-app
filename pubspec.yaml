@@ -45,6 +45,7 @@ dependencies:
   equatable: ^2.0.5
   file_picker: ^10.1.2
   dotted_border: ^2.0.0
+  flutter_secure_storage: ^9.2.4
   #multi_chip_picker: ^0.0.4
 
 
