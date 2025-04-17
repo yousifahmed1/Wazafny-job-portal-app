@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Application/applications_list_view.dart';
+import 'package:wazafny/Screens/Seeker/Nav_bar_pages/widgets/search_bar_profile_circle.dart';
 import 'package:wazafny/constants.dart';
 import 'package:wazafny/models/job_posts_model.dart';
-import 'package:wazafny/widgets/Navigators/slide_to.dart';
 import 'package:wazafny/widgets/texts/heading_text.dart';
 
-import '../../../../../widgets/text_fields/search_field.dart'; // Assuming primaryColor is defined here
 
 class ApplicationPage extends StatefulWidget {
   const ApplicationPage({super.key});
@@ -90,36 +89,8 @@ class _ApplicationPageState extends State<ApplicationPage> {
         body: Column(
           children: [
             //search bar and profile circle
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  // Search Bar
-                  Expanded(
-                    child: SizedBox(
-                      height: 60,
-                      child: SearchTextField(controller: _searchController),
-                    ),
-                  ),
+            SearchBarProfileCircle(searchController: _searchController),
 
-                  const SizedBox(width: 12),
-
-                  //Profile Circle
-                  const CircleAvatar(
-                    radius: 30,
-                    backgroundColor: darkPrimary,
-                    child: Text(
-                      "YA",
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600,
-                          fontSize: 22),
-                    ),
-                  ),
-                ],
-              ),
-            ),
             const SizedBox(
               height: 15,
             ),
