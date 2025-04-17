@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:navigation_view/item_navigation_view.dart';
 import 'package:navigation_view/navigation_view.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Application/applications_page.dart';
+import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Notifications/notifications_page.dart';
 import 'package:wazafny/constants.dart';
 import 'home/home_page/home_page.dart';
 
@@ -18,8 +19,8 @@ class _NavBarState extends State<NavBar> {
 
   final List<Widget> _screens = [
     HomePage(), // This will contain the TabBar for Jobs and Company
-    ApplicationPage(), // For "My Applications"
-    Scaffold(), // For "Notifications"
+    const ApplicationPage(), // For "My Applications"
+    NotificationsPage(), // For "Notifications"
     const Placeholder(), // For "Profile"
   ];
 
@@ -33,7 +34,8 @@ class _NavBarState extends State<NavBar> {
             height: 105,
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.circular(23),// Set your container color
+              borderRadius:
+                  BorderRadius.circular(23), // Set your container color
               boxShadow: [
                 BoxShadow(
                   color: Colors.black.withOpacity(0.05), // Shadow color
