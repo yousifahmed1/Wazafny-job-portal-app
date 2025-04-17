@@ -6,9 +6,6 @@ class ViewApplicationResponse extends StatelessWidget {
   const ViewApplicationResponse({super.key});
 
   final String response = '''
-
-Dear Yousif,
-
 Thank you for applying for the [Job Title] position at [Company Name]. 
 We have reviewed your application and are impressed with your background and experience.
 
@@ -16,12 +13,6 @@ We would like to invite you to the next stage of the recruitment process.
 Please let us know your availability for a short interview in the coming days.
 
 We appreciate your interest in joining our team and look forward to speaking with you soon.
-
-Best regards,  
-[Hiring Manager Name]  
-[Company Name]  
-[Contact Information]
-
 ''';
 
   @override
@@ -33,21 +24,33 @@ Best regards,
         onBackPressed: () => Navigator.pop(context),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(30),
         child: ListView(
           children: [
-            Container(
-              decoration: BoxDecoration(
-                border: Border.all(color: bordersColor, width: 1),
-                borderRadius: BorderRadius.circular(15.0),
+            const Text(
+              "Dear Slave",
+              style: TextStyle(
+                fontWeight: FontWeight.w700,
+                color: darkPrimary,
+                fontSize: 24,
               ),
-              child: Padding(
-                padding: const EdgeInsets.all(12),
-                child: Text(
-                  response,
-                  style: const TextStyle(
-                      fontSize: 18, fontWeight: FontWeight.w500),
-                ),
+            ),
+            const SizedBox(
+              height: 25,
+            ),
+            Text(
+              response,
+              style: const TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w500,
+                  color: darkPrimary),
+            ),
+            const Text(
+              "Best regards,\n[Company Name]",
+              style: TextStyle(
+                fontWeight: FontWeight.w700,
+                color: darkPrimary,
+                fontSize: 20,
               ),
             ),
           ],
