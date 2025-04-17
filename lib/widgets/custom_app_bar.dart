@@ -97,11 +97,11 @@ class ForgetPasswordCustomAppBar extends StatelessWidget
       kToolbarHeight + 20.0); // Default AppBar height + padding
 }
 
-class JobCustomAppBar extends StatelessWidget implements PreferredSizeWidget {
+class CustomAppBar1 extends StatelessWidget implements PreferredSizeWidget {
   final VoidCallback onBackPressed;
   final String? title; // Make it nullable and optional
 
-  const JobCustomAppBar({
+  const CustomAppBar1({
     super.key,
     required this.onBackPressed,
     this.title, // Optional parameter
