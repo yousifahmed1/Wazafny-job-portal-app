@@ -12,8 +12,8 @@ class NotificationsListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
-      separatorBuilder: (context, index) =>
-          const SizedBox(height: 15),
+      padding: const EdgeInsets.only(bottom: 105), //navbar height
+      separatorBuilder: (context, index) => const SizedBox(height: 15),
       itemCount: notifications.length,
       itemBuilder: (context, index) {
         final notification = notifications[index];
@@ -49,15 +49,12 @@ class NotificationsListView extends StatelessWidget {
                       children: [
                         TextSpan(
                           text: notification['companyName'],
-                          style: const TextStyle(
-                              fontWeight: FontWeight.w700),
+                          style: const TextStyle(fontWeight: FontWeight.w700),
                         ),
-                        const TextSpan(
-                            text: " Posted new job for "),
+                        const TextSpan(text: " Posted new job for "),
                         TextSpan(
                           text: notification['jobTitle'],
-                          style: const TextStyle(
-                              fontWeight: FontWeight.w700),
+                          style: const TextStyle(fontWeight: FontWeight.w700),
                         ),
                       ],
                     ),

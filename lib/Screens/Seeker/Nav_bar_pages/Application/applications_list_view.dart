@@ -16,6 +16,7 @@ class ApplicationsListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
+      padding: const EdgeInsets.only(bottom: 105), //navbar height
       itemCount: filteredJobPosts.length,
       itemBuilder: (context, index) {
         return Container(

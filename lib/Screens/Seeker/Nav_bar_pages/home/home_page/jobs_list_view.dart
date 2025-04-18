@@ -10,13 +10,13 @@ class JobsListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
+      padding: const EdgeInsets.only(bottom: 105), //navbar height
       physics: const BouncingScrollPhysics(),
-      itemCount: 2,
+      itemCount: 15,
       itemBuilder: (context, index) {
         return InkWell(
           onTap: () => slideTo(context, const JobPostPreview()),
           overlayColor: MaterialStateProperty.all(Colors.transparent),
-
           child: Container(
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10), color: Colors.white),

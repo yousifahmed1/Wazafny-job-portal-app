@@ -26,6 +26,7 @@ We appreciate your interest in joining our team and look forward to speaking wit
       body: Padding(
         padding: const EdgeInsets.all(30),
         child: ListView(
+          padding: const EdgeInsets.only(bottom: 105), //navbar height
           children: [
             const Text(
               "Dear Slave",

@@ -5,7 +5,6 @@ import 'package:wazafny/constants.dart';
 import 'package:wazafny/models/job_posts_model.dart';
 import 'package:wazafny/widgets/texts/heading_text.dart';
 
-
 class ApplicationPage extends StatefulWidget {
   const ApplicationPage({super.key});
 
@@ -35,7 +34,6 @@ class _ApplicationPageState extends State<ApplicationPage> {
       jobType: 'Full-time',
       timeAgo: '2d',
     ),
-
     AppliedJobApplicationModel(
       companyImage: 'assets/images/microsoft.png',
       companyName: 'Microsoft',
@@ -45,7 +43,6 @@ class _ApplicationPageState extends State<ApplicationPage> {
       jobType: 'Remote',
       timeAgo: '1w',
     ),
-
     AppliedJobApplicationModel(
       companyImage: 'assets/images/amazon.png',
       companyName: 'Amazon',
@@ -127,7 +124,7 @@ class _ApplicationPageState extends State<ApplicationPage> {
                               },
                               elevation: 0,
                               labelPadding: const EdgeInsets.symmetric(
-                                  horizontal: 10, vertical: 5 ),
+                                  horizontal: 10, vertical: 5),
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(12),
                                 side: const BorderSide(
