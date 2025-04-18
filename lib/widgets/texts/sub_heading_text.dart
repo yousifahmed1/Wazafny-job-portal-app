@@ -53,3 +53,30 @@ class SubHeadingText1 extends StatelessWidget {
     );
   }
 }
+
+class SubHeadingText2 extends StatelessWidget {
+  final String title;
+  final Color? titleColor;
+  final double? fontSize;
+
+  const SubHeadingText2({
+    super.key,
+    required this.title,
+    this.titleColor,
+    this.fontSize,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      title,
+      softWrap: true,
+      textAlign: TextAlign.center,
+      style: TextStyle(
+        fontWeight: FontWeight.w500,
+        fontSize: fontSize ?? 15,
+        color: titleColor ?? hintText,
+      ),
+    );
+  }
+}
