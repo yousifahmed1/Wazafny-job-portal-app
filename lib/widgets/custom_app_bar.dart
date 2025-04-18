@@ -109,44 +109,47 @@ class CustomAppBar1 extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 20.0),
-      child: Column(
-        children: [
-          AppBar(
-            scrolledUnderElevation: 0,
-            backgroundColor: Colors.white,
-            centerTitle: true,
-            elevation: 0,
-            title: title != null
-                ? Text(
-                    title!,
-                    style: const TextStyle(
-                      color: loginTextColor,
-                      fontSize: 25,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  )
-                : null, // If title is null, no title is displayed
-            leading: IconButton(
-              enableFeedback: false,
-              onPressed: onBackPressed,
-              icon: SvgPicture.asset(
-                "assets/Icons/Exit.svg",
-                width: 22,
-                height: 22,
+    return Container(
+      color: Colors.white,
+      child: Padding(
+        padding: const EdgeInsets.only(top: 20.0),
+        child: Column(
+          children: [
+            AppBar(
+              scrolledUnderElevation: 0,
+              backgroundColor: Colors.white,
+              centerTitle: true,
+              elevation: 0,
+              title: title != null
+                  ? Text(
+                      title!,
+                      style: const TextStyle(
+                        color: loginTextColor,
+                        fontSize: 25,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    )
+                  : null, // If title is null, no title is displayed
+              leading: IconButton(
+                enableFeedback: false,
+                onPressed: onBackPressed,
+                icon: SvgPicture.asset(
+                  "assets/Icons/Exit.svg",
+                  width: 22,
+                  height: 22,
+                ),
               ),
             ),
-          ),
-          const SizedBox(
-            height: 5,
-          ),
-          const Divider(
-            thickness: 1,
-            height: 1,
-            color: linesColor,
-          )
-        ],
+            const SizedBox(
+              height: 5,
+            ),
+            const Divider(
+              thickness: 1,
+              height: 1,
+              color: linesColor,
+            )
+          ],
+        ),
       ),
     );
   }
