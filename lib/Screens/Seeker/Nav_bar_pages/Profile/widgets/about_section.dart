@@ -10,20 +10,18 @@ import '../cubit/profile_cubit.dart';
 import '../cubit/profile_states.dart';
 
 class AboutSection extends StatefulWidget {
-  const AboutSection({super.key, });
-
+  const AboutSection({super.key});
 
   @override
   State<AboutSection> createState() => _AboutSectionState();
 }
 
 class _AboutSectionState extends State<AboutSection> {
-  bool isExpanded = true;
+  bool isExpanded = false;
+  bool showSeeMore = false;
 
   @override
   Widget build(BuildContext context) {
-
-
     final seekerProfile = context.watch<ProfileCubit>().state;
 
     if (seekerProfile is ProfileLoaded) {
@@ -48,49 +46,72 @@ class _AboutSectionState extends State<AboutSection> {
               ),
               const SizedBox(height: 15),
               seekerProfile.profile.about != null
-                  ? Column(
-                children: [
-                  Row(
+                  ? LayoutBuilder(
+                builder: (context, constraints) {
+                  // Calculate if text exceeds 3 lines
+                  showSeeMore = _isTextExceedingThreeLines(
+                    seekerProfile.profile.about!,
+                    constraints.maxWidth,
+                    Theme.of(context).textTheme.bodyMedium!,
+                  );
+
+                  return Column(
                     children: [
-                      Paragraph(
-                        cutLine: isExpanded,
-                        paragraph: seekerProfile.profile.about!,
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Paragraph(
+                              cutLine: showSeeMore && !isExpanded,
+                              paragraph: seekerProfile.profile.about!,
+                            ),
+                          ),
+                        ],
                       ),
+                      const SizedBox(height: 15),
+                      if (showSeeMore)
+                        InkWell(
+                          onTap: () {
+                            setState(() {
+                              isExpanded = !isExpanded;
+                            });
+                          },
+                          child: SubHeadingText(
+                            title: isExpanded ? "Show less" : "Show more",
+                            titleColor: darkPrimary,
+                          ),
+                        ),
                     ],
-                  ),
-                  const SizedBox(height: 15),
-                  InkWell(
-                    onTap: () {
-                      setState(() {
-                        isExpanded = !isExpanded;
-                      });
-                    },
-                    child: SubHeadingText(
-                      title: isExpanded ? "Show more" : "Show less",
-                      titleColor: darkPrimary,
-                    ),
-                  )
-                ],
+                  );
+                },
               )
                   : const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 8, vertical: 15),
+                padding:
+                EdgeInsets.symmetric(horizontal: 8, vertical: 15),
                 child: SubHeadingText2(
                   title:
                   "Mention your years of experience, industry, key skills, achievements, and past work experiences.",
                 ),
-              )
+              ),
             ],
           ),
         ),
       );
     } else if (seekerProfile is ProfileLoading) {
-      return const CircularProgressIndicator(); // Show loading
+      return const CircularProgressIndicator();
     } else if (seekerProfile is ProfileError) {
       return const Text('Failed to load profile');
     }
     return Container();
   }
 
+  bool _isTextExceedingThreeLines(
+      String text, double maxWidth, TextStyle textStyle) {
+    final textPainter = TextPainter(
+      text: TextSpan(text: text, style: textStyle),
+      maxLines: 3,
+      textDirection: TextDirection.ltr,
+    )..layout(maxWidth: maxWidth);
 
+    return textPainter.didExceedMaxLines;
   }
-
+}

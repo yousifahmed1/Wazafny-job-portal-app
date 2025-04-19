@@ -23,32 +23,42 @@ class SeekerProfileModel {
     required this.headline,
     required this.country,
     required this.city,
-    required this.about,
+    this.about,
     required this.resume,
     required this.experience,
-    required this.education,
+    this.education,
     required this.skills,
     required this.links,
   });
 
   factory SeekerProfileModel.fromJson(Map<String, dynamic> json) {
     return SeekerProfileModel(
-      image: json["personal_info"]['profile_img'],
-      cover: json["personal_info"]['cover_img'],
-      firstName: json["personal_info"]['first_name'],
-      lastName: json["personal_info"]['last_name'],
-      following: json["personal_info"]['following']?? 0,
-      headline: json["personal_info"]['headline']?? "",
+      image: json["personal_info"]['profile_img'] ?? "",
+      cover: json["personal_info"]['cover_img'] ?? "",
+      firstName: json["personal_info"]['first_name'] ?? "",
+      lastName: json["personal_info"]['last_name'] ?? "",
+      following: json["personal_info"]['followings'] ?? 0,
+      headline: json["personal_info"]['headline'] ?? "",
       country: json["personal_info"]['country'] ?? "",
-      city: json["personal_info"]['city']?? "",
+      city: json["personal_info"]['city'] ?? "",
       about: json["personal_info"]['about'],
-      resume: json["personal_info"]['resume'],
-      experience: (json['experiences'] as List?)!.map((e) => Experience.fromJson(e)).toList(),
+      resume: json["personal_info"]['resume'] ?? "",
+      experience: (json['experiences'] as List? ?? []).map((e) => Experience.fromJson(e)).toList(),
       education: json['education'] != null ? Education.fromJson(json['education']) : null,
-      skills: (json['skills'] as List?)!.map((e) => e.toString()).toList(),
-      links: (json["personal_info"]['links'] as List?)!.map((e) => LinkModel.fromJson(e)).toList(),
+      skills: (json['skills'] as List? ?? []).map((e) => e.toString()).toList(),
+      links: (json["personal_info"]['links'] as List? ?? []).map((e) => LinkModel.fromJson(e)).toList(),
     );
   }
+
+  Map<String, dynamic> toJson() => {
+    'first_name': firstName,
+    'last_name': lastName,
+    'headline': headline,
+    'country': country,
+    'city': city,
+    'about': about,
+    'links': links.map((e) => {'link_name': e.name, 'link': e.link}).toList(),
+  };
 }
 
 class Experience {
@@ -57,12 +67,7 @@ class Experience {
   final String? type;
   final String? duration;
 
-  Experience({
-    this.role,
-    this.company,
-    this.type,
-    this.duration,
-  });
+  Experience({this.role, this.company, this.type, this.duration});
 
   factory Experience.fromJson(Map<String, dynamic> json) {
     return Experience(
@@ -79,11 +84,7 @@ class Education {
   final String? duration;
   final String? major;
 
-  Education({
-    this.university,
-    this.duration,
-    this.major,
-  });
+  Education({this.university, this.duration, this.major});
 
   factory Education.fromJson(Map<String, dynamic> json) {
     return Education(
@@ -98,14 +99,11 @@ class LinkModel {
   final String? name;
   final String? link;
 
-  LinkModel({
-    this.name,
-    this.link,
-  });
+  LinkModel({this.name, this.link});
 
   factory LinkModel.fromJson(Map<String, dynamic> json) {
     return LinkModel(
-      name: json['name'],
+      name: json['link_name'],
       link: json['link'],
     );
   }

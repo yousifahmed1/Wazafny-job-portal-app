@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/Screens/edit_cover.dart';
+import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/Screens/edit_information.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/cubit/profile_cubit.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/cubit/profile_states.dart';
 import 'package:wazafny/constants.dart';
@@ -13,7 +14,6 @@ class PersonalInformations extends StatelessWidget {
   const PersonalInformations({
     super.key,
   });
-
 
   @override
   Widget build(BuildContext context) {
@@ -87,17 +87,23 @@ class PersonalInformations extends StatelessWidget {
                               title:
                                   "${seekerProfile.profile.firstName} ${seekerProfile.profile.lastName}"),
                           const SizedBox(width: 10),
-                          SubHeadingText(
-                            title: "${seekerProfile.profile.following} following",
-                            titleColor: primaryColor,
-                          ),
+
                           const Spacer(),
-                          SvgPicture.asset(
-                            "assets/Icons/edit_icon.svg",
-                            width: 20,
-                            height: 20,
+                          InkWell(
+                            onTap: () => slideUp(context,const  EditInformation()),
+                            child: SvgPicture.asset(
+                              "assets/Icons/edit_icon.svg",
+                              width: 20,
+                              height: 20,
+                            ),
                           ),
                         ],
+                      ),
+                      const SizedBox(height: 10),
+                      SubHeadingText(
+                        title:
+                        "${seekerProfile.profile.following} following",
+                        titleColor: primaryColor,
                       ),
                       const SizedBox(height: 10),
                       SubHeadingText1(
@@ -111,8 +117,7 @@ class PersonalInformations extends StatelessWidget {
                       ),
                       const SizedBox(height: 10),
                       // Handle null or empty links
-                      if (
-                          seekerProfile.profile.links.isNotEmpty)
+                      if (seekerProfile.profile.links.isNotEmpty)
                         Row(
                           children: [
                             SubHeadingText(
@@ -136,9 +141,9 @@ class PersonalInformations extends StatelessWidget {
         ),
       );
     } else if (seekerProfile is ProfileLoading) {
-      return CircularProgressIndicator(); // Show loading
+      return const CircularProgressIndicator(); // Show loading
     } else if (seekerProfile is ProfileError) {
-      return Text('Failed to load profile');
+      return const Text('Failed to load profile');
     }
     return Container();
   }

@@ -169,6 +169,7 @@ class JobPostPreview extends StatelessWidget {
               ),
             ),
           ),
+        
         ],
       ),
     );

@@ -14,22 +14,20 @@ class EditCover extends StatelessWidget {
 
     if (seekerProfile is ProfileLoaded) {
       return Scaffold(
+        backgroundColor: Colors.white,
         appBar: CustomAppBar1(
-          title: "Application Response",
+          title: "Cover Photo",
           onBackPressed: () => Navigator.pop(context),
         ),
         body: Column(
           children: [Text(seekerProfile.profile.firstName)],
         ),
       );
-
-    }else if (seekerProfile is ProfileLoading) {
+    } else if (seekerProfile is ProfileLoading) {
       return const CircularProgressIndicator(); // Show loading
     } else if (seekerProfile is ProfileError) {
       return const Text('Failed to load profile');
     }
     return Container();
-
-
   }
 }
