@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:wazafny/Screens/Seeker/Nav_bar_pages/widgets/search_bar_profile_circle.dart';
+import 'package:wazafny/widgets/search_bar_profile_circle.dart';
 import 'package:wazafny/constants.dart';
 import 'companies_list_view.dart';
 import 'jobs_list_view.dart';

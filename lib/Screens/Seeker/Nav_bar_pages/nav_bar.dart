@@ -4,7 +4,7 @@ import 'package:navigation_view/item_navigation_view.dart';
 import 'package:navigation_view/navigation_view.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Application/applications_page.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Notifications/notifications_page.dart';
-import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/profile_page.dart';
+import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/Screens/profile_page.dart';
 import 'package:wazafny/constants.dart';
 import 'home/home_page/home_page.dart';
 
