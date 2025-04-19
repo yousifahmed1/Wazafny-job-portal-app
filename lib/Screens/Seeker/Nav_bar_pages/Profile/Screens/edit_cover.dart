@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/model/profile_model.dart';
 import 'package:wazafny/widgets/custom_app_bar.dart';
 
 import '../cubit/profile_cubit.dart';

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:wazafny/constants.dart';
-import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/model/profile_model.dart';
 import 'package:wazafny/widgets/texts/heading_text.dart';
 import 'package:wazafny/widgets/texts/sub_heading_text.dart';
 
@@ -36,7 +35,7 @@ class ExperienceSection extends StatelessWidget {
                     width: 25,
                     height: 25,
                   ),
-                  seekerProfile.profile.experience != null && seekerProfile.profile.experience.isNotEmpty
+                  seekerProfile.profile.experience.isNotEmpty
                       ? Row(
                     children: [
                       const SizedBox(
@@ -54,7 +53,7 @@ class ExperienceSection extends StatelessWidget {
                   ),
                 ],
               ),
-              seekerProfile.profile.experience != null && seekerProfile.profile.experience.isNotEmpty
+              seekerProfile.profile.experience.isNotEmpty
                   ? ListView.separated(
                 padding: const EdgeInsets.only(top: 30),
                 shrinkWrap:

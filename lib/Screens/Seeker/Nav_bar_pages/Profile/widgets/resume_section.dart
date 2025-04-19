@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:wazafny/constants.dart';
-import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/model/profile_model.dart';
 import 'package:wazafny/widgets/texts/heading_text.dart';
 import 'package:wazafny/widgets/texts/sub_heading_text.dart';
 
@@ -31,7 +30,7 @@ class ResumeSection extends StatelessWidget {
                 children: [
                   const HeadingText(title: "Resume"),
                   const Spacer(),
-                  seekerProfile.profile.resume != null && seekerProfile.profile.resume.isNotEmpty
+                  seekerProfile.profile.resume.isNotEmpty
                       ? SvgPicture.asset(
                     "assets/Icons/edit_icon.svg",
                     width: 20,
@@ -45,7 +44,7 @@ class ResumeSection extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 20),
-              seekerProfile.profile.resume != null && seekerProfile.profile.resume.isNotEmpty
+              seekerProfile.profile.resume.isNotEmpty
                   ? Row(
                 children: [
                   const SizedBox(width: 5),

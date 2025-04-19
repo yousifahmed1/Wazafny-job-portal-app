@@ -30,7 +30,7 @@ class PersonalInformations extends StatelessWidget {
                 height: 230,
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  image: seekerProfile.profile.cover != null && seekerProfile.profile.cover.isNotEmpty
+                  image: seekerProfile.profile.cover.isNotEmpty
                       ? DecorationImage(
                           image: NetworkImage(seekerProfile.profile.cover),
                           fit: BoxFit.cover,
@@ -65,7 +65,7 @@ class PersonalInformations extends StatelessWidget {
                           ),
                         ),
                         child: ClipOval(
-                          child: seekerProfile.profile.image != null && seekerProfile.profile.image.isNotEmpty
+                          child: seekerProfile.profile.image.isNotEmpty
                               ? Image.network(
                                   seekerProfile.profile.image,
                                   width: 120,
@@ -111,7 +111,7 @@ class PersonalInformations extends StatelessWidget {
                       ),
                       const SizedBox(height: 10),
                       // Handle null or empty links
-                      if (seekerProfile.profile.links != null &&
+                      if (
                           seekerProfile.profile.links.isNotEmpty)
                         Row(
                           children: [
