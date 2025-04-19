@@ -1,25 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:wazafny/Screens/welcome.dart';
-import 'constants.dart';
+import 'package:wazafny/constants.dart';
+import 'package:wazafny/providers/seeker_profile_provider.dart'; // The provider
+// SeekerProfileModel will be used inside the provider, so no need to import directly here
 
 void main() {
   runApp(const MyApp());
 }
 
+
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        scaffoldBackgroundColor: scaffoldColor,
-        fontFamily: 'Somar Sans',
+    return ChangeNotifierProvider<SeekerProfileProvider>(
+      create: (_) => SeekerProfileProvider(),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          scaffoldBackgroundColor: scaffoldColor,
+          fontFamily: 'Somar Sans',
+        ),
+        home: const WelcomePage(),
       ),
-
-      home: const WelcomePage(),
     );
   }
 }
