@@ -1,23 +1,36 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/cubit/profile_cubit.dart';
+import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/repo/profile_repo.dart';
+import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/services/get_profile_data.dart';
 import 'package:wazafny/Screens/welcome.dart';
 import 'package:wazafny/constants.dart';
-import 'package:wazafny/providers/seeker_profile_provider.dart'; // The provider
 // SeekerProfileModel will be used inside the provider, so no need to import directly here
 
 void main() {
-  runApp(const MyApp());
+  final dio = Dio();
+  final profileService = GetProfileData(dio);
+  final profileRepo = ProfileRepository(profileService);
+
+  runApp(MyApp(profileRepo: profileRepo));
 }
 
-
-
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final ProfileRepository profileRepo;
+
+  const MyApp({super.key, required this.profileRepo});
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<SeekerProfileProvider>(
-      create: (_) => SeekerProfileProvider(),
+    return MultiBlocProvider(
+      providers: [
+        // Add ProfileCubit here
+        BlocProvider(
+          create: (_) => ProfileCubit(profileRepo)..fetchProfile(),
+        ),
+        // You can add other cubits here if needed in the future
+      ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
@@ -29,6 +42,7 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
 
 
 // void main() => runApp(

@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:wazafny/models/profile_model.dart';
+import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/model/profile_model.dart';
 
 class SeekerProfileProvider with ChangeNotifier {
   SeekerProfileModel? _profile;
