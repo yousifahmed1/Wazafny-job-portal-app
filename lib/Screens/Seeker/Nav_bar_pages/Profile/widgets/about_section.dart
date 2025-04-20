@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/Screens/edit_about.dart';
 import 'package:wazafny/constants.dart';
+import 'package:wazafny/widgets/Navigators/slide_up.dart';
 import 'package:wazafny/widgets/texts/heading_text.dart';
 import 'package:wazafny/widgets/texts/paragraph.dart';
 import 'package:wazafny/widgets/texts/sub_heading_text.dart';
@@ -35,63 +37,73 @@ class _AboutSectionState extends State<AboutSection> {
                 children: [
                   const HeadingText(title: "About"),
                   const Spacer(),
-                  SvgPicture.asset(
-                    seekerProfile.profile.about != null
-                        ? "assets/Icons/edit_icon.svg"
-                        : "assets/Icons/Add_icon.svg",
-                    width: 20,
-                    height: 20,
-                  ),
+                  seekerProfile.profile.about != null
+                      ? InkWell(
+                          onTap: () => slideUp(context, const EditAbout()),
+                          child: SvgPicture.asset(
+                            "assets/Icons/edit_icon.svg",
+                            width: 20,
+                            height: 20,
+                          ),
+                        )
+                      : InkWell(
+                          onTap: () => slideUp(context, const EditAbout()),
+                          child: SvgPicture.asset(
+                            "assets/Icons/Add_icon.svg",
+                            width: 25,
+                            height: 25,
+                          ),
+                        ),
                 ],
               ),
               const SizedBox(height: 15),
               seekerProfile.profile.about != null
                   ? LayoutBuilder(
-                builder: (context, constraints) {
-                  // Calculate if text exceeds 3 lines
-                  showSeeMore = _isTextExceedingThreeLines(
-                    seekerProfile.profile.about!,
-                    constraints.maxWidth,
-                    Theme.of(context).textTheme.bodyMedium!,
-                  );
+                      builder: (context, constraints) {
+                        // Calculate if text exceeds 3 lines
+                        showSeeMore = _isTextExceedingThreeLines(
+                          seekerProfile.profile.about!,
+                          constraints.maxWidth,
+                          Theme.of(context).textTheme.bodyMedium!,
+                        );
 
-                  return Column(
-                    children: [
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Paragraph(
-                              cutLine: showSeeMore && !isExpanded,
-                              paragraph: seekerProfile.profile.about!,
+                        return Column(
+                          children: [
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Paragraph(
+                                    cutLine: showSeeMore && !isExpanded,
+                                    paragraph: seekerProfile.profile.about!,
+                                  ),
+                                ),
+                              ],
                             ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 15),
-                      if (showSeeMore)
-                        InkWell(
-                          onTap: () {
-                            setState(() {
-                              isExpanded = !isExpanded;
-                            });
-                          },
-                          child: SubHeadingText(
-                            title: isExpanded ? "Show less" : "Show more",
-                            titleColor: darkPrimary,
-                          ),
-                        ),
-                    ],
-                  );
-                },
-              )
+                            const SizedBox(height: 15),
+                            if (showSeeMore)
+                              InkWell(
+                                onTap: () {
+                                  setState(() {
+                                    isExpanded = !isExpanded;
+                                  });
+                                },
+                                child: SubHeadingText(
+                                  title: isExpanded ? "Show less" : "Show more",
+                                  titleColor: darkPrimary,
+                                ),
+                              ),
+                          ],
+                        );
+                      },
+                    )
                   : const Padding(
-                padding:
-                EdgeInsets.symmetric(horizontal: 8, vertical: 15),
-                child: SubHeadingText2(
-                  title:
-                  "Mention your years of experience, industry, key skills, achievements, and past work experiences.",
-                ),
-              ),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 8, vertical: 15),
+                      child: SubHeadingText2(
+                        title:
+                            "Mention your years of experience, industry, key skills, achievements, and past work experiences.",
+                      ),
+                    ),
             ],
           ),
         ),

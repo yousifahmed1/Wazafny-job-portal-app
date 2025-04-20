@@ -24,7 +24,6 @@ class ProfileCubit extends Cubit<ProfileState> {
     required String headline,
     required String country,
     required String city,
-    String? about,
     String? resume,
     List<LinkModel>? links,
   }) async {
@@ -36,6 +35,7 @@ class ProfileCubit extends Cubit<ProfileState> {
         headline: headline,
         country: country,
         city: city,
+        links: links,
       );
 
       // Refetch the updated profile after success
@@ -45,6 +45,46 @@ class ProfileCubit extends Cubit<ProfileState> {
       return message; // return the success message from API
     } catch (e) {
       emit(ProfileError('Failed to update profile: $e'));
+      rethrow;
+    }
+  }
+
+  Future<String> updateAbout({
+    required String about,
+ume,
+    List<LinkModel>? links,
+  }) async {
+    emit(ProfileLoading());
+    try {
+      final message = await repository.updateAbout(
+        about: about,
+
+      );
+
+      // Refetch the updated profile after success
+      final updatedProfile = await repository.getProfileData();
+      emit(ProfileLoaded(updatedProfile));
+
+      return message; // return the success message from API
+    } catch (e) {
+      emit(ProfileError('Failed to update profile: $e'));
+      rethrow;
+    }
+  }
+
+
+  Future<String> deleteLink({required int linkId}) async {
+    emit(ProfileLoading());
+    try {
+      final message = await repository.deleteLink(linkId: linkId);
+
+      // Optionally refetch the profile after deletion
+      final updatedProfile = await repository.getProfileData();
+      emit(ProfileLoaded(updatedProfile));
+
+      return message; // return the success message
+    } catch (e) {
+      emit(ProfileError('Failed to delete link: $e'));
       rethrow;
     }
   }

@@ -5,12 +5,14 @@ import '../model/profile_model.dart';
 
 class GetProfileData {
   final Dio dio;
+    final int seeker_id;
 
-  GetProfileData(this.dio);
+
+  GetProfileData(this.dio, {required this.seeker_id});
 
   Future<SeekerProfileModel> fetchProfile() async {
     try {
-      final response = await dio.get('https://wazafny.online/api/show-seeker-profile/2');
+      final response = await dio.get('https://wazafny.online/api/show-seeker-profile/$seeker_id');
 
       if (response.statusCode == 200 && response.data != null) {
         return SeekerProfileModel.fromJson(response.data);

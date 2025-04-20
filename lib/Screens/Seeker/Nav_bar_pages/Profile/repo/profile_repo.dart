@@ -4,9 +4,10 @@ import '../services/get_profile_data.dart';
 
 class ProfileRepository {
   final GetProfileData getService;
-  final ProfileService updateService;
+  final ProfileService profileServices;
 
-  ProfileRepository(this.getService, this.updateService);
+
+  ProfileRepository(this.getService, this.profileServices);
 
   Future<SeekerProfileModel> getProfileData() async {
     return await getService.fetchProfile();
@@ -18,13 +19,32 @@ class ProfileRepository {
     required String headline,
     required String country,
     required String city,
+    String? resume,
+    List<LinkModel>? links, // Add links as a parameter
   }) async {
-    return await updateService.updateProfile(
+    return await profileServices.updateProfile(
       firstName: firstName,
       lastName: lastName,
       headline: headline,
       country: country,
       city: city,
+      links: links, // Pass links to the service
     );
   }
+
+  Future<String> deleteLink({required int linkId}) async {
+    return await profileServices.deleteLink(
+        linkId: linkId); // Use the deleteService
+  }
+
+  Future<String> updateAbout({
+    required String about,
+
+
+  }) async {
+    return await profileServices.updateAbout(
+      About: about, // Pass links to the service
+    );
+  }
+  
 }

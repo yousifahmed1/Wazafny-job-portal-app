@@ -57,7 +57,7 @@ class SeekerProfileModel {
     'country': country,
     'city': city,
     'about': about,
-    'links': links.map((e) => {'link_name': e.name, 'link': e.link}).toList(),
+    'links': links.map((e) => {'link_name': e.name, 'link': e.link , 'link_id': e.linkID}).toList(),
   };
 }
 
@@ -97,12 +97,14 @@ class Education {
 
 class LinkModel {
   final String? name;
+  final int? linkID;
   final String? link;
 
-  LinkModel({this.name, this.link});
+  LinkModel( {this.name, this.link,this.linkID,});
 
   factory LinkModel.fromJson(Map<String, dynamic> json) {
     return LinkModel(
+      linkID: json['link_id'],
       name: json['link_name'],
       link: json['link'],
     );
