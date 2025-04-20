@@ -32,6 +32,32 @@ class Validators {
     return null;
   }
 
-  
+  String? validateUrl(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'URL is required';
+    }
+
+    // Check if the URL starts with http:// or https://
+    bool hasValidScheme = value.startsWith('http://') || value.startsWith('https://');
+
+    try {
+      // Try parsing the URL to validate its format
+      final uri = Uri.parse(value);
+
+      // Check if it has a valid host
+      if (uri.host.isEmpty) {
+        return 'Invalid URL: missing host';
+      }
+
+      // Check if it has a valid scheme
+      if (!hasValidScheme) {
+        return 'URL must start with http:// or https://';
+      }
+
+      return null; // Valid URL
+    } catch (e) {
+      return 'Invalid URL format';
+    }
+  }
   
 }
