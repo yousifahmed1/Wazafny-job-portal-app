@@ -1,12 +1,18 @@
+import 'dart:developer';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_file_downloader/flutter_file_downloader.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:open_file/open_file.dart';
+// import 'package:open_file_plus/open_file_plus.dart';
+// import 'package:path_provider/path_provider.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/Screens/Edit_pages/edit_resume_page.dart';
 import 'package:wazafny/constants.dart';
 import 'package:wazafny/widgets/Navigators/slide_up.dart';
 import 'package:wazafny/widgets/texts/heading_text.dart';
 import 'package:wazafny/widgets/texts/sub_heading_text.dart';
-
 import '../../cubit/profile_cubit.dart';
 import '../../cubit/profile_states.dart';
 
@@ -60,11 +66,42 @@ class ResumeSection extends StatelessWidget {
                           height: 55,
                         ),
                         const SizedBox(width: 20),
-                        SubHeadingText(
-                          title: "${seekerProfile.profile.firstName}-cv",
-                          titleColor: darkPrimary,
-                          fontSize: 20,
-                        ),
+                        InkWell(
+                          onTap: () {
+                            FileDownloader.downloadFile(
+                                url: seekerProfile.profile.resume,
+
+
+                                onDownloadCompleted: (String path) {
+                                  print('FILE DOWNLOADED TO PATH: $path');
+                                      OpenFile.open(path);
+
+
+                                },
+                                onDownloadError: (String error) {
+                                  print('DOWNLOAD ERROR: $error');
+                                });
+                          },
+                         
+                          child: Row(
+                            children: [
+                              const SubHeadingText(
+                                underline: true,
+                                title: "Resume",
+                                titleColor: darkPrimary,
+                                fontSize: 20,
+                              ),
+                              const SizedBox(
+                                width: 10,
+                              ),
+                              SvgPicture.asset(
+                                "assets/Icons/Link.svg",
+                                height: 25,
+                                color: darkPrimary,
+                              ),
+                            ],
+                          ),
+                        )
                       ],
                     )
                   : const Padding(

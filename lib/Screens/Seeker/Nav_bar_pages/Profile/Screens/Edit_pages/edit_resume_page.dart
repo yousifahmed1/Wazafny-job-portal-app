@@ -70,7 +70,6 @@ class _EditResumeState extends State<EditResume> {
 
   Future<void> _handleSave(BuildContext context, ProfileState state) async {
     try {
-
       showDialog(
         context: context,
         barrierDismissible: false,
@@ -145,12 +144,14 @@ class _EditResumeState extends State<EditResume> {
                               if (_selectedFile != null) ...[
                                 const SizedBox(height: 20),
                                 HeadingText(
+                                  textAlignment: TextAlign.center,
                                   title:
                                       "Selected: ${_selectedFile!.path.split('/').last}",
                                 ),
                               ] else if (resumePath != null &&
                                   state is ProfileLoaded) ...[
                                 HeadingText(
+                                  textAlignment: TextAlign.center,
                                   title:
                                       "${state.profile.firstName}_Resume.${resumePath!.split('.').last.toLowerCase()}  ",
                                 ),
