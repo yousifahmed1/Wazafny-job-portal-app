@@ -7,6 +7,7 @@ class SubHeadingText extends StatelessWidget {
   final Color? titleColor;
   final double? fontSize;
   final TextAlign? textAlignment;
+  final bool? underline;
 
   const SubHeadingText({
     super.key,
@@ -14,6 +15,7 @@ class SubHeadingText extends StatelessWidget {
     this.titleColor,
     this.fontSize,
     this.textAlignment,
+     this.underline = false,
   });
 
   @override
@@ -26,6 +28,7 @@ class SubHeadingText extends StatelessWidget {
         fontWeight: FontWeight.w600,
         fontSize: fontSize ?? 18,
         color: titleColor ?? hintText,
+        decoration: underline!=false ? TextDecoration.underline : TextDecoration.none,
       ),
     );
   }
