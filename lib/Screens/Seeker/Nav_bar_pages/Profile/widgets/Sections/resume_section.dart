@@ -1,13 +1,10 @@
-import 'dart:developer';
 
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_file_downloader/flutter_file_downloader.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:open_file/open_file.dart';
-// import 'package:open_file_plus/open_file_plus.dart';
-// import 'package:path_provider/path_provider.dart';
+
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/Screens/Edit_pages/edit_resume_page.dart';
 import 'package:wazafny/constants.dart';
 import 'package:wazafny/widgets/Navigators/slide_up.dart';
