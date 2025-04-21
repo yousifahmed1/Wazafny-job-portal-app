@@ -24,9 +24,12 @@ class HeadingText1 extends StatelessWidget {
 
 class HeadingText extends StatelessWidget {
   final String title;
+  final TextAlign? textAlignment;
+
   const HeadingText({
     super.key,
     required this.title,
+    this.textAlignment,
   });
 
   @override
@@ -34,6 +37,7 @@ class HeadingText extends StatelessWidget {
     return Text(
       title,
       softWrap: true,
+      textAlign: textAlignment,
       style: const TextStyle(
         fontWeight: FontWeight.w700,
         fontSize: 24,
