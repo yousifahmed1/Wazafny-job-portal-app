@@ -8,22 +8,16 @@ import 'package:wazafny/Screens/welcome.dart';
 import 'package:wazafny/constants.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/services/profile_service.dart';
 
-
-
-
-
 void main() {
   // Configure Dio with base options
-  final dio = Dio(
+  final dio = Dio();
 
-  );
-
-final seeker_id=2;
+  final seeker_id = 2;
 
   // Instantiate services with seekerId
-  final getProfileService = GetProfileData(dio,seeker_id :seeker_id );
-  final profileService = ProfileService(dio,seeker_id :seeker_id);
-final profileRepo = ProfileRepository(getProfileService, profileService);
+  final getProfileService = GetProfileData(dio, seeker_id: seeker_id);
+  final profileService = ProfileService(dio, seeker_id: seeker_id);
+  final profileRepo = ProfileRepository(getProfileService, profileService);
 
   runApp(MyApp(profileRepo: profileRepo));
 }

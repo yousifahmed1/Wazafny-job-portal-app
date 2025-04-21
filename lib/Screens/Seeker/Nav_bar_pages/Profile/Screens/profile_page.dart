@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/cubit/profile_cubit.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/cubit/profile_states.dart';
-import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/widgets/about_section.dart';
-import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/widgets/education_section.dart';
-import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/widgets/experience_section.dart';
-import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/widgets/personal_informations_section.dart';
-import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/widgets/resume_section.dart';
-import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/widgets/skills_section.dart';
+import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/widgets/Sections/about_section.dart';
+import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/widgets/Sections/education_section.dart';
+import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/widgets/Sections/experience_section.dart';
+import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/widgets/Sections/personal_informations_section.dart';
+import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/widgets/Sections/resume_section.dart';
+import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/widgets/Sections/skills_section.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});

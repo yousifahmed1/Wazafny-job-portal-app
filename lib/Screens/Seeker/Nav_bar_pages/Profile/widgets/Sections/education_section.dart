@@ -5,8 +5,8 @@ import 'package:wazafny/constants.dart';
 import 'package:wazafny/widgets/texts/heading_text.dart';
 import 'package:wazafny/widgets/texts/sub_heading_text.dart';
 
-import '../cubit/profile_cubit.dart';
-import '../cubit/profile_states.dart';
+import '../../cubit/profile_cubit.dart';
+import '../../cubit/profile_states.dart';
 
 class EducationSection extends StatelessWidget {
   const EducationSection({

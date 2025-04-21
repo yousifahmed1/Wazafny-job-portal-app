@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/Screens/edit_cover.dart';
-import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/Screens/edit_information.dart';
+import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/Screens/Edit_pages/edit_cover_page.dart';
+import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/Screens/Edit_pages/edit_information_page.dart';
+import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/Screens/Edit_pages/edit_profile_img.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/cubit/profile_cubit.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/cubit/profile_states.dart';
 import 'package:wazafny/constants.dart';
@@ -54,31 +55,35 @@ class PersonalInformations extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       // Profile Picture
-                      Container(
-                        width: 130,
-                        height: 130,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          border: Border.all(
-                            color: Colors.white,
-                            width: 3.0,
+                      InkWell(
+                        onTap: () => slideUp(context, const EditProfileImg()),
+                        child: Container(
+                          width: 130,
+                          height: 130,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border: Border.all(
+                              color: Colors.white,
+                              width: 3.0,
+                            ),
+                          ),
+                          child: ClipOval(
+                            child: seekerProfile.profile.image.isNotEmpty
+                                ? Image.network(
+                                    seekerProfile.profile.image,
+                                    width: 120,
+                                    height: 120,
+                                    fit: BoxFit.cover,
+                                  )
+                                : SvgPicture.asset(
+                                    "assets/Images/Profile-default-image.svg",
+                                    width: 120,
+                                    height: 120,
+                                    fit: BoxFit.cover,
+                                  ),
                           ),
                         ),
-                        child: ClipOval(
-                          child: seekerProfile.profile.image.isNotEmpty
-                              ? Image.network(
-                                  seekerProfile.profile.image,
-                                  width: 120,
-                                  height: 120,
-                                  fit: BoxFit.cover,
-                                )
-                              : SvgPicture.asset(
-                                  "assets/Images/Profile-default-image.svg",
-                                  width: 120,
-                                  height: 120,
-                                  fit: BoxFit.cover,
-                                ),
-                        ),
+                      
                       ),
                       const SizedBox(height: 16),
                       Row(
@@ -87,10 +92,10 @@ class PersonalInformations extends StatelessWidget {
                               title:
                                   "${seekerProfile.profile.firstName} ${seekerProfile.profile.lastName}"),
                           const SizedBox(width: 10),
-
                           const Spacer(),
                           InkWell(
-                            onTap: () => slideUp(context,const  EditInformation()),
+                            onTap: () =>
+                                slideUp(context, const EditInformation()),
                             child: SvgPicture.asset(
                               "assets/Icons/edit_icon.svg",
                               width: 20,
@@ -101,8 +106,7 @@ class PersonalInformations extends StatelessWidget {
                       ),
                       const SizedBox(height: 10),
                       SubHeadingText(
-                        title:
-                        "${seekerProfile.profile.following} following",
+                        title: "${seekerProfile.profile.following} following",
                         titleColor: primaryColor,
                       ),
                       const SizedBox(height: 10),

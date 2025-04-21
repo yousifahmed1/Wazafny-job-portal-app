@@ -4,14 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/model/profile_model.dart';
+import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/widgets/save_button.dart';
 import 'package:wazafny/widgets/text_fields/rounded_text_fields.dart';
 import 'package:wazafny/widgets/texts/heading_text.dart';
 import 'package:wazafny/widgets/texts/sub_heading_text.dart';
-import '../../../../../constants.dart';
-import '../../../../../services/textfields_validators.dart';
-import '../../../../../widgets/custom_app_bar.dart';
-import '../cubit/profile_cubit.dart';
-import '../cubit/profile_states.dart';
+import '../../../../../../services/textfields_validators.dart';
+import '../../../../../../widgets/custom_app_bar.dart';
+import '../../cubit/profile_cubit.dart';
+import '../../cubit/profile_states.dart';
 
 class EditInformation extends StatefulWidget {
   const EditInformation({super.key});
@@ -59,6 +59,68 @@ class _EditInformationState extends State<EditInformation> {
     super.dispose();
   }
 
+  Future<void> _handleSave(BuildContext context, ProfileState state) async {
+    if (_formKey.currentState!.validate()) {
+      try {
+        List<LinkModel> updatedLinks = [];
+
+        // Add existing links with their IDs
+        if (state is ProfileLoaded) {
+          _linkNameControllers.keys.forEach((linkID) {
+            if (_linkUrlControllers.containsKey(linkID)) {
+              String name = _linkNameControllers[linkID]!.text;
+              String url = _linkUrlControllers[linkID]!.text;
+              if (name.isNotEmpty && url.isNotEmpty) {
+                updatedLinks.add(LinkModel(
+                  linkID: linkID,
+                  name: name,
+                  link: url,
+                ));
+              }
+            }
+          });
+        }
+
+        // Add new links
+        for (var link in _newLinks) {
+          String name = link['name']?.text ?? '';
+          String url = link['url']?.text ?? '';
+          if (name.isNotEmpty && url.isNotEmpty) {
+            updatedLinks.add(LinkModel(name: name, link: url));
+          }
+        }
+
+        // Log the updated links
+        log("Updated Links: ${updatedLinks.length}");
+        for (var link in updatedLinks) {
+          log("Link Name: ${link.name}, Link URL: ${link.link}");
+        }
+
+        // Call the cubit to update the profile
+        final message = await context.read<ProfileCubit>().updateProfile(
+              firstName: _firstNameController.text,
+              lastName: _lastNameController.text,
+              headline: _headlineController.text,
+              country: _countryController.text,
+              city: _cityController.text,
+              links: updatedLinks,
+            );
+
+        print(message); // Show success message in console
+
+        // Close the screen after a short delay
+        Future.delayed(const Duration(milliseconds: 50), () {
+          Navigator.pop(context);
+        });
+      } catch (e) {
+        print(e.toString());
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Failed to update profile')),
+        );
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<ProfileCubit, ProfileState>(
@@ -70,7 +132,6 @@ class _EditInformationState extends State<EditInformation> {
           _headlineController.text = state.profile.headline;
           _countryController.text = state.profile.country;
           _cityController.text = state.profile.city;
-          _resumeController.text = state.profile.resume;
 
           // Initialize controllers for each link
           // Initialize controllers for each link using linkID as the key
@@ -101,39 +162,55 @@ class _EditInformationState extends State<EditInformation> {
                     padding: const EdgeInsets.only(bottom: 95), //navbar height
 
                     children: [
-                      // Other TextFields for personal info
+                      // Personal Informations
+
+                      //first name textfield
                       RoundedTextField(
                         controller: _firstNameController,
                         keyboardType: TextInputType.name,
                         labelText: "First Name*",
                       ),
+
                       const SizedBox(height: 15),
+
+                      //last name textfield
                       RoundedTextField(
                         controller: _lastNameController,
                         keyboardType: TextInputType.name,
                         labelText: "Last Name*",
                       ),
+
                       const SizedBox(height: 15),
+
+                      //headline textfield
                       RoundedTextField(
                         controller: _headlineController,
                         keyboardType: TextInputType.name,
                         labelText: "Headline*",
                       ),
+
                       const SizedBox(height: 15),
+
+                      //country textfield
                       RoundedTextField(
                         controller: _countryController,
                         keyboardType: TextInputType.name,
                         labelText: "Country*",
                       ),
+
                       const SizedBox(height: 15),
+
+                      //city textfield
                       RoundedTextField(
                         controller: _cityController,
                         keyboardType: TextInputType.name,
                         labelText: "City*",
                       ),
+
                       const SizedBox(height: 15),
 
-                      // Links Section: Dynamically create fields for each link
+
+                      //loaded links
                       if (state is ProfileLoaded &&
                           state.profile.links.isNotEmpty)
                         ...state.profile.links.asMap().entries.map((entry) {
@@ -201,6 +278,8 @@ class _EditInformationState extends State<EditInformation> {
                         }).toList(),
                       const SizedBox(height: 20),
 
+                      // New Link Section
+
                       ..._newLinks.asMap().entries.map((entry) {
                         final index = entry.key;
                         final controllers = entry.value;
@@ -228,6 +307,8 @@ class _EditInformationState extends State<EditInformation> {
                               ],
                             ),
                             const SizedBox(height: 15),
+
+                            // Link Name text field
                             RoundedTextField(
                               validator: Validators().requiredFieldValidator,
                               controller: controllers['name'],
@@ -235,6 +316,8 @@ class _EditInformationState extends State<EditInformation> {
                               labelText: "Link Name*",
                             ),
                             const SizedBox(height: 15),
+
+                            // Link URL text field
                             RoundedTextField(
                               controller: controllers['url'],
                               validator: Validators().validateUrl,
@@ -246,6 +329,7 @@ class _EditInformationState extends State<EditInformation> {
                         );
                       }).toList(),
 
+                      // Add New Link
                       InkWell(
                         onTap: () {
                           setState(() {
@@ -272,132 +356,14 @@ class _EditInformationState extends State<EditInformation> {
                   ),
                 ),
               ),
+
+              // Save Button
               Positioned(
                 left: 0,
                 right: 0,
                 bottom: 0,
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.05),
-                        spreadRadius: 10,
-                        blurRadius: 50,
-                        offset: const Offset(0, 0),
-                      ),
-                    ],
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 30, horizontal: 15),
-                    child: GestureDetector(
-                      onTap: () async {
-                        if (_formKey.currentState!.validate()) {
-                          try {
-                            List<LinkModel> updatedLinks = [];
-
-                            // Add existing links with their IDs
-                            if (state is ProfileLoaded) {
-                              // Instead of iterating through state.profile.links
-                              // Iterate through the keys in _linkNameControllers
-                              // This will only include links that haven't been deleted
-                              _linkNameControllers.keys.forEach((linkID) {
-                                if (_linkUrlControllers.containsKey(linkID)) {
-                                  String name =
-                                      _linkNameControllers[linkID]!.text;
-                                  String url =
-                                      _linkUrlControllers[linkID]!.text;
-                                  if (name.isNotEmpty && url.isNotEmpty) {
-                                    updatedLinks.add(LinkModel(
-                                      linkID: linkID,
-                                      name: name,
-                                      link: url,
-                                    ));
-                                  }
-                                }
-                              });
-                            }
-
-                            // Add new links
-                            for (var link in _newLinks) {
-                              String name = link['name']?.text ?? '';
-                              String url = link['url']?.text ?? '';
-                              if (name.isNotEmpty &&
-                                  url.isNotEmpty &&
-                                  name != '' &&
-                                  url != '') {
-                                updatedLinks
-                                    .add(LinkModel(name: name, link: url));
-                              }
-                            }
-
-                            // Log the updated links
-                            log("Updated Links: ${updatedLinks.length}");
-                            for (var link in updatedLinks) {
-                              log("Link Name: ${link.name}, Link URL: ${link.link}");
-                            }
-
-                            // Call the cubit to update the profile
-                            final message = await context
-                                .read<ProfileCubit>()
-                                .updateProfile(
-                                  firstName: _firstNameController.text,
-                                  lastName: _lastNameController.text,
-                                  headline: _headlineController.text,
-                                  country: _countryController.text,
-                                  city: _cityController.text,
-                                  links:
-                                      updatedLinks, // Only includes non-deleted links
-                                );
-
-                            // Show success message in console
-                            print(message);
-
-                            // Manually trigger a UI refresh or reload the profile
-                            //context.read<ProfileCubit>().fetchProfile();
-
-                            // Pop the screen after a short delay
-                            Future.delayed(const Duration(milliseconds: 50),
-                                () {
-                              Navigator.pop(context);
-                            });
-                          } catch (e) {
-                            // Error handling
-                            print(e.toString());
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                  content: Text('Failed to update profile')),
-                            );
-                          }
-                        }
-                      },
-                      child: Center(
-                        child: Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: primaryColor,
-                          ),
-                          child: const Center(
-                            child: Padding(
-                              padding: EdgeInsets.all(8.0),
-                              child: Text(
-                                "Apply Now",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 25,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
+                child: SaveButton(onTap: () => _handleSave(context, state)),
               ),
-            
             ],
           ),
         );

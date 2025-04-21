@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 const darkPrimary = Color(0xff201A23);
 const loginTextColor = Color(0xff242645);
 const primaryColor = Color(0xff6A0DAD);
@@ -10,9 +9,9 @@ const linesColor = Color(0xffC7C7C7);
 const bordersColor = Color(0xff7d7c7c);
 const hintText = Color(0xff8E8E8E);
 const scaffoldColor = Color(0xfff6f3f7);
-const acceptedColor = Color(0xff1B7908);
-const pendingColor = Color(0xffEFA600);
-const rejectedColor = Color(0xffC60000);
+const greenColor = Color(0xff1B7908);
+const orangeColor = Color(0xffEFA600);
+const redColor = Color(0xffC60000);
 const whiteColor = Color(0xffFFFFFF);
 
 const double normalPadding = 30;
@@ -28,6 +27,3 @@ class SizeConfig {
     screenHeight = _mediaQueryData.size.height;
   }
 }
-
-
-

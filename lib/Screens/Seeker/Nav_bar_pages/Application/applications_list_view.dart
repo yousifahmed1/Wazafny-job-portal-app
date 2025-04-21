@@ -58,10 +58,10 @@ class ApplicationsListView extends StatelessWidget {
                       title: filteredJobPosts[index].jobStatus,
                       titleColor:
                           filteredJobPosts[index].jobStatus == 'Accepted'
-                              ? acceptedColor
+                              ? greenColor
                               : filteredJobPosts[index].jobStatus == 'Pending'
-                                  ? pendingColor
-                                  : rejectedColor,
+                                  ? orangeColor
+                                  : redColor,
                     )
                   ],
                 ),

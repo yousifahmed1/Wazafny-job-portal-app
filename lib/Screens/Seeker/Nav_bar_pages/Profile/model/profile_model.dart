@@ -8,7 +8,7 @@ class SeekerProfileModel {
   final String country;
   final String city;
   final String? about;
-  final String resume;
+  final dynamic resume;
   final List<Experience> experience;
   final Education? education;
   final List<String> skills;

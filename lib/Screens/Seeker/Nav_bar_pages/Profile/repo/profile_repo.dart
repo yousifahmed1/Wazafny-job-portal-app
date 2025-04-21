@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/services/profile_service.dart';
 import '../model/profile_model.dart';
 import '../services/get_profile_data.dart';
@@ -46,5 +48,51 @@ class ProfileRepository {
       About: about, // Pass links to the service
     );
   }
+
+Future<String> uploadCoverImage({
+    required File cover,
+
+
+  }) async {
+    return await profileServices.uploadCoverImage(
+      cover: cover,
+
+      );
+  }
   
+  Future<String> deleteCover() async {
+    return await profileServices.deleteCover(); // Use the deleteService
+  }
+
+
+  Future<String> uploadProfileImage({
+    required File image,
+
+
+  }) async {
+    return await profileServices.uploadProfileImage(
+      image: image,
+
+      );
+  }
+  
+  Future<String> deleteProfileImage() async {
+    return await profileServices.deleteProfileImage(); // Use the deleteService
+  }
+
+
+  Future<String> uploadResume({
+    required File resume,
+
+
+  }) async {
+    return await profileServices.uploadResume(
+      resume: resume,
+
+      );
+  }
+
+  Future<String> deleteResume() async {
+    return await profileServices.deleteResume(); // Use the deleteService
+  }
 }

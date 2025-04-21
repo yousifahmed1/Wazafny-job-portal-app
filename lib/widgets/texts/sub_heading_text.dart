@@ -6,12 +6,14 @@ class SubHeadingText extends StatelessWidget {
   final String title;
   final Color? titleColor;
   final double? fontSize;
+  final TextAlign? textAlignment;
 
   const SubHeadingText({
     super.key,
     required this.title,
     this.titleColor,
     this.fontSize,
+    this.textAlignment,
   });
 
   @override
@@ -19,6 +21,7 @@ class SubHeadingText extends StatelessWidget {
     return Text(
       title,
       softWrap: true,
+      textAlign: textAlignment,
       style: TextStyle(
         fontWeight: FontWeight.w600,
         fontSize: fontSize ?? 18,
