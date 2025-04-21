@@ -20,6 +20,7 @@ class EditCover extends StatefulWidget {
 class _EditCoverState extends State<EditCover> {
   File? _selectedImage;
   String? imagePath;
+  bool _initialized = false;
 
   Future<void> _pickImageFromGallery() async {
     final pickedFile =
@@ -45,6 +46,13 @@ class _EditCoverState extends State<EditCover> {
 
   Future<void> _handleSave(BuildContext context, ProfileState state) async {
     try {
+      // Show loading dialog
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (_) => const Center(child: CircularProgressIndicator()),
+      );
+
       if (_selectedImage != null || imagePath != null) {
         final message = await context.read<ProfileCubit>().uploadCoverImage(
               cover: _selectedImage!,
@@ -52,11 +60,12 @@ class _EditCoverState extends State<EditCover> {
         log(message);
       }
 
+      Navigator.pop(context); // Close loading dialog
       Future.delayed(const Duration(milliseconds: 50), () {
-        Navigator.pop(context);
+        Navigator.pop(context); // Go back from edit page
       });
     } catch (e) {
-      // Error handling
+      Navigator.pop(context); // Close loading dialog in case of error
       log(e.toString());
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Failed to update profile')),
@@ -83,10 +92,12 @@ class _EditCoverState extends State<EditCover> {
   Widget build(BuildContext context) {
     SizeConfig.init(context);
     return BlocBuilder<ProfileCubit, ProfileState>(builder: (context, state) {
-      if (state is ProfileLoaded &&
+      if (!_initialized &&
+          state is ProfileLoaded &&
           _selectedImage == null &&
           state.profile.cover != "") {
         imagePath = state.profile.cover;
+        _initialized = true;
       }
       return Scaffold(
         backgroundColor: whiteColor,

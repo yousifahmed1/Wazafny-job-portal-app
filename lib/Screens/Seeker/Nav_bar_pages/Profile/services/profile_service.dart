@@ -6,34 +6,32 @@ import '../model/profile_model.dart';
 
 class ProfileService {
   final Dio dio;
-  final int seeker_id;
+  final int userID;
+  final String token;
 
-  ProfileService(this.dio, {required this.seeker_id});
+  ProfileService(
+    this.dio, {
+    required this.userID,
+    required this.token,
+  });
 
-  // Future<SeekerProfileModel> fetchProfile() async {
-  //   try {
-  //     final response =
-  //         await dio.get('https://wazafny.online/api/show-seeker-profile/2');
-  //     if (response.statusCode == 200 && response.data != null) {
-  //       return SeekerProfileModel.fromJson(response.data);
-  //     }
-  //     throw Exception('Failed to load profile');
-  //   } catch (e) {
-  //     log('Error fetching profile: $e');
-  //     throw Exception('Failed to fetch profile');
-  //   }
-  // }
-
+  //updateAbout
   Future<String> updateAbout({
-    required String About,
+    required String about,
   }) async {
     try {
       final response = await dio.post(
-        'https://wazafny.online/api/update-about',
+        'https://wazafny.online/api/update-about/token',
         data: {
-          "seeker_id": seeker_id, // Replace with dynamic ID later
-          "about": About
+          "seeker_id": userID, // Replace with dynamic ID later
+          "about": about
         },
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+            'Content-Type': 'application/json',
+          },
+        ),
       );
 
       if (response.statusCode == 200) {
@@ -54,6 +52,7 @@ class ProfileService {
     }
   }
 
+  //updateProfile
   Future<String> updateProfile({
     required String firstName,
     required String lastName,
@@ -66,7 +65,7 @@ class ProfileService {
       final response = await dio.post(
         'https://wazafny.online/api/update-personal-info',
         data: {
-          "seeker_id": seeker_id, // Replace with dynamic ID later
+          "seeker_id": userID, // Replace with dynamic ID later
           "first_name": firstName,
           "last_name": lastName,
           "headline": headline,
@@ -82,6 +81,12 @@ class ProfileService {
                 }).toList()
               : [],
         },
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+            'Content-Type': 'application/json',
+          },
+        ),
       );
 
       if (response.statusCode == 200) {
@@ -106,6 +111,12 @@ class ProfileService {
     try {
       final response = await dio.delete(
         'https://wazafny.online/api/delete-link/$linkId',
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+            'Content-Type': 'application/json',
+          },
+        ),
       );
 
       if (response.statusCode == 200) {
@@ -133,11 +144,19 @@ class ProfileService {
 
     FormData formData = FormData.fromMap({
       "cover_img": await MultipartFile.fromFile(cover.path, filename: fileName),
-      "user_id": seeker_id, // Include user_id in the FormData
+      "user_id": userID, // Include user_id in the FormData
     });
     try {
-      final response = await dio
-          .post('https://wazafny.online/api/update-cover-img', data: formData);
+      final response = await dio.post(
+        'https://wazafny.online/api/update-cover-img',
+        data: formData,
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+            'Content-Type': 'application/json',
+          },
+        ),
+      );
 
       if (response.statusCode == 200) {
         final data = response.data;
@@ -160,7 +179,13 @@ class ProfileService {
   Future<String> deleteCover() async {
     try {
       final response = await dio.delete(
-        'https://wazafny.online/api/delete-cover-img/$seeker_id',
+        'https://wazafny.online/api/delete-cover-img/$userID',
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+            'Content-Type': 'application/json',
+          },
+        ),
       );
 
       if (response.statusCode == 200) {
@@ -189,12 +214,19 @@ class ProfileService {
     FormData formData = FormData.fromMap({
       "profile_img":
           await MultipartFile.fromFile(image.path, filename: fileName),
-      "user_id": seeker_id, // Include user_id in the FormData
+      "user_id": userID, // Include user_id in the FormData
     });
     try {
       final response = await dio.post(
-          'https://wazafny.online/api/update-profile-img',
-          data: formData);
+        'https://wazafny.online/api/update-profile-img',
+        data: formData,
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+            'Content-Type': 'application/json',
+          },
+        ),
+      );
 
       if (response.statusCode == 200) {
         final data = response.data;
@@ -217,7 +249,13 @@ class ProfileService {
   Future<String> deleteProfileImage() async {
     try {
       final response = await dio.delete(
-        'https://wazafny.online/api/delete-profile-img/$seeker_id',
+        'https://wazafny.online/api/delete-profile-img/$userID',
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+            'Content-Type': 'application/json',
+          },
+        ),
       );
 
       if (response.statusCode == 200) {
@@ -244,14 +282,19 @@ class ProfileService {
     String fileName = resume.path.split('/').last;
 
     FormData formData = FormData.fromMap({
-      "resume":
-          await MultipartFile.fromFile(resume.path, filename: fileName),
-      "seeker_id": seeker_id, // Include user_id in the FormData
+      "resume": await MultipartFile.fromFile(resume.path, filename: fileName),
+      "seeker_id": userID, // Include user_id in the FormData
     });
     try {
       final response = await dio.post(
         'https://wazafny.online/api/update-resume',
         data: formData,
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+            'Content-Type': 'application/json',
+          },
+        ),
       );
 
       if (response.statusCode == 200) {
@@ -272,10 +315,16 @@ class ProfileService {
     }
   }
 
-Future<String> deleteResume() async {
+  Future<String> deleteResume() async {
     try {
       final response = await dio.delete(
-        'https://wazafny.online/api/delete-resume/$seeker_id',
+        'https://wazafny.online/api/delete-resume/$userID',
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+            'Content-Type': 'application/json',
+          },
+        ),
       );
 
       if (response.statusCode == 200) {
@@ -295,5 +344,4 @@ Future<String> deleteResume() async {
       throw Exception('Failed to delete link');
     }
   }
-
 }

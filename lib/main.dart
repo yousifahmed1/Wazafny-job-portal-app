@@ -13,10 +13,11 @@ void main() {
   final dio = Dio();
 
   final seeker_id = 2;
+  final token = "44|WCgd0QxfZ140X00nv46qZji8Th83zURTq7BIb5Yo26a111b6";
 
   // Instantiate services with seekerId
-  final getProfileService = GetProfileData(dio, seeker_id: seeker_id);
-  final profileService = ProfileService(dio, seeker_id: seeker_id);
+  final getProfileService = GetProfileData(dio, seeker_id: seeker_id, token: token);
+  final profileService = ProfileService(dio, userID: seeker_id, token: token);
   final profileRepo = ProfileRepository(getProfileService, profileService);
 
   runApp(MyApp(profileRepo: profileRepo));

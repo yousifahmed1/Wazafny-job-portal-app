@@ -24,6 +24,7 @@ class EditResume extends StatefulWidget {
 class _EditResumeState extends State<EditResume> {
   File? _selectedFile; // Store the file object instead of path
   String? resumePath;
+  bool _initialized = false;
 
   Future<void> _pickFile() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
@@ -52,8 +53,7 @@ class _EditResumeState extends State<EditResume> {
     }
   }
 
-
-Future<void> _deleteResume() async {
+  Future<void> _deleteResume() async {
     if (resumePath != null) {
       context.read<ProfileCubit>().deleteResume();
     }
@@ -68,15 +68,22 @@ Future<void> _deleteResume() async {
     context.read<ProfileCubit>().fetchProfile();
   }
 
-
   Future<void> _handleSave(BuildContext context, ProfileState state) async {
     try {
+
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (_) => const Center(child: CircularProgressIndicator()),
+      );
+
       if (_selectedFile != null || resumePath != null) {
         final message = await context.read<ProfileCubit>().uploadResume(
               resume: _selectedFile!,
             );
         log(message);
       }
+      Navigator.pop(context); // Close loading dialog
 
       Future.delayed(const Duration(milliseconds: 50), () {
         Navigator.pop(context);
@@ -95,10 +102,13 @@ Future<void> _deleteResume() async {
     SizeConfig.init(context);
 
     return BlocBuilder<ProfileCubit, ProfileState>(builder: (context, state) {
-      if (state is ProfileLoaded &&
+      if (!_initialized &&
+          state is ProfileLoaded &&
           _selectedFile == null &&
           state.profile.resume != "") {
         resumePath = state.profile.resume;
+        _initialized = true;
+
         log(resumePath.toString());
       }
       return Scaffold(

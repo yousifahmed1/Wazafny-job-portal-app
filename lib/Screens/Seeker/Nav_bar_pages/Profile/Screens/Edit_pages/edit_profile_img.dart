@@ -21,6 +21,8 @@ class EditProfileImg extends StatefulWidget {
 class _EditProfileImgState extends State<EditProfileImg> {
   File? _selectedImage;
   String? imagePath;
+  bool _initialized = false;
+
 
   Future<void> _pickImageFromGallery() async {
     final pickedFile =
@@ -46,12 +48,19 @@ class _EditProfileImgState extends State<EditProfileImg> {
 
   Future<void> _handleSave(BuildContext context, ProfileState state) async {
     try {
+
+      showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (_) => const Center(child: CircularProgressIndicator()),
+    );
       if (_selectedImage != null || imagePath != null) {
         final message = await context.read<ProfileCubit>().uploadProfileImage(
               image: _selectedImage!,
             );
         log(message);
       }
+    Navigator.pop(context); // Close loading dialog
 
       Future.delayed(const Duration(milliseconds: 50), () {
         Navigator.pop(context);
@@ -71,23 +80,29 @@ class _EditProfileImgState extends State<EditProfileImg> {
     }
 
     // Remove controllers
+    // setState(() {
+    //   _selectedImage = null;
+    //   imagePath = null;
+    // });
+
+    // Refresh profile
+    context.read<ProfileCubit>().fetchProfile();
     setState(() {
       _selectedImage = null;
       imagePath = null;
     });
-
-    // Refresh profile
-    context.read<ProfileCubit>().fetchProfile();
   }
 
   @override
   Widget build(BuildContext context) {
     SizeConfig.init(context);
     return BlocBuilder<ProfileCubit, ProfileState>(builder: (context, state) {
-      if (state is ProfileLoaded &&
+      if (!_initialized && state is ProfileLoaded &&
           _selectedImage == null &&
           state.profile.image != "") {
         imagePath = state.profile.image;
+          _initialized = true;
+
       }
       return Scaffold(
         backgroundColor: whiteColor,

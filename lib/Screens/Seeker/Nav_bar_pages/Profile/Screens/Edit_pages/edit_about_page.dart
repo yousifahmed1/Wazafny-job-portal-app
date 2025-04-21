@@ -19,6 +19,7 @@ class EditAbout extends StatefulWidget {
 
 class _EditAboutState extends State<EditAbout> {
   final _aboutController = TextEditingController();
+  bool _initialized = false;
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -54,9 +55,12 @@ class _EditAboutState extends State<EditAbout> {
     SizeConfig.init(context);
 
     return BlocBuilder<ProfileCubit, ProfileState>(builder: (context, state) {
-      if (state is ProfileLoaded && _aboutController.text.isEmpty) {
+      if (!_initialized &&
+          state is ProfileLoaded &&
+          _aboutController.text.isEmpty) {
         // Initialize controllers with the profile data
         _aboutController.text = state.profile.about ?? '';
+        _initialized = true;
       }
       return Scaffold(
         backgroundColor: whiteColor,

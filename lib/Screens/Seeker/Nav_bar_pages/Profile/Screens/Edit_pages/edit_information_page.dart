@@ -29,6 +29,10 @@ class _EditInformationState extends State<EditInformation> {
   final _aboutController = TextEditingController();
   final _resumeController = TextEditingController();
 
+  bool _initialized = false;
+
+
+
   // Controllers for links
   final Map<int, TextEditingController> _linkNameControllers = {};
   final Map<int, TextEditingController> _linkUrlControllers = {};
@@ -125,13 +129,14 @@ class _EditInformationState extends State<EditInformation> {
   Widget build(BuildContext context) {
     return BlocBuilder<ProfileCubit, ProfileState>(
       builder: (context, state) {
-        if (state is ProfileLoaded && _firstNameController.text.isEmpty) {
+        if (!_initialized && state is ProfileLoaded && _firstNameController.text.isEmpty) {
           // Initialize controllers with the profile data
           _firstNameController.text = state.profile.firstName;
           _lastNameController.text = state.profile.lastName;
           _headlineController.text = state.profile.headline;
           _countryController.text = state.profile.country;
           _cityController.text = state.profile.city;
+           
 
           // Initialize controllers for each link
           // Initialize controllers for each link using linkID as the key
@@ -143,6 +148,8 @@ class _EditInformationState extends State<EditInformation> {
                   TextEditingController(text: link.link ?? '');
             }
           });
+        
+          _initialized = true;
         }
 
         return Scaffold(
