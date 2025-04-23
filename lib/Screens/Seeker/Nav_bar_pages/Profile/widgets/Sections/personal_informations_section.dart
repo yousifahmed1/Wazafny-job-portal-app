@@ -82,6 +82,7 @@ class PersonalInformations extends StatelessWidget {
                                     fit: BoxFit.cover,
                                   ),
                           ),
+                        
                         ),
                       
                       ),

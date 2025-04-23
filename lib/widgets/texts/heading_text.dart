@@ -25,11 +25,15 @@ class HeadingText1 extends StatelessWidget {
 class HeadingText extends StatelessWidget {
   final String title;
   final TextAlign? textAlignment;
+  final Color? titleColor;
+  final double? fontSize;
 
   const HeadingText({
     super.key,
     required this.title,
     this.textAlignment,
+    this.titleColor,
+    this.fontSize,
   });
 
   @override
@@ -38,10 +42,10 @@ class HeadingText extends StatelessWidget {
       title,
       softWrap: true,
       textAlign: textAlignment,
-      style: const TextStyle(
+      style: TextStyle(
         fontWeight: FontWeight.w700,
-        fontSize: 24,
-        color: darkPrimary,
+        fontSize: fontSize ?? 24,
+        color: titleColor ?? darkPrimary,
       ),
     );
   }

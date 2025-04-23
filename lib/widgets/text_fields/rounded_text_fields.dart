@@ -73,6 +73,7 @@ class RoundedTextField extends StatelessWidget {
               borderRadius: BorderRadius.circular(12.0),
             ),
           ),
+          
           keyboardType: keyboardType,
         ),
       ],

@@ -1,10 +1,9 @@
-
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_file_downloader/flutter_file_downloader.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:open_file/open_file.dart';
-
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/Screens/Edit_pages/edit_resume_page.dart';
 import 'package:wazafny/constants.dart';
 import 'package:wazafny/widgets/Navigators/slide_up.dart';
@@ -67,24 +66,19 @@ class ResumeSection extends StatelessWidget {
                           onTap: () {
                             FileDownloader.downloadFile(
                                 url: seekerProfile.profile.resume,
-
-
                                 onDownloadCompleted: (String path) {
-                                  print('FILE DOWNLOADED TO PATH: $path');
-                                      OpenFile.open(path);
-
-
+                                  log('FILE DOWNLOADED TO PATH: $path');
+                                  OpenFile.open(path);
                                 },
                                 onDownloadError: (String error) {
-                                  print('DOWNLOAD ERROR: $error');
+                                  log('DOWNLOAD ERROR: $error');
                                 });
                           },
-                         
                           child: Row(
                             children: [
                               const SubHeadingText(
-                                underline: true,
-                                title: "Resume",
+                                //underline: true,
+                                title: "View Resume",
                                 titleColor: darkPrimary,
                                 fontSize: 20,
                               ),
@@ -93,7 +87,8 @@ class ResumeSection extends StatelessWidget {
                               ),
                               SvgPicture.asset(
                                 "assets/Icons/Link.svg",
-                                height: 25,
+                                height: 20,
+                                // ignore: deprecated_member_use
                                 color: darkPrimary,
                               ),
                             ],

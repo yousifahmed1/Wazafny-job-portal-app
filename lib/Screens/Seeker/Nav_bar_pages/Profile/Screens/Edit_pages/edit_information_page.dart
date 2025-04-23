@@ -359,6 +359,7 @@ class _EditInformationState extends State<EditInformation> {
                           ],
                         ),
                       ),
+                    
                     ],
                   ),
                 ),
@@ -377,4 +378,5 @@ class _EditInformationState extends State<EditInformation> {
       },
     );
   }
+
 }
