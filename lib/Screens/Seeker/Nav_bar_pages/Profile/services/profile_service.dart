@@ -21,7 +21,7 @@ class ProfileService {
   }) async {
     try {
       final response = await dio.post(
-        'https://wazafny.online/api/update-about/token',
+        'https://wazafny.online/api/update-about',
         data: {
           "seeker_id": userID, // Replace with dynamic ID later
           "about": about
@@ -344,4 +344,123 @@ class ProfileService {
       throw Exception('Failed to delete link');
     }
   }
+
+  Future<String> addExperience({
+    required String company,
+    required String jobTitle,
+    required String jobTime,
+    required String startDate,
+    required String endDate,
+  }) async {
+    try {
+      final response = await dio.post(
+        'https://wazafny.online/api/create-experience',
+        data: {
+          "seeker_id": userID,
+          "company": company,
+          "job_title": jobTitle,
+          "job_time": jobTime,
+          "start_date": startDate,
+          "end_date": endDate
+        },
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+            'Content-Type': 'application/json',
+          },
+        ),
+      );
+
+      if (response.statusCode == 200) {
+        final data = response.data;
+
+        if (data is Map<String, dynamic> && data['message'] is String) {
+          log("${response.statusCode}");
+          return data['message']; // Return success message
+        } else {
+          throw Exception('Unexpected response format: ${response.data}');
+        }
+      }
+
+      throw Exception('Failed to update profile');
+    } catch (e) {
+      log('Error updating profile: $e');
+      throw Exception('Failed to update profile');
+    }
+  }
+
+  Future<String> deleteExperience({required int experienceId}) async {
+    try {
+      final response = await dio.delete(
+        'https://wazafny.online/api/delete-experience/$experienceId',
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+            'Content-Type': 'application/json',
+          },
+        ),
+      );
+
+      if (response.statusCode == 200) {
+        final data = response.data;
+
+        if (data is Map<String, dynamic> && data['message'] is String) {
+          log("${response.statusCode}");
+          return data['message']; // Return success message
+        } else {
+          throw Exception('Unexpected response format: ${response.data}');
+        }
+      }
+
+      throw Exception('Failed to delete link');
+    } catch (e) {
+      log('Error deleting link: $e');
+      throw Exception('Failed to delete link');
+    }
+  }
+
+  Future<String> updateExperience({
+    required int experienceId,
+    required String company,
+    required String jobTitle,
+    required String jobTime,
+    required String startDate,
+    required String endDate,
+  }) async {
+    try {
+      final response = await dio.put(
+        'https://wazafny.online/api/update-experience/$experienceId',
+        data: {
+          "company": company,
+          "job_title": jobTitle,
+          "job_time": jobTime,
+          "start_date": startDate,
+          "end_date": endDate
+        },
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+            'Content-Type': 'application/json',
+          },
+        ),
+      );
+
+      if (response.statusCode == 200) {
+        final data = response.data;
+
+        if (data is Map<String, dynamic> && data['message'] is String) {
+          log("${response.statusCode}");
+          return data['message']; // Return success message
+        } else {
+          throw Exception('Unexpected response format: ${response.data}');
+        }
+      }
+
+      throw Exception('Failed to update profile');
+    } catch (e) {
+      log('Error updating profile: $e');
+      throw Exception('Failed to update profile');
+    }
+  }
+
 }

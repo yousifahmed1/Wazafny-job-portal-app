@@ -81,4 +81,46 @@ class ProfileRepository {
   Future<String> deleteResume() async {
     return await profileServices.deleteResume(); // Use the deleteService
   }
+
+
+  Future<String> addExperience({
+    required String company,
+    required String jobTitle,
+    required String jobTime,
+    required String startDate,
+    required String endDate,
+  }) async {
+    return await profileServices.addExperience(
+      company: company,
+      jobTitle: jobTitle,
+      jobTime: jobTime,
+      startDate: startDate,
+      endDate: endDate,
+    );
+  }
+
+Future<String> deleteExperience({required int experienceId}) async {
+    return await profileServices.deleteExperience(
+        experienceId: experienceId); // Use the deleteService
+  }
+
+  Future<String> updateExperience({
+
+    required String company,
+    required int experienceId,
+    required String jobTitle,
+    required String jobTime,
+    required String startDate,
+    required String endDate,
+  }) async {
+    return await profileServices.updateExperience(
+      experienceId: experienceId,
+      company: company,
+      jobTitle: jobTitle,
+      jobTime: jobTime,
+      startDate: startDate,
+      endDate: endDate,
+    );
+  }
+
 }

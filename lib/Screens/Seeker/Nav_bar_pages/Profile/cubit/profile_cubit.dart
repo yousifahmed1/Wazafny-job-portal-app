@@ -159,8 +159,7 @@ class ProfileCubit extends Cubit<ProfileState> {
     }
   }
 
-
-Future<String> uploadResume({
+  Future<String> uploadResume({
     required File resume,
   }) async {
     emit(ProfileLoading());
@@ -195,5 +194,79 @@ Future<String> uploadResume({
       rethrow;
     }
   }
-  
+
+  Future<String> addExperience({
+    required String company,
+    required String jobTitle,
+    required String jobTime,
+    required String startDate,
+    required String endDate,
+  }) async {
+    emit(ProfileLoading());
+    try {
+      final message = await repository.addExperience(
+        company: company,
+        jobTitle: jobTitle,
+        jobTime: jobTime,
+        startDate: startDate,
+        endDate: endDate,
+      );
+
+      // Refetch the updated profile after success
+      final updatedProfile = await repository.getProfileData();
+      emit(ProfileLoaded(updatedProfile));
+
+      return message; // return the success message from API
+    } catch (e) {
+      emit(ProfileError('Failed to update profile: $e'));
+      rethrow;
+    }
+  }
+
+  Future<String> deleteExperience({required int experienceId}) async {
+    emit(ProfileLoading());
+    try {
+      final message =
+          await repository.deleteExperience(experienceId: experienceId);
+
+      // Optionally refetch the profile after deletion
+      final updatedProfile = await repository.getProfileData();
+      emit(ProfileLoaded(updatedProfile));
+
+      return message; // return the success message
+    } catch (e) {
+      emit(ProfileError('Failed to delete link: $e'));
+      rethrow;
+    }
+  }
+
+  Future<String> updateExperience({
+    required String company,
+    required int experienceId,
+    required String jobTitle,
+    required String jobTime,
+    required String startDate,
+    required String endDate,
+  }) async {
+    emit(ProfileLoading());
+    try {
+      final message = await repository.updateExperience(
+        experienceId: experienceId,
+        company: company,
+        jobTitle: jobTitle,
+        jobTime: jobTime,
+        startDate: startDate,
+        endDate: endDate,
+      );
+
+      // Refetch the updated profile after success
+      final updatedProfile = await repository.getProfileData();
+      emit(ProfileLoaded(updatedProfile));
+
+      return message; // return the success message from API
+    } catch (e) {
+      emit(ProfileError('Failed to update profile: $e'));
+      rethrow;
+    }
+  }
 }
