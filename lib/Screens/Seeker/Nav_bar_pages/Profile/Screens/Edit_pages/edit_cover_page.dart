@@ -31,14 +31,14 @@ class _EditCoverState extends State<EditCover> {
       final fileSizeInBytes = await file.length();
       final fileSizeInMB = fileSizeInBytes / (1024 * 1024);
 
-      if (fileSizeInMB <= 5) {
+      if (fileSizeInMB <= 1) {
         setState(() {
           _selectedImage = file;
         });
       } else {
         // You can show a message to the user here
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Image must be less than 5MB')),
+          SnackBar(content: Text('Image must be less than 1MB')),
         );
       }
     }
