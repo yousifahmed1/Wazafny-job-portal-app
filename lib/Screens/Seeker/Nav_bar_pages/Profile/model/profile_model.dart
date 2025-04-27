@@ -11,7 +11,7 @@ class SeekerProfileModel {
   final dynamic resume;
   final List<Experience> experience;
   final Education? education;
-  final List<String> skills;
+  final List<SkillsModel> skills;
   final List<LinkModel> links;
 
   SeekerProfileModel({
@@ -49,7 +49,9 @@ class SeekerProfileModel {
       education: json['education'] != null
           ? Education.fromJson(json['education'])
           : null,
-      skills: (json['skills'] as List? ?? []).map((e) => e.toString()).toList(),
+      skills: (json['skills'] as List? ?? [])
+          .map((e) => SkillsModel.fromJson(e))
+          .toList(),
       links: (json["personal_info"]['links'] as List? ?? [])
           .map((e) => LinkModel.fromJson(e))
           .toList(),
@@ -101,16 +103,18 @@ class Experience {
 
 class Education {
   final String? university;
-  final String? duration;
-  final String? major;
+  final String? college;
+  final String? startDate;
+  final String? endDate;
 
-  Education({this.university, this.duration, this.major});
+  Education({this.college, this.startDate, this.endDate, this.university});
 
   factory Education.fromJson(Map<String, dynamic> json) {
     return Education(
       university: json['university'],
-      duration: json['duration'],
-      major: json['major'],
+      college: json['college'],
+      startDate: json['start_date'],
+      endDate: json['end_date'],
     );
   }
 }
@@ -131,6 +135,23 @@ class LinkModel {
       linkID: json['link_id'],
       name: json['link_name'],
       link: json['link'],
+    );
+  }
+}
+
+class SkillsModel {
+  final String? skill;
+  final int? skillID;
+
+  SkillsModel({
+    this.skill,
+    this.skillID,
+  });
+
+  factory SkillsModel.fromJson(Map<String, dynamic> json) {
+    return SkillsModel(
+      skillID: json['skill_id'],
+      skill: json['skill'],
     );
   }
 }

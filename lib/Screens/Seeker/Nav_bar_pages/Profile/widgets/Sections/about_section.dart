@@ -37,23 +37,28 @@ class _AboutSectionState extends State<AboutSection> {
                 children: [
                   const HeadingText(title: "About"),
                   const Spacer(),
-                  seekerProfile.profile.about != null
-                      ? InkWell(
-                          onTap: () => slideUp(context, const EditAbout()),
-                          child: SvgPicture.asset(
-                            "assets/Icons/edit_icon.svg",
-                            width: 20,
-                            height: 20,
-                          ),
-                        )
-                      : InkWell(
-                          onTap: () => slideUp(context, const EditAbout()),
-                          child: SvgPicture.asset(
-                            "assets/Icons/Add_icon.svg",
-                            width: 25,
-                            height: 25,
-                          ),
-                        ),
+                  InkWell(
+                    child: Container(
+                      child:seekerProfile.profile.about != null
+                        ? InkWell(
+                            onTap: () => slideUp(context, const EditAbout()),
+                            child: SvgPicture.asset(
+                              "assets/Icons/edit_icon.svg",
+                              width: 20,
+                              height: 20,
+                            ),
+                          )
+                        : InkWell(
+                            onTap: () => slideUp(context, const EditAbout()),
+                            child: SvgPicture.asset(
+                              "assets/Icons/Add_icon.svg",
+                              width: 25,
+                              height: 25,
+                            ),
+                          ) ,
+                    ),
+                  )
+                  
                 ],
               ),
               const SizedBox(height: 15),

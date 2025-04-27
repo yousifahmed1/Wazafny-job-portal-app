@@ -1,17 +1,14 @@
 import 'dart:io';
-
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/services/profile_service.dart';
 import '../model/profile_model.dart';
-import '../services/get_profile_data.dart';
 
 class ProfileRepository {
-  final GetProfileData getService;
   final ProfileService profileServices;
 
-  ProfileRepository(this.getService, this.profileServices);
+  ProfileRepository(this.profileServices);
 
   Future<SeekerProfileModel> getProfileData() async {
-    return await getService.fetchProfile();
+    return await profileServices.fetchProfile();
   }
 
   Future<String> updateProfile({
@@ -82,7 +79,6 @@ class ProfileRepository {
     return await profileServices.deleteResume(); // Use the deleteService
   }
 
-
   Future<String> addExperience({
     required String company,
     required String jobTitle,
@@ -99,13 +95,12 @@ class ProfileRepository {
     );
   }
 
-Future<String> deleteExperience({required int experienceId}) async {
+  Future<String> deleteExperience({required int experienceId}) async {
     return await profileServices.deleteExperience(
         experienceId: experienceId); // Use the deleteService
   }
 
   Future<String> updateExperience({
-
     required String company,
     required int experienceId,
     required String jobTitle,
@@ -123,4 +118,29 @@ Future<String> deleteExperience({required int experienceId}) async {
     );
   }
 
+  Future<String> addUpdateEducation({
+    required String university,
+    required String college,
+    required String startDate,
+    required String endDate,
+  }) async {
+    return await profileServices.addUpdateEducation(
+      university: university,
+      college: college,
+      startDate: startDate,
+      endDate: endDate,
+    );
+  }
+
+  Future<String> deleteEducation() async {
+    return await profileServices.deleteEducation(); // Use the deleteService
+  }
+
+  Future<String> updateSkills({
+    required List<String> skills,
+  }) async {
+    return await profileServices.updateSkills(
+      skills: skills,
+    );
+  }
 }

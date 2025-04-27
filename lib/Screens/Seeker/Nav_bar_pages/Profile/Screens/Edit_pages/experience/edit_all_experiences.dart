@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/Screens/Edit_pages/add_experience.dart';
+import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/Screens/Edit_pages/experience/add_edit_experience.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/widgets/delete_experience_dialog.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/widgets/save_button.dart';
 import 'package:wazafny/constants.dart';
@@ -11,9 +11,9 @@ import 'package:wazafny/widgets/Navigators/slide_to.dart';
 import 'package:wazafny/widgets/custom_line.dart';
 import 'package:wazafny/widgets/texts/heading_text.dart';
 import 'package:wazafny/widgets/texts/sub_heading_text.dart';
-import '../../../../../../widgets/custom_app_bar.dart';
-import '../../cubit/profile_cubit.dart';
-import '../../cubit/profile_states.dart';
+import '../../../../../../../widgets/custom_app_bar.dart';
+import '../../../cubit/profile_cubit.dart';
+import '../../../cubit/profile_states.dart';
 
 class EditAllExperiences extends StatefulWidget {
   const EditAllExperiences({super.key});

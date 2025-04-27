@@ -35,7 +35,7 @@ class ProfilePage extends StatelessWidget {
                   const SizedBox(height: 10),
                   const ExperienceSection(),
                   const SizedBox(height: 10),
-                  const EducationSection(), 
+                  const EducationSection(),
                   const SizedBox(height: 10),
                   const SkillsSection(),
                   //navbar fix border radius effect pink background
@@ -51,7 +51,7 @@ class ProfilePage extends StatelessWidget {
             // Show error message if something went wrong
             return Center(child: Text('Error: ${state.message}'));
           }
-          return SizedBox(); // Empty fallback
+          return const SizedBox(); // Empty fallback
         },
       ),
     );

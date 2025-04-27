@@ -1,39 +1,21 @@
-import 'dart:developer';
+// import 'dart:developer';
 
-import 'package:dio/dio.dart';
-import '../model/profile_model.dart';
+// import 'package:dio/dio.dart';
+// import 'package:wazafny/Screens/login_and_signup/repo/auth_repository.dart';
+// import '../model/profile_model.dart';
 
-class GetProfileData {
-  final Dio dio;
-  final int seeker_id;
-  final String token;
+// class GetProfileData {
+//   final Dio dio;
+//   late int seeker_id;
+//   late String token;
 
-  GetProfileData(
-    this.dio, {
-    required this.seeker_id,
-    required this.token,
-  });
+//   GetProfileData(
+//     this.dio);
 
-  Future<SeekerProfileModel> fetchProfile() async {
-    try {
-      final response = await dio.get(
-        'https://wazafny.online/api/show-seeker-profile/$seeker_id',
-        options: Options(
-          headers: {
-            'Authorization': 'Bearer $token',
-            'Content-Type': 'application/json',
-          },
-        ),
-      );
+//   Future<void> init() async {
+//     token = await AuthRepository().getToken() ?? "";
+//     seeker_id = await AuthRepository().getSeekerId() ?? 0;
+//   }
 
-      if (response.statusCode == 200 && response.data != null) {
-        return SeekerProfileModel.fromJson(response.data);
-      } else {
-        throw Exception('Failed to load profile data');
-      }
-    } catch (e) {
-      log('Error fetching profile: $e');
-      throw Exception('Something went wrong while fetching profile');
-    }
-  }
-}
+
+// }

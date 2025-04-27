@@ -76,7 +76,7 @@ class _EditResumeState extends State<EditResume> {
         builder: (_) => const Center(child: CircularProgressIndicator()),
       );
 
-      if (_selectedFile != null || resumePath != null) {
+      if (_selectedFile != null || resumePath != null && _selectedFile is! String && resumePath is! String) {
         final message = await context.read<ProfileCubit>().uploadResume(
               resume: _selectedFile!,
             );

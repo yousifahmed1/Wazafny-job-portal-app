@@ -269,4 +269,69 @@ class ProfileCubit extends Cubit<ProfileState> {
       rethrow;
     }
   }
+
+  Future<String> addUpdateEducation({
+    required String university,
+    required String college,
+    required String startDate,
+    required String endDate,
+  }) async {
+    emit(ProfileLoading());
+    try {
+      final message = await repository.addUpdateEducation(
+        university: university,
+        college: college,
+        startDate: startDate,
+        endDate: endDate,
+      );
+
+      // Refetch the updated profile after success
+      final updatedProfile = await repository.getProfileData();
+      emit(ProfileLoaded(updatedProfile));
+
+      return message; // return the success message from API
+    } catch (e) {
+      emit(ProfileError('Failed to update profile: $e'));
+      rethrow;
+    }
+  }
+
+  Future<String> deleteEducation() async {
+    emit(ProfileLoading());
+    try {
+      final message = await repository.deleteEducation();
+
+      // Optionally refetch the profile after deletion
+      final updatedProfile = await repository.getProfileData();
+      emit(ProfileLoaded(updatedProfile));
+
+      return message; // return the success message
+    } catch (e) {
+      emit(ProfileError('Failed to delete link: $e'));
+      rethrow;
+    }
+  }
+
+ Future<String> updateSkills({
+    required List<String> skills,
+
+  }) async {
+    emit(ProfileLoading());
+    try {
+      final message = await repository.updateSkills(
+        skills: skills,
+
+      );
+
+      // Refetch the updated profile after success
+      final updatedProfile = await repository.getProfileData();
+      emit(ProfileLoaded(updatedProfile));
+
+      return message; // return the success message from API
+    } catch (e) {
+      emit(ProfileError('Failed to update profile: $e'));
+      rethrow;
+    }
+  }
+
 }

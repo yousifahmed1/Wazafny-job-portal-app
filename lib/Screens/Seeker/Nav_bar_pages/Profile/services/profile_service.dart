@@ -1,21 +1,49 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:wazafny/Screens/login_and_signup/repo/auth_repository.dart';
 import 'dart:developer';
 import '../model/profile_model.dart';
 
 class ProfileService {
   final Dio dio;
-  final int userID;
-  final String token;
+  late int userID;
+  late String token;
+  // var token = AuthRepository().getToken();
 
-  ProfileService(
-    this.dio, {
-    required this.userID,
-    required this.token,
-  });
+ ProfileService(this.dio) {
+  _initialize();
+}
 
-  //updateAbout
+Future<void> _initialize() async {
+  token = await AuthRepository().getToken() ?? "";
+  userID = await AuthRepository().getSeekerId() ?? 0;
+}
+
+
+    Future<SeekerProfileModel> fetchProfile() async {
+    try {
+      final response = await dio.get(
+        'https://wazafny.online/api/show-seeker-profile/$userID',
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+            'Content-Type': 'application/json',
+          },
+        ),
+      );
+
+      if (response.statusCode == 200 && response.data != null) {
+        return SeekerProfileModel.fromJson(response.data);
+      } else {
+        throw Exception('Failed to load profile data');
+      }
+    } catch (e) {
+      log('Error fetching profile: $e');
+      throw Exception('Something went wrong while fetching profile');
+    }
+  }
+
   Future<String> updateAbout({
     required String about,
   }) async {
@@ -52,7 +80,6 @@ class ProfileService {
     }
   }
 
-  //updateProfile
   Future<String> updateProfile({
     required String firstName,
     required String lastName,
@@ -107,7 +134,9 @@ class ProfileService {
     }
   }
 
-  Future<String> deleteLink({required int linkId}) async {
+  Future<String> deleteLink({
+    required int linkId,
+  }) async {
     try {
       final response = await dio.delete(
         'https://wazafny.online/api/delete-link/$linkId',
@@ -389,7 +418,9 @@ class ProfileService {
     }
   }
 
-  Future<String> deleteExperience({required int experienceId}) async {
+  Future<String> deleteExperience({
+    required int experienceId,
+  }) async {
     try {
       final response = await dio.delete(
         'https://wazafny.online/api/delete-experience/$experienceId',
@@ -463,4 +494,121 @@ class ProfileService {
     }
   }
 
+  Future<String> addUpdateEducation({
+    required String university,
+    required String college,
+    required String startDate,
+    required String endDate,
+  }) async {
+    try {
+      final response = await dio.post(
+        'https://wazafny.online/api/update-education',
+        data: {
+          "seeker_id": userID,
+          "university": university,
+          "college": college,
+          "start_date": startDate,
+          "end_date": endDate
+        },
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+            'Content-Type': 'application/json',
+          },
+        ),
+      );
+
+      if (response.statusCode == 200) {
+        final data = response.data;
+
+        if (data is Map<String, dynamic> && data['message'] is String) {
+          log("${response.statusCode}");
+          return data['message']; // Return success message
+        } else {
+          throw Exception('Unexpected response format: ${response.data}');
+        }
+      }
+
+      throw Exception('Failed to update profile');
+    } catch (e) {
+      log('Error updating profile: $e');
+      throw Exception('Failed to update profile');
+    }
+  }
+
+  Future<String> deleteEducation() async {
+    try {
+      final response = await dio.delete(
+        'https://wazafny.online/api/delete-education/$userID',
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+            'Content-Type': 'application/json',
+          },
+        ),
+      );
+      log("$response");
+
+      if (response.statusCode == 200) {
+        final data = response.data;
+
+        if (data is Map<String, dynamic> && data['message'] is String) {
+          log("${response.statusCode}");
+          return data['message']; // Return success message
+        } else {
+          throw Exception('Unexpected response format: ${response.data}');
+        }
+      } else if (response.statusCode == 404) {
+        final data = response.data;
+
+        if (data is Map<String, dynamic> && data['message'] is String) {
+          log("${response.statusCode}");
+          log("${response.data['message']}");
+        } else {
+          throw Exception('Unexpected response format: ${response.data}');
+        }
+      }
+
+      throw Exception('Failed to delete link');
+    } catch (e) {
+      log('Error deleting link: $e');
+      throw Exception('Failed to delete link');
+    }
+  }
+
+  Future<String> updateSkills({
+    required List<String> skills,
+  }) async {
+    try {
+      final response = await dio.post(
+        'https://wazafny.online/api/update-skills',
+        data: {
+          "seeker_id": userID,
+          "skills": skills,
+        },
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+            'Content-Type': 'application/json',
+          },
+        ),
+      );
+
+      if (response.statusCode == 200) {
+        final data = response.data;
+
+        if (data is Map<String, dynamic> && data['message'] is String) {
+          log("${response.statusCode}");
+          return data['message']; // Return success message
+        } else {
+          throw Exception('Unexpected response format: ${response.data}');
+        }
+      }
+
+      throw Exception('Failed to update profile');
+    } catch (e) {
+      log('Error updating profile: $e');
+      throw Exception('Failed to update profile');
+    }
+  }
 }
