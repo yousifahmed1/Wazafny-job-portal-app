@@ -4,32 +4,35 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/cubit/profile_cubit.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/repo/profile_repo.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/services/get_profile_data.dart';
+import 'package:wazafny/Screens/Seeker/Nav_bar_pages/nav_bar.dart';
+import 'package:wazafny/Screens/login_and_signup/repo/auth_repository.dart';
 import 'package:wazafny/Screens/welcome.dart';
 import 'package:wazafny/constants.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/services/profile_service.dart';
 
 void main() {
-  // Configure Dio with base options
-  final dio = Dio();
-
-  final seeker_id = 2;
-  final token = "44|WCgd0QxfZ140X00nv46qZji8Th83zURTq7BIb5Yo26a111b6";
-
-  // Instantiate services with seekerId
-  final getProfileService = GetProfileData(dio, seeker_id: seeker_id, token: token);
-  final profileService = ProfileService(dio, userID: seeker_id, token: token);
-  final profileRepo = ProfileRepository(getProfileService, profileService);
-
-  runApp(MyApp(profileRepo: profileRepo));
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  final ProfileRepository profileRepo;
+  const MyApp({super.key});
 
-  const MyApp({super.key, required this.profileRepo});
+  Future<Widget> _determineStartScreen() async {
+    final authRepo = AuthRepository();
+    final isLoggedIn = await authRepo.isLoggedIn();
 
-  @override
-  Widget build(BuildContext context) {
+    // Create Dio
+    final dio = Dio();
+
+    if (isLoggedIn) {
+      final token = await authRepo.getToken();
+      // Set token if available
+      dio.options.headers['Authorization'] = 'Bearer $token';
+    }
+
+    final profileService = ProfileService(dio);
+    final profileRepo = ProfileRepository(profileService);
+
     return MultiBlocProvider(
       providers: [
         BlocProvider(
@@ -42,12 +45,35 @@ class MyApp extends StatelessWidget {
           scaffoldBackgroundColor: scaffoldColor,
           fontFamily: 'Somar Sans',
         ),
-        home: const WelcomePage(),
+        home: isLoggedIn ? const NavBar() : const WelcomePage(),
       ),
     );
   }
-}
 
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<Widget>(
+      future: _determineStartScreen(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const MaterialApp(
+            home: Scaffold(
+              body: Center(child: CircularProgressIndicator()),
+            ),
+          );
+        } else if (snapshot.hasError) {
+          return MaterialApp(
+            home: Scaffold(
+              body: Center(child: Text('Something went wrong')),
+            ),
+          );
+        } else {
+          return snapshot.data!;
+        }
+      },
+    );
+  }
+}
 
 // void main() => runApp(
 //   DevicePreview(

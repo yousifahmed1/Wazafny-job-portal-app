@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wazafny/Screens/login_and_signup/repo/auth_repository.dart';
 import 'package:wazafny/constants.dart';
 import 'package:wazafny/services/textfields_validators.dart';
 import 'package:wazafny/widgets/button.dart';
@@ -37,6 +38,25 @@ class _LoginPageState extends State<LoginPage> {
       _isButtonEnabled = _emailController.text.isNotEmpty &&
           _passwordController.text.isNotEmpty;
     });
+  }
+
+  void _login() async {
+
+    if (_formKey.currentState!.validate()) {
+      bool loginSuccessful = await AuthRepository().login(
+        _emailController.text,
+        _passwordController.text,
+        widget.role,
+      );
+
+      if (loginSuccessful) {
+        slideTo(context, const NavBar());
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Login failed. Please try again.')),
+      );
+      }
+    }
   }
 
   @override
@@ -87,10 +107,10 @@ class _LoginPageState extends State<LoginPage> {
                   const SizedBox(height: 40),
                   GestureDetector(
                     onTap: () {
-                      // if (_formKey.currentState!.validate()) {
-                      //   slideTo(context, HomePage());
-                      // }
-                        slideTo(context, const NavBar());
+                      if (_formKey.currentState!.validate()) {
+                        _login();
+                      }
+                        // slideTo(context, const NavBar());
 
                     },
                     child: Opacity(
