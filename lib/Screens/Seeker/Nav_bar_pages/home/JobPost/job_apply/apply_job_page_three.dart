@@ -5,6 +5,7 @@ import 'package:wazafny/cubits/job_apply_cubit/job_apply_cubit.dart';
 import 'package:wazafny/models/questions_model.dart';
 import 'package:wazafny/widgets/text_fields/rounded_text_fields.dart';
 import 'package:wazafny/widgets/texts/heading_text.dart';
+import 'package:wazafny/widgets/texts/sub_heading_text.dart';
 
 class ApplyPageThree extends StatefulWidget {
   final int jobID;
@@ -64,10 +65,15 @@ class _ApplyPageThreeState extends State<ApplyPageThree> {
             final questionID = questionModel.questionID;
             return Column(
               children: [
+                SubHeadingText(
+                  title: "$question*",
+                  titleColor: darkPrimary,
+                ),
+                const SizedBox(height: 15),
                 RoundedTextField(
                   controller: _controllers[questionID],
                   keyboardType: TextInputType.text,
-                  labelText: "$question*",
+                  // labelText: "$question*",
                   validator: _requiredFieldValidator,
                   onChanged: (value) {
                     context

@@ -31,12 +31,11 @@ class _EditInformationState extends State<EditInformation> {
 
   bool _initialized = false;
 
-
-
   // Controllers for links
   final Map<int, TextEditingController> _linkNameControllers = {};
   final Map<int, TextEditingController> _linkUrlControllers = {};
   final List<Map<String, TextEditingController>> _newLinks = [];
+  late List<LinkModel> _exitsingLinks = [];
 
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -69,20 +68,38 @@ class _EditInformationState extends State<EditInformation> {
         List<LinkModel> updatedLinks = [];
 
         // Add existing links with their IDs
-        if (state is ProfileLoaded) {
-          _linkNameControllers.keys.forEach((linkID) {
-            if (_linkUrlControllers.containsKey(linkID)) {
-              String name = _linkNameControllers[linkID]!.text;
-              String url = _linkUrlControllers[linkID]!.text;
-              if (name.isNotEmpty && url.isNotEmpty) {
-                updatedLinks.add(LinkModel(
-                  linkID: linkID,
-                  name: name,
-                  link: url,
-                ));
-              }
-            }
-          });
+        // if (state is ProfileLoaded) {
+        //   _linkNameControllers.keys.forEach((linkID) {
+        //     if (_linkUrlControllers.containsKey(linkID)) {
+        //       String name = _linkNameControllers[linkID]!.text;
+        //       String url = _linkUrlControllers[linkID]!.text;
+        //       if (name.isNotEmpty && url.isNotEmpty) {
+        //         updatedLinks.add(LinkModel(
+        //           linkID: linkID,
+        //           name: name,
+        //           link: url,
+        //         ));
+        //       }
+        //     }
+        //   });
+        // }
+        showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (_) => const Center(child: CircularProgressIndicator()),
+        );
+
+        for (var link in _exitsingLinks) {
+          String name = link.name ?? '';
+          String url = link.link ?? '';
+          var linkID = link.linkID;
+          if (name.isNotEmpty && url.isNotEmpty) {
+            updatedLinks.add(LinkModel(
+              name: name,
+              link: url,
+              linkID: linkID,
+            ));
+          }
         }
 
         // Add new links
@@ -111,6 +128,7 @@ class _EditInformationState extends State<EditInformation> {
             );
 
         print(message); // Show success message in console
+        Navigator.pop(context); // Close loading dialog
 
         // Close the screen after a short delay
         Future.delayed(const Duration(milliseconds: 50), () {
@@ -129,14 +147,16 @@ class _EditInformationState extends State<EditInformation> {
   Widget build(BuildContext context) {
     return BlocBuilder<ProfileCubit, ProfileState>(
       builder: (context, state) {
-        if (!_initialized && state is ProfileLoaded && _firstNameController.text.isEmpty) {
+        if (!_initialized &&
+            state is ProfileLoaded &&
+            _firstNameController.text.isEmpty) {
           // Initialize controllers with the profile data
           _firstNameController.text = state.profile.firstName;
           _lastNameController.text = state.profile.lastName;
           _headlineController.text = state.profile.headline;
           _countryController.text = state.profile.country;
           _cityController.text = state.profile.city;
-           
+          _exitsingLinks = state.profile.links;
 
           // Initialize controllers for each link
           // Initialize controllers for each link using linkID as the key
@@ -148,7 +168,7 @@ class _EditInformationState extends State<EditInformation> {
                   TextEditingController(text: link.link ?? '');
             }
           });
-        
+
           _initialized = true;
         }
 
@@ -216,11 +236,10 @@ class _EditInformationState extends State<EditInformation> {
 
                       const SizedBox(height: 15),
 
-
                       //loaded links
                       if (state is ProfileLoaded &&
                           state.profile.links.isNotEmpty)
-                        ...state.profile.links.asMap().entries.map((entry) {
+                        ..._exitsingLinks.asMap().entries.map((entry) {
                           final index = entry.key; // This is the index
                           final link = entry.value;
                           return Column(
@@ -233,23 +252,14 @@ class _EditInformationState extends State<EditInformation> {
                                   InkWell(
                                     onTap: () {
                                       if (link.linkID != null) {
-                                        // Delete from cubit
-                                        context
-                                            .read<ProfileCubit>()
-                                            .deleteLink(linkId: link.linkID!);
-
                                         // Remove controllers
                                         setState(() {
+                                          _exitsingLinks.removeAt(index);
                                           _linkNameControllers
                                               .remove(link.linkID);
                                           _linkUrlControllers
                                               .remove(link.linkID);
                                         });
-
-                                        // Refresh profile
-                                        context
-                                            .read<ProfileCubit>()
-                                            .fetchProfile();
                                       }
                                     },
                                     child: SvgPicture.asset(
@@ -359,7 +369,6 @@ class _EditInformationState extends State<EditInformation> {
                           ],
                         ),
                       ),
-                    
                     ],
                   ),
                 ),
@@ -378,5 +387,4 @@ class _EditInformationState extends State<EditInformation> {
       },
     );
   }
-
 }

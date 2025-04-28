@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Notifications/widgets/notifications_list_view.dart';
-import 'package:wazafny/widgets/search_bar_profile_circle.dart'; 
+import 'package:wazafny/widgets/search_bar_profile_circle.dart';
 import 'package:wazafny/constants.dart';
 import 'package:wazafny/widgets/texts/heading_text.dart';
 
@@ -24,18 +24,18 @@ class _NotificationsPageState extends State<NotificationsPage> {
           "https://pbs.twimg.com/profile_images/916226140385300480/Is3xaqFY_400x400.jpg",
     },
     {
-      'companyName': 'Google',
+      'companyName': 'Amazon',
       'jobTitle': 'UI/UX Designer',
       'time': '1h',
       'image':
-          "https://pbs.twimg.com/profile_images/916226140385300480/Is3xaqFY_400x400.jpg",
+          "https://i.pinimg.com/originals/01/ca/da/01cada77a0a7d326d85b7969fe26a728.jpg",
     },
     {
       'companyName': 'Microsoft',
       'jobTitle': 'Software Engineer',
       'time': '3h',
       'image':
-          "https://pbs.twimg.com/profile_images/916226140385300480/Is3xaqFY_400x400.jpg",
+          "https://brandlogos.net/wp-content/uploads/2020/03/Microsoft-logo-512x512.png",
     },
   ];
 
@@ -119,4 +119,3 @@ class _NotificationsPageState extends State<NotificationsPage> {
     );
   }
 }
-

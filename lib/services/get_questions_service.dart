@@ -1,15 +1,30 @@
 import 'dart:developer';
 import 'package:dio/dio.dart';
+import 'package:wazafny/Screens/login_and_signup/repo/auth_repository.dart';
 import 'package:wazafny/models/questions_model.dart';
 
 class GetQuestions {
   final Dio dio = Dio();
+   late int userID;
+  late String token;
+
+
+  Future<void> _initialize() async {
+    token = await AuthRepository().getToken() ?? "";
+    userID = await AuthRepository().getSeekerId() ?? 0;
+  }
 
   Future<List<QuestionsModel>> getQuestions({required int jobID}) async {
+        await _initialize(); // ✅ Always ensure token/userID are ready
+
     try {
       final response = await dio.get(
-        'https://wazafny.online/api/show-job-post-questions/$jobID',
+        'https://wazafny.online/api/show-job-post-questions/34',
         options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+            'Content-Type': 'application/json',
+          },
           validateStatus: (status) {
             // Accept 200 and 404 as valid status codes (don't throw DioException)
             return status != null && (status == 200 || status == 404);

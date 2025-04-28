@@ -207,7 +207,8 @@ class _ApplyJobPostState extends State<ApplyJobPost> {
                             //       jobId: widget.jobID ?? 0,
                             //       seekerId: widget.seekerId ?? 0,
                             //     );
-                            slideTo(context, NavBar());
+                            Navigator.pop(context);
+                            Navigator.pop(context);
                           } else {
                             //On next button
                             setState(() {

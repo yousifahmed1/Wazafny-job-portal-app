@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/home/JobPost/job_post_preview.dart';
+import 'package:wazafny/Screens/Seeker/Nav_bar_pages/home/home_page/company/model/company_model.dart';
 import 'package:wazafny/widgets/Navigators/slide_to.dart';
 
 class CompanyViewPosts extends StatefulWidget {
   const CompanyViewPosts({
-    super.key,
+    super.key, required this.company,
   });
+  final CompanyModel company;
 
   @override
   State<CompanyViewPosts> createState() => _CompanyViewPostsState();

@@ -29,7 +29,7 @@ We appreciate your interest in joining our team and look forward to speaking wit
           padding: const EdgeInsets.only(bottom: 105), //navbar height
           children: [
             const Text(
-              "Dear Slave",
+              "Dear Yousif Ahmed",
               style: TextStyle(
                 fontWeight: FontWeight.w700,
                 color: darkPrimary,

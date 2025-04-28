@@ -3,16 +3,16 @@ import 'package:wazafny/constants.dart';
 
 class RoundedTextField extends StatelessWidget {
   final TextEditingController? controller;
-  final String labelText;
+  final String? labelText;
   final void Function()? onTap;
-  final void Function(String)? onChanged; 
+  final void Function(String)? onChanged;
   final String? Function(String?)? validator;
   final TextInputType keyboardType;
 
   const RoundedTextField({
     super.key,
     required this.controller,
-    required this.labelText,
+    this.labelText,
     this.validator,
     required this.keyboardType,
     this.onTap,
@@ -24,13 +24,16 @@ class RoundedTextField extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(labelText,
-      style: const TextStyle(
-        color: loginTextColor,
-        fontWeight: FontWeight.w500,
-        fontSize: 18,
-      ),
-    ),
+        labelText == null
+            ? const SizedBox()
+            : Text(
+                labelText ?? "",
+                style: const TextStyle(
+                  color: loginTextColor,
+                  fontWeight: FontWeight.w500,
+                  fontSize: 18,
+                ),
+              ),
         TextFormField(
           onTap: onTap,
           onChanged: onChanged, // Pass onChanged to TextFormField
@@ -54,7 +57,8 @@ class RoundedTextField extends StatelessWidget {
             ),
             border: OutlineInputBorder(
               borderSide: const BorderSide(color: bordersColor),
-              borderRadius: BorderRadius.circular(12.0), // Adjust radius for rounded corners
+              borderRadius: BorderRadius.circular(
+                  12.0), // Adjust radius for rounded corners
             ),
             enabledBorder: OutlineInputBorder(
               borderSide: const BorderSide(color: bordersColor),
@@ -73,7 +77,7 @@ class RoundedTextField extends StatelessWidget {
               borderRadius: BorderRadius.circular(12.0),
             ),
           ),
-          
+
           keyboardType: keyboardType,
         ),
       ],
