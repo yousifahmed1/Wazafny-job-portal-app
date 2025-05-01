@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -29,6 +31,40 @@ class AuthRepository {
       }
     } catch (e) {
       print('Login error: $e');
+      return false;
+    }
+  }
+
+  Future<bool> logoutService() async {
+    final userID = await getSeekerId();
+    final token = await getToken();
+
+    try {
+      final response = await dio.post(
+        'https://wazafny.online/api/logout', // Replace with your actual endpoint
+        data: {
+          'user_id': userID,
+        },
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+            'Content-Type': 'application/json',
+          },
+        ),
+      );
+      log(response.toString());
+
+      if (response.statusCode == 200) {
+
+         // adjust based on your API
+
+        await logout();
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      print('logout error: $e');
       return false;
     }
   }

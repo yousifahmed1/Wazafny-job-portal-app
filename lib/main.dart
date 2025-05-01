@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -26,6 +28,12 @@ class MyApp extends StatelessWidget {
 
     if (isLoggedIn) {
       final token = await authRepo.getToken();
+      final userID = await authRepo.getSeekerId();
+
+      log("Token : $token");
+      log("UserID : $userID");
+
+
       // Set token if available
       dio.options.headers['Authorization'] = 'Bearer $token';
     }

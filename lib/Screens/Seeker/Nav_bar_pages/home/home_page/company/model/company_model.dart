@@ -15,7 +15,7 @@ class CompanyModel {
   final String? coverImg;
   final int? jobsCount;
   final int? followersCount;
-  final dynamic followStatus;
+  final bool? followStatus;
   final dynamic jobPosts;
 
   CompanyModel({
