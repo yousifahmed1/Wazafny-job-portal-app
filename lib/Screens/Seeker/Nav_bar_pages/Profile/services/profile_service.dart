@@ -11,17 +11,18 @@ class ProfileService {
   late String token;
   // var token = AuthRepository().getToken();
 
- ProfileService(this.dio) {
-  _initialize();
-}
+  ProfileService(this.dio) {
+    _initialize();
+  }
 
-Future<void> _initialize() async {
-  token = await AuthRepository().getToken() ?? "";
-  userID = await AuthRepository().getSeekerId() ?? 0;
-}
+  Future<void> _initialize() async {
+    token = await AuthRepository().getToken() ?? "";
+    userID = await AuthRepository().getSeekerId() ?? 0;
+  }
 
+  Future<SeekerProfileModel> fetchProfile() async {
+    _initialize();
 
-    Future<SeekerProfileModel> fetchProfile() async {
     try {
       final response = await dio.get(
         'https://wazafny.online/api/show-seeker-profile/$userID',
