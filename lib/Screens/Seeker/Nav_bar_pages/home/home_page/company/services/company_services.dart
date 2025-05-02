@@ -54,7 +54,7 @@ class CompanyServices {
 
     try {
       final response = await dio.get(
-        'https://wazafny.online/api/show-company-profile/$companyId',
+        'https://wazafny.online/api/show-company-profile/$companyId/$userID',
         options: Options(
           headers: {
             'Authorization': 'Bearer $token',
@@ -62,7 +62,6 @@ class CompanyServices {
           },
         ),
       );
-      log(response.data.toString());
 
       if (response.statusCode == 200) {
         // here we assume the API structure is { "companies": [ {...}, {...} ] }

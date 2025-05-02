@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/home/JobPost/job_post_preview.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/home/home_page/company/model/company_model.dart';
+import 'package:wazafny/constants.dart';
 import 'package:wazafny/widgets/Navigators/slide_to.dart';
 
 class CompanyViewPosts extends StatefulWidget {
   const CompanyViewPosts({
-    super.key, required this.company,
+    super.key,
+    required this.company,
   });
   final CompanyModel company;
 
@@ -23,12 +26,11 @@ class _CompanyViewPostsState extends State<CompanyViewPosts> {
         height: 20,
       ),
       physics: const BouncingScrollPhysics(),
-      itemCount: 5,
+      itemCount: widget.company.jobPosts!.length,
       itemBuilder: (context, index) {
         return InkWell(
           onTap: () => slideTo(context, const JobPostPreview()),
           overlayColor: MaterialStateProperty.all(Colors.transparent),
-
           child: Container(
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10), color: Colors.white),
@@ -46,17 +48,27 @@ class _CompanyViewPostsState extends State<CompanyViewPosts> {
                         children: [
                           ClipRRect(
                             borderRadius: BorderRadius.circular(10),
-                            child: Image.asset(
-                              "assets/Images/vodafone.png",
-                              fit: BoxFit.fill,
-                            ),
+                            child: widget.company.profileImg != null &&
+                                    widget.company.profileImg != ""
+                                ? Image.network(
+                                    widget.company.profileImg!,
+                                    width: 50,
+                                    height: 50,
+                                    fit: BoxFit.cover,
+                                  )
+                                : SvgPicture.asset(
+                                    "assets/Images/Profile-default-image.svg",
+                                    width: 50,
+                                    height: 50,
+                                    fit: BoxFit.cover,
+                                  ),
                           ),
                           const SizedBox(
                             width: 10,
                           ),
-                          const Text(
-                            "Vodafone Egypt",
-                            style: TextStyle(
+                          Text(
+                            widget.company.companyName,
+                            style: const TextStyle(
                               fontWeight: FontWeight.w600,
                               fontSize: 15,
                             ),
@@ -64,15 +76,15 @@ class _CompanyViewPostsState extends State<CompanyViewPosts> {
                         ],
                       ),
                       const Spacer(),
-                      const Text("2d"),
+                      Text(widget.company.jobPosts![index].timeAgo),
                     ],
                   ),
                   const SizedBox(
                     height: 10,
                   ),
-                  const Text(
-                    "Flutter Mobile App Developer",
-                    style: TextStyle(
+                  Text(
+                    widget.company.jobPosts![index].jobTitle,
+                    style: const TextStyle(
                       fontWeight: FontWeight.w700,
                       fontSize: 15,
                     ),
@@ -82,16 +94,16 @@ class _CompanyViewPostsState extends State<CompanyViewPosts> {
                   ),
                   Row(
                     children: [
-                      const Text(
-                        "Egypt",
-                        style: TextStyle(
+                      Text(
+                        widget.company.jobPosts![index].jobCountry,
+                        style: const TextStyle(
                           fontWeight: FontWeight.w500,
                           fontSize: 15,
                         ),
                       ),
-                      const Text(
-                        " (Remote)",
-                        style: TextStyle(
+                      Text(
+                        widget.company.jobPosts![index].jobType,
+                        style: const TextStyle(
                           fontWeight: FontWeight.w500,
                           fontSize: 15,
                         ),
@@ -100,16 +112,23 @@ class _CompanyViewPostsState extends State<CompanyViewPosts> {
                       Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(5),
-                          color: const Color(0xffD6F6D9),
+                          color: widget.company.jobPosts![index].jobStatus ==
+                                  "Active"
+                              ? lightGreenColor
+                              : lightRedColor,
                         ),
-                        child: const Padding(
-                          padding:
-                              EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 12, vertical: 4),
                           child: Text(
-                            "Active",
+                            widget.company.jobPosts![index].jobStatus,
                             style: TextStyle(
                                 fontSize: 16,
-                                color: Color(0xff1B7908),
+                                color:
+                                    widget.company.jobPosts![index].jobStatus ==
+                                            "Active"
+                                        ? greenColor
+                                        : redColor,
                                 fontWeight: FontWeight.w700),
                           ),
                         ),

@@ -16,7 +16,7 @@ class CompanyModel {
   final int? jobsCount;
   final int? followersCount;
   final bool? followStatus;
-  final dynamic jobPosts;
+  final List<JobPost>? jobPosts;
 
   CompanyModel({
     required this.companyId,
@@ -58,31 +58,42 @@ class CompanyModel {
       jobsCount: json['jobs_count'],
       followersCount: json['followers_count'],
       followStatus: json['followstatus'],
-      jobPosts: json['jobposts'],
+      jobPosts: json['jobposts'] != null
+          ? List<JobPost>.from(
+              json['jobposts'].map((post) => JobPost.fromJson(post)))
+          : null,
     );
   }
+}
 
-  // Optional: toJson
-  // Map<String, dynamic> toJson() {
-  //   return {
-  //     'company_id': companyId,
-  //     'company_name': companyName,
-  //     'company_email': companyEmail,
-  //     'company_website_link': companyWebsiteLink,
-  //     'company_industry': companyIndustry,
-  //     'company_size': companySize,
-  //     'company_heads': companyHeads,
-  //     'company_country': companyCountry,
-  //     'company_city': companyCity,
-  //     'company_founded': companyFounded,
-  //     'about': about,
-  //     'headline': headline,
-  //     'profile_img': profileImg,
-  //     'cover_img': coverImg,
-  //     'jobs_count': jobsCount,
-  //     'followers_count': followersCount,
-  //     'followstatus': followStatus,
-  //     'jobposts': jobPosts,
-  //   };
-  // }
+class JobPost {
+  final int jobId;
+  final String jobTitle;
+  final String jobStatus;
+  final String jobType;
+  final String jobCountry;
+  final String jobCity;
+  final String timeAgo;
+
+  JobPost({
+    required this.jobId,
+    required this.jobTitle,
+    required this.jobStatus,
+    required this.jobType,
+    required this.jobCountry,
+    required this.jobCity,
+    required this.timeAgo,
+  });
+
+  factory JobPost.fromJson(Map<String, dynamic> json) {
+    return JobPost(
+      jobId: json['job_id'],
+      jobTitle: json['job_title'],
+      jobStatus: json['job_status'],
+      jobType: json['job_type'],
+      jobCountry: json['job_country'],
+      jobCity: json['job_city'],
+      timeAgo: json['time_ago'],
+    );
+  }
 }
