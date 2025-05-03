@@ -11,7 +11,6 @@ class JobsListView extends StatelessWidget {
     super.key,
   });
 
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<JobCubit, JobState>(
@@ -32,7 +31,7 @@ class JobsListView extends StatelessWidget {
             itemBuilder: (context, index) {
               return InkWell(
                 onTap: () => slideTo(context, const JobPostPreview()),
-                overlayColor: MaterialStateProperty.all(Colors.transparent),
+                overlayColor: WidgetStateColor.transparent,
                 child: Container(
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
@@ -52,6 +51,7 @@ class JobsListView extends StatelessWidget {
                               children: [
                                 ClipRRect(
                                   borderRadius: BorderRadius.circular(5),
+                                  //company profile
                                   child: Image.network(
                                     state.jobs[index].company.profileImg,
                                     width: 50,
@@ -62,34 +62,41 @@ class JobsListView extends StatelessWidget {
                                 const SizedBox(
                                   width: 10,
                                 ),
+                                //company name
                                 Text(
                                   state.jobs[index].company.companyName,
                                   style: const TextStyle(
-                                    fontWeight: FontWeight.w600,
+                                    fontWeight: FontWeight.w500,
                                     fontSize: 15,
                                   ),
                                 ),
                               ],
                             ),
                             const Spacer(),
+                            //time ago
                             Text(
                               "${state.jobs[index].timeAgo} ago",
+                              style: const TextStyle(
+                                fontWeight: FontWeight.w600,
+                              ),
                             ),
                           ],
                         ),
                         const SizedBox(
                           height: 10,
                         ),
+                        //job title
                         Text(
                           state.jobs[index].title,
                           style: const TextStyle(
                             fontWeight: FontWeight.w700,
-                            fontSize: 15,
+                            fontSize: 18,
                           ),
                         ),
                         const SizedBox(
                           height: 10,
                         ),
+                        // job location + job type
                         Row(
                           children: [
                             Text(
@@ -99,13 +106,6 @@ class JobsListView extends StatelessWidget {
                                 fontSize: 15,
                               ),
                             ),
-                            // Text(
-                            //   " (Remote)",
-                            //   style: TextStyle(
-                            //     fontWeight: FontWeight.w500,
-                            //     fontSize: 15,
-                            //   ),
-                            // ),
                           ],
                         ),
                       ],
