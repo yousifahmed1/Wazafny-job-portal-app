@@ -163,16 +163,17 @@ class JobsListView extends StatelessWidget {
               children: [
                 Text(
                   'Error: ${state.message}',
-                  style: TextStyle(color: Colors.red),
+                  style: const TextStyle(color: Colors.red),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 16),
                 ElevatedButton(
                   onPressed: () => context.read<JobCubit>().fetchJobs(),
-                  child: const Text('Try Again'),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: primaryColor,
+                    backgroundColor: darkPrimary,
                   ),
+                  child: const Text('Try Again',
+                      style: TextStyle(color: Colors.white)),
                 ),
               ],
             ),
