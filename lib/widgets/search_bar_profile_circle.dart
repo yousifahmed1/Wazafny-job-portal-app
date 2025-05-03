@@ -1,10 +1,8 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:wazafny/Screens/Seeker/Nav_bar_pages/logout_page.dart';
 import 'package:wazafny/Screens/login_and_signup/repo/auth_repository.dart';
 import 'package:wazafny/Screens/welcome.dart';
-import 'package:wazafny/widgets/Navigators/slide_to.dart';
 //import 'package:wazafny/constants.dart';
 import 'package:wazafny/widgets/text_fields/search_field.dart';
 import 'package:wazafny/widgets/texts/heading_text.dart';
