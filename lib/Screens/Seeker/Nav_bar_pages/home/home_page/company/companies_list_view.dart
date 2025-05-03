@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:wazafny/Screens/Seeker/Nav_bar_pages/home/home_page/company/services/company_services.dart';
+import 'package:wazafny/Screens/Seeker/Nav_bar_pages/home/home_page/company/cubit/cubit/company_view_cubit.dart';
+import 'package:wazafny/Screens/Seeker/Nav_bar_pages/home/home_page/company/cubit/cubit/company_view_state.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/home/home_page/company/Screens/company_view.dart';
 import 'package:wazafny/widgets/Navigators/slide_to.dart';
-import 'package:wazafny/Screens/Seeker/Nav_bar_pages/home/home_page/company/model/company_model.dart'; // Import your model
 
 class CompaniesListView extends StatefulWidget {
   const CompaniesListView({super.key});
@@ -13,36 +14,29 @@ class CompaniesListView extends StatefulWidget {
 }
 
 class _CompaniesListViewState extends State<CompaniesListView> {
-  late Future<List<CompanyModel>> future; // Make it typed properly
-
-  @override
-  void initState() {
-    super.initState();
-    _loadCompanies();
-  }
-
-  // Create an async function to load companies
-  Future<void> _loadCompanies() async {
-    future = CompanyServices().fetchCompanies();
-    setState(() {}); // Trigger a rebuild after data is loaded
-  }
-
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<CompanyModel>>(
-      future: future,
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator()); // Loading
-        } else if (snapshot.hasError) {
-          return Center(child: Text('Error: ${snapshot.error}')); // Error
-        } else if (snapshot.hasData) {
-          final companies = snapshot.data!;
-
+    return BlocBuilder<CompanyViewCubit, CompanyState>(
+      builder: (context, state) {
+        if (state is CompanyInitial) {
+          // Automatically fetch jobs when screen loads
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            context.read<CompanyViewCubit>().fetchCompany();
+          });
+          return const Center(child: Text('Loading jobs...'));
+        }
+        if (state is CompanyLoading) {
+          return const Center(child: CircularProgressIndicator());
+        }
+        if (state is CompanyError) {
+          return Center(child: Text(state.error));
+        }
+        if (state is CompanyLoaded) {
+          final companies = state.companies;
           return ListView.builder(
             padding: const EdgeInsets.only(bottom: 105), // navbar height
             physics: const BouncingScrollPhysics(),
-            itemCount: companies.length,
+            itemCount: state.companies.length,
             itemBuilder: (context, index) {
               final company = companies[index];
               return InkWell(
@@ -166,11 +160,9 @@ class _CompaniesListViewState extends State<CompaniesListView> {
               );
             },
           );
-        } else {
-          return const Center(child: Text('No companies found.'));
         }
+        return const SizedBox(); // Empty fallback
       },
     );
-  
   }
 }
