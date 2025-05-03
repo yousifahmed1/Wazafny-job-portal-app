@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:navigation_view/item_navigation_view.dart';
 import 'package:navigation_view/navigation_view.dart';
-import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Application/applications_page.dart';
+import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Application/screens/applications_page.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Notifications/notifications_page.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/Screens/profile_page.dart';
 import 'package:wazafny/constants.dart';
-import 'home/home_page/home_page.dart';
+import 'home/home_page.dart';
 
 class NavBar extends StatefulWidget {
   const NavBar({super.key});

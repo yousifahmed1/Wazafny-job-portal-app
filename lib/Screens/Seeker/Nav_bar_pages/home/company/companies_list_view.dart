@@ -1,0 +1,168 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:wazafny/Screens/Seeker/Nav_bar_pages/home/company/cubit/cubit/company_view_cubit.dart';
+import 'package:wazafny/Screens/Seeker/Nav_bar_pages/home/company/cubit/cubit/company_view_state.dart';
+import 'package:wazafny/Screens/Seeker/Nav_bar_pages/home/company/Screens/company_view.dart';
+import 'package:wazafny/widgets/Navigators/slide_to.dart';
+
+class CompaniesListView extends StatefulWidget {
+  const CompaniesListView({super.key});
+
+  @override
+  State<CompaniesListView> createState() => _CompaniesListViewState();
+}
+
+class _CompaniesListViewState extends State<CompaniesListView> {
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<CompanyViewCubit, CompanyState>(
+      builder: (context, state) {
+        if (state is CompanyInitial) {
+          // Automatically fetch jobs when screen loads
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            context.read<CompanyViewCubit>().fetchCompany();
+          });
+          return const Center(child: Text('Loading jobs...'));
+        }
+        if (state is CompanyLoading) {
+          return const Center(child: CircularProgressIndicator());
+        }
+        if (state is CompanyError) {
+          return Center(child: Text(state.error));
+        }
+        if (state is CompanyLoaded) {
+          final companies = state.companies;
+          return ListView.builder(
+            padding: const EdgeInsets.only(bottom: 105), // navbar height
+            physics: const BouncingScrollPhysics(),
+            itemCount: state.companies.length,
+            itemBuilder: (context, index) {
+              final company = companies[index];
+              return InkWell(
+                onTap: () => slideTo(
+                    context,
+                    CompanyView(
+                      companyID: company.companyId,
+                    )),
+                overlayColor: WidgetStateColor.transparent,
+                child: Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.white,
+                  ),
+                  margin:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(10),
+                              child: company.profileImg != null &&
+                                      company.profileImg != ""
+                                  ? Image.network(
+                                      company.profileImg!,
+                                      width: 50,
+                                      height: 50,
+                                      fit: BoxFit.cover,
+                                      errorBuilder:
+                                          (context, error, stackTrace) =>
+                                              const Icon(Icons.error),
+                                    )
+                                  : SvgPicture.asset(
+                                      "assets/Images/Profile-default-image.svg",
+                                      width: 50,
+                                      height: 50,
+                                      fit: BoxFit.cover,
+                                    ),
+                            ),
+                            const SizedBox(width: 10),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  company.companyName,
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.w800,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                                Text(
+                                  "${company.companyCity ?? ""}, ${company.companyCountry ?? ""}",
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 14,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const Spacer(),
+                            Column(
+                              children: [
+                                Text(
+                                  "${company.followersCount}",
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                                const Text(
+                                  "Followers",
+                                  style: TextStyle(fontSize: 12),
+                                ),
+                              ],
+                            ),
+                            const Spacer(),
+                            Column(
+                              children: [
+                                Text(
+                                  "${company.jobsCount}",
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 16,
+                                  ),
+                                ),
+                                const Text(
+                                  "Jobs",
+                                  style: TextStyle(fontSize: 12),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 5),
+                        const Text(
+                          "Description",
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 16,
+                          ),
+                        ),
+                        Text(
+                          company.about ?? "",
+                          maxLines: 3,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 15,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              );
+            },
+          );
+        }
+        return const SizedBox(); // Empty fallback
+      },
+    );
+  }
+}
