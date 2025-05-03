@@ -20,17 +20,27 @@ class CompanyView extends StatefulWidget {
 }
 
 class _CompanyViewState extends State<CompanyView> {
-  bool isFollwed = true;
+  late bool isFollwed;
   @override
   void initState() {
     super.initState();
-    _loadComapnyProfileData();
+    future = _loadComapnyProfileData();
+  }
+
+  Future<void> _followCompany() async {
+    CompanyServices().followCompany(companyId: widget.companyID);
+  }
+
+  Future<void> _unfollowCompany() async {
+    CompanyServices().unfollowCompany(companyId: widget.companyID);
   }
 
   var future;
-  Future<void> _loadComapnyProfileData() async {
-    future = CompanyServices().showComapnyProfile(companyId: widget.companyID);
-    setState(() {}); // Trigger a rebuild after data is loaded
+  Future<CompanyModel> _loadComapnyProfileData() async {
+    final data =
+        await CompanyServices().showComapnyProfile(companyId: widget.companyID);
+    isFollwed = data.followStatus ?? false;
+    return data;
   }
 
   @override
@@ -111,11 +121,13 @@ class _CompanyViewState extends State<CompanyView> {
                                     children: [
                                       HeadingText(title: company.companyName),
                                       const Spacer(),
-                                      isFollwed
+                                      isFollwed == false
                                           ? InkWell(
                                               onTap: () {
                                                 setState(() {
-                                                  isFollwed = !isFollwed;
+                                                  isFollwed = true;
+
+                                                  _followCompany();
                                                 });
                                               },
                                               child: const Button1(
@@ -129,12 +141,14 @@ class _CompanyViewState extends State<CompanyView> {
                                           : InkWell(
                                               onTap: () {
                                                 setState(() {
-                                                  isFollwed = !isFollwed;
+                                                  isFollwed = false;
+
+                                                  _unfollowCompany();
                                                 });
                                               },
                                               child: const RoundedButton(
                                                 text: "Following",
-                                                size: 18,
+                                                size: 16,
                                                 borderColor: darkPrimary,
                                                 width: 110,
                                                 height: 50,
@@ -238,9 +252,11 @@ class _CompanyViewState extends State<CompanyView> {
                         CompanyViewAbout(
                           company: company,
                         ),
-                        CompanyViewPosts(
-                          company: company,
-                        ),
+                        company.jobPosts!.isEmpty
+                            ? const Center(child: Text('No posts found.'))
+                            : CompanyViewPosts(
+                                company: company,
+                              ),
                       ],
                     ),
                   ),

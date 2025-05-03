@@ -50,8 +50,7 @@ class CompanyServices {
   }
 
   Future<CompanyModel> showComapnyProfile({required int companyId}) async {
-    await _initialize(); // ✅ Always ensure token/userID are ready
-
+    await _initialize();
     try {
       final response = await dio.get(
         'https://wazafny.online/api/show-company-profile/$companyId/$userID',
@@ -74,4 +73,98 @@ class CompanyServices {
       throw Exception('Error occurred: $e');
     }
   }
+
+  Future<String> followCompany({required int companyId}) async {
+    await _initialize();
+
+    try {
+      final response = await dio.post(
+        'https://wazafny.online/api/follow',
+        data: {
+          "seeker_id": userID,
+          "company_id": companyId,
+        },
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+            'Content-Type': 'application/json',
+          },
+        ),
+      );
+      log("$response");
+
+      if (response.statusCode == 200) {
+        final data = response.data;
+
+        if (data is Map<String, dynamic> && data['message'] is String) {
+          log("${response.statusCode}");
+          return data['message']; // Return success message
+        } else {
+          throw Exception('Unexpected response format: ${response.data}');
+        }
+      } else if (response.statusCode == 404) {
+        final data = response.data;
+
+        if (data is Map<String, dynamic> && data['message'] is String) {
+          log("${response.statusCode}");
+          log("${response.data['message']}");
+        } else {
+          throw Exception('Unexpected response format: ${response.data}');
+        }
+      }
+
+      throw Exception('Failed to follow company');
+    } catch (e) {
+      log('Error following company: $e');
+      throw Exception('Failed to follow company');
+    }
+  }
+
+  Future<String> unfollowCompany({required int companyId}) async {
+    await _initialize();
+
+    try {
+      final response = await dio.delete(
+        'https://wazafny.online/api/unfollow',
+        data: {
+          "seeker_id": userID,
+          "company_id": companyId,
+        },
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+            'Content-Type': 'application/json',
+          },
+        ),
+      );
+      log("$response");
+
+      if (response.statusCode == 200) {
+        final data = response.data;
+
+        if (data is Map<String, dynamic> && data['message'] is String) {
+          log("${response.statusCode}");
+          return data['message']; // Return success message
+        } else {
+          throw Exception('Unexpected response format: ${response.data}');
+        }
+      } else if (response.statusCode == 404) {
+        final data = response.data;
+
+        if (data is Map<String, dynamic> && data['message'] is String) {
+          log("${response.statusCode}");
+          log("${response.data['message']}");
+        } else {
+          throw Exception('Unexpected response format: ${response.data}');
+        }
+      }
+
+      throw Exception('Failed to unfollow company');
+    } catch (e) {
+      log('Error unfollowing company: $e');
+      throw Exception('Failed to unfollow company');
+    }
+  }
+
+
 }

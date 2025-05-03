@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:wazafny/Screens/Seeker/Nav_bar_pages/home/JobPost/job_apply/apply_job_post.dart';
+import 'package:wazafny/Screens/Seeker/Nav_bar_pages/home/home_page/job_posts/screens/job_apply/apply_job_post.dart';
 import 'package:wazafny/constants.dart';
 import 'package:wazafny/widgets/Navigators/slide_up.dart';
 import 'package:wazafny/widgets/custom_app_bar.dart';

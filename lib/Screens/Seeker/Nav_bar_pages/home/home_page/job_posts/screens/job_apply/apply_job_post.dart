@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:wazafny/Screens/Seeker/Nav_bar_pages/nav_bar.dart';
 import 'package:wazafny/constants.dart';
 import 'package:wazafny/cubits/job_apply_cubit/job_apply_cubit.dart';
 import 'package:wazafny/models/questions_model.dart';
 import 'package:wazafny/services/get_questions_service.dart';
-import 'package:wazafny/widgets/Navigators/slide_to.dart';
 import 'package:wazafny/widgets/custom_app_bar.dart';
-import 'package:wazafny/Screens/Seeker/Nav_bar_pages/home/JobPost/job_apply/apply_job_page_one.dart';
-import 'package:wazafny/Screens/Seeker/Nav_bar_pages/home/JobPost/job_apply/apply_job_page_two.dart';
-import 'package:wazafny/Screens/Seeker/Nav_bar_pages/home/JobPost/job_apply/apply_job_page_three.dart';
+import 'package:wazafny/Screens/Seeker/Nav_bar_pages/home/home_page/job_posts/screens/job_apply/apply_job_page_one.dart';
+import 'package:wazafny/Screens/Seeker/Nav_bar_pages/home/home_page/job_posts/screens/job_apply/apply_job_page_two.dart';
+import 'package:wazafny/Screens/Seeker/Nav_bar_pages/home/home_page/job_posts/screens/job_apply/apply_job_page_three.dart';
 import 'package:wazafny/widgets/progress_bar.dart';
 
 class ApplyJobPost extends StatefulWidget {

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:wazafny/widgets/search_bar_profile_circle.dart';
 import 'package:wazafny/constants.dart';
 import 'company/companies_list_view.dart';
-import 'jobs/jobs_list_view.dart';
+import 'job_posts/widgets/jobs_list_view.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({super.key});
@@ -77,7 +77,6 @@ class HomePage extends StatelessWidget {
                 child: TabBarView(
                   physics: const BouncingScrollPhysics(),
                   children: [
-                    // Jobs Tab Content
                     JobsListView(),
                     // Company Tab Content
                     const CompaniesListView(),

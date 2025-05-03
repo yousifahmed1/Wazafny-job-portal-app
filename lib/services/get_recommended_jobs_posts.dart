@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
-import 'package:wazafny/Screens/Seeker/Nav_bar_pages/home/home_page/company/model/company_model.dart';
 import 'package:wazafny/Screens/login_and_signup/repo/auth_repository.dart';
 
 class GetRecommendedJobsPosts {

@@ -1,3 +1,5 @@
+// lib/main.dart
+
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
@@ -5,12 +7,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/cubit/profile_cubit.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/repo/profile_repo.dart';
-import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/services/get_profile_data.dart';
+import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/services/profile_service.dart';
+import 'package:wazafny/Screens/Seeker/Nav_bar_pages/home/home_page/job_posts/cubits/recommended_jobs_cubit/recommended_jobs_cubit.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/nav_bar.dart';
 import 'package:wazafny/Screens/login_and_signup/repo/auth_repository.dart';
 import 'package:wazafny/Screens/welcome.dart';
 import 'package:wazafny/constants.dart';
-import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/services/profile_service.dart';
 
 void main() {
   runApp(const MyApp());
@@ -33,18 +35,24 @@ class MyApp extends StatelessWidget {
       log("Token : $token");
       log("UserID : $userID");
 
-
       // Set token if available
       dio.options.headers['Authorization'] = 'Bearer $token';
     }
 
+    // Services
     final profileService = ProfileService(dio);
+    
+    // Repositories
     final profileRepo = ProfileRepository(profileService);
+
 
     return MultiBlocProvider(
       providers: [
         BlocProvider(
           create: (_) => ProfileCubit(profileRepo)..fetchProfile(),
+        ),
+        BlocProvider(
+          create: (_) => JobCubit(),
         ),
       ],
       child: MaterialApp(
@@ -70,7 +78,7 @@ class MyApp extends StatelessWidget {
             ),
           );
         } else if (snapshot.hasError) {
-          return MaterialApp(
+          return const MaterialApp(
             home: Scaffold(
               body: Center(child: Text('Something went wrong')),
             ),
@@ -82,27 +90,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
-// void main() => runApp(
-//   DevicePreview(
-//     enabled: !kReleaseMode,
-//     builder: (context) => MyApp(),
-//   ),
-// );
-//
-// class MyApp extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//         theme: ThemeData(
-//         scaffoldBackgroundColor: scaffoldColor,
-//         fontFamily: 'Somar Sans',
-//
-//       ),
-//       locale: DevicePreview.locale(context),
-//       builder: DevicePreview.appBuilder,
-//       debugShowCheckedModeBanner: false,
-//       home: NavBar(),
-//     );
-//   }
-// }
