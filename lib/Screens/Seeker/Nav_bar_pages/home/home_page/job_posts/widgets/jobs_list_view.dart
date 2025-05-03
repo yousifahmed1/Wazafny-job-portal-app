@@ -30,7 +30,7 @@ class JobsListView extends StatelessWidget {
             itemCount: state.jobs.length,
             itemBuilder: (context, index) {
               return InkWell(
-                onTap: () => slideTo(context, const JobPostPreview()),
+                onTap: () => slideTo(context, JobPostPreview(jobId: state.jobs[index].jobId,)),
                 overlayColor: WidgetStateColor.transparent,
                 child: Container(
                   decoration: BoxDecoration(

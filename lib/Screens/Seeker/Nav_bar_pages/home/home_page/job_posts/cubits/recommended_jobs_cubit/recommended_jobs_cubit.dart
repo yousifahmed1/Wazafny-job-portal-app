@@ -1,7 +1,7 @@
 import 'dart:developer';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/home/home_page/job_posts/cubits/recommended_jobs_cubit/recommended_jobs_state.dart';
-import 'package:wazafny/Screens/Seeker/Nav_bar_pages/home/home_page/job_posts/services/fetch_job_posts.dart';
+import 'package:wazafny/Screens/Seeker/Nav_bar_pages/home/home_page/job_posts/services/Job_services.dart';
 
 class JobCubit extends Cubit<JobState> {
 

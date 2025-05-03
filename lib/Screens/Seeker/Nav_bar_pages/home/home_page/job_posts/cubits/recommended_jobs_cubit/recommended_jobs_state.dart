@@ -1,4 +1,4 @@
-import 'package:wazafny/Screens/Seeker/Nav_bar_pages/home/home_page/job_posts/model/job_post_model.dart';
+import 'package:wazafny/Screens/Seeker/Nav_bar_pages/home/home_page/job_posts/model/jobs_model.dart';
 
 abstract class JobState {}
 

@@ -1,13 +1,15 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wazafny/Screens/Seeker/Nav_bar_pages/home/home_page/job_posts/model/job_apply_model.dart';
 import 'package:wazafny/constants.dart';
-import 'package:wazafny/cubits/job_apply_cubit/job_apply_cubit.dart';
-//import 'package:wazafny/services/textfields_validators.dart';
+import 'package:wazafny/services/textfields_validators.dart';
 import 'package:wazafny/widgets/text_fields/rounded_text_fields.dart';
 import 'package:wazafny/widgets/texts/heading_text.dart';
 
 class ApplyPageOne extends StatefulWidget {
-  const ApplyPageOne({super.key});
+  const ApplyPageOne({super.key, required this.jobApplyModel});
+  final JobApplyModel jobApplyModel;
 
   @override
   State<ApplyPageOne> createState() => _ApplyPageOneState();
@@ -42,11 +44,9 @@ class _ApplyPageOneState extends State<ApplyPageOne> {
           controller: _firstNameController,
           keyboardType: TextInputType.name,
           labelText: "First Name*",
-          //validator: Validators().requiredFieldValidator,
+          validator: Validators().requiredFieldValidator,
           onChanged: (value) {
-            context
-                .read<JobApplyCubit>()
-                .updateApplyFormData("firstName", value);
+            widget.jobApplyModel.firstName = value;
           },
         ),
         const SizedBox(height: 15),
@@ -54,11 +54,10 @@ class _ApplyPageOneState extends State<ApplyPageOne> {
           controller: _lastNameController,
           keyboardType: TextInputType.name,
           labelText: "Last Name*",
-          //validator: Validators().requiredFieldValidator,
+          validator: Validators().requiredFieldValidator,
           onChanged: (value) {
-            context
-                .read<JobApplyCubit>()
-                .updateApplyFormData("lastName", value);
+            widget.jobApplyModel.lastName = value;
+            ;
           },
         ),
         const SizedBox(height: 15),
@@ -66,11 +65,10 @@ class _ApplyPageOneState extends State<ApplyPageOne> {
           controller: _phoneNumberController,
           keyboardType: TextInputType.phone,
           labelText: "Phone Number*",
-          //validator: Validators().phoneValidator,
+          validator: Validators().phoneValidator,
           onChanged: (value) {
-            context
-                .read<JobApplyCubit>()
-                .updateApplyFormData("phoneNumber", value);
+            widget.jobApplyModel.phone = value;
+            log("phone : ${widget.jobApplyModel.phone}");
           },
         ),
         const SizedBox(height: 15),
@@ -78,9 +76,9 @@ class _ApplyPageOneState extends State<ApplyPageOne> {
           controller: _emailController,
           keyboardType: TextInputType.emailAddress,
           labelText: "Email address*",
-          //validator: Validators().emailValidator,
+          validator: Validators().emailValidator,
           onChanged: (value) {
-            context.read<JobApplyCubit>().updateApplyFormData("email", value);
+            widget.jobApplyModel.emailAddress = value;
           },
         ),
         const SizedBox(height: 15),
@@ -88,19 +86,19 @@ class _ApplyPageOneState extends State<ApplyPageOne> {
           controller: _countryController,
           keyboardType: TextInputType.text,
           labelText: "Country*",
-          //validator: Validators().requiredFieldValidator,
+          validator: Validators().requiredFieldValidator,
           onChanged: (value) {
-            context.read<JobApplyCubit>().updateApplyFormData("country", value);
+            widget.jobApplyModel.country = value;
           },
         ),
         const SizedBox(height: 15),
         RoundedTextField(
           controller: _cityController,
           keyboardType: TextInputType.text,
-          //validator: Validators().requiredFieldValidator,
+          validator: Validators().requiredFieldValidator,
           labelText: "City, State*",
           onChanged: (value) {
-            context.read<JobApplyCubit>().updateApplyFormData("city", value);
+            widget.jobApplyModel.city = value;
           },
         ),
       ],

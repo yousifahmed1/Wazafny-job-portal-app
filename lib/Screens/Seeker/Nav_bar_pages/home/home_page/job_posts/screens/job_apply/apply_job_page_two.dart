@@ -1,16 +1,17 @@
 import 'dart:io'; // Add this for File
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:wazafny/Screens/Seeker/Nav_bar_pages/home/home_page/job_posts/model/job_apply_model.dart';
 import 'package:wazafny/constants.dart';
-import 'package:wazafny/cubits/job_apply_cubit/job_apply_cubit.dart';
 import 'package:wazafny/widgets/texts/heading_text.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:wazafny/widgets/texts/paragraph.dart';
 
 class ApplyPageTwo extends StatefulWidget {
-  const ApplyPageTwo({super.key});
+  const ApplyPageTwo({super.key,required this.jobApplyModel});
+    final JobApplyModel jobApplyModel;
+
 
   @override
   State<ApplyPageTwo> createState() => _ApplyPageTwoState();
@@ -30,9 +31,8 @@ class _ApplyPageTwoState extends State<ApplyPageTwo> {
         _selectedFile = File(result.files.single.path!); // Create File object
       });
       // Update cubit with the File object
-      context
-          .read<JobApplyCubit>()
-          .updateApplyFormData("resume", _selectedFile);
+                  widget.jobApplyModel.resume = _selectedFile ;
+
     }
   }
 

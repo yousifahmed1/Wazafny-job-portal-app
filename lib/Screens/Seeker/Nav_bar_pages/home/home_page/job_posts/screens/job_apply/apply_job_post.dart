@@ -1,9 +1,12 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wazafny/Screens/Seeker/Nav_bar_pages/home/home_page/job_posts/model/job_apply_model.dart';
+import 'package:wazafny/Screens/Seeker/Nav_bar_pages/home/home_page/job_posts/model/job_post_model.dart';
+import 'package:wazafny/Screens/Seeker/Nav_bar_pages/home/home_page/job_posts/services/Job_services.dart';
 import 'package:wazafny/constants.dart';
 import 'package:wazafny/cubits/job_apply_cubit/job_apply_cubit.dart';
-import 'package:wazafny/models/questions_model.dart';
-import 'package:wazafny/services/get_questions_service.dart';
 import 'package:wazafny/widgets/custom_app_bar.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/home/home_page/job_posts/screens/job_apply/apply_job_page_one.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/home/home_page/job_posts/screens/job_apply/apply_job_page_two.dart';
@@ -11,10 +14,8 @@ import 'package:wazafny/Screens/Seeker/Nav_bar_pages/home/home_page/job_posts/sc
 import 'package:wazafny/widgets/progress_bar.dart';
 
 class ApplyJobPost extends StatefulWidget {
-  final int? jobID;
-  final int? seekerId;
-
-  const ApplyJobPost({super.key, this.jobID, this.seekerId});
+  const ApplyJobPost({super.key, required this.jobPostModel});
+  final JobPostModel jobPostModel; // Accept questions as parameter
 
   @override
   State<ApplyJobPost> createState() => _ApplyJobPostState();
@@ -23,30 +24,23 @@ class ApplyJobPost extends StatefulWidget {
 class _ApplyJobPostState extends State<ApplyJobPost> {
   int currentPage = 1;
   int totalPages = 3;
-  bool isQuestionsEmpty = true;
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  late Future<List<QuestionsModel>> _questionsFuture;
-
+  bool isQuestionsEmpty = false;
   @override
   void initState() {
     super.initState();
-    // Initialize questions fetch
-    _questionsFuture = GetQuestions().getQuestions(jobID: widget.jobID ?? 2);
-    // Update isQuestionsEmpty and totalPages when future completes
-    _questionsFuture.then((questions) {
-      setState(() {
-        isQuestionsEmpty = questions.isEmpty;
-        totalPages = isQuestionsEmpty
-            ? 2
-            : 3; // Set totalPages based on isQuestionsEmpty
-      });
-    }).catchError((error) {
-      setState(() {
+    setState(() {
+      if (widget.jobPostModel.questions.isEmpty) {
         isQuestionsEmpty = true;
-        totalPages = 2; // Fallback to 2 pages on error
-      });
+        totalPages = 2;
+      }
     });
+
+    log(totalPages.toString());
+    log(isQuestionsEmpty.toString());
   }
+
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  JobApplyModel jobApplyModel = JobApplyModel();
 
   @override
   Widget build(BuildContext context) {
@@ -76,32 +70,18 @@ class _ApplyJobPostState extends State<ApplyJobPost> {
                             currentPage: currentPage,
                             totalPages: totalPages),
                         if (currentPage == 1) ...[
-                          const ApplyPageOne(),
-                        ] else if (currentPage == 2) ...[
-                          const ApplyPageTwo(),
-                        ] else if (currentPage == 3 && !isQuestionsEmpty) ...[
-                          FutureBuilder<List<QuestionsModel>>(
-                            future: _questionsFuture,
-                            builder: (context, snapshot) {
-                              if (snapshot.connectionState ==
-                                  ConnectionState.waiting) {
-                                return const Center(
-                                    child: CircularProgressIndicator());
-                              }
-                              if (snapshot.hasError) {
-                                return Center(
-                                    child: Text('Error: ${snapshot.error}'));
-                              }
-                              if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                                return const Center(
-                                    child: Text('No questions available'));
-                              }
-                              return ApplyPageThree(
-                                jobID: widget.jobID ?? 0,
-                                questions: snapshot.data!,
-                              );
-                            },
+                          ApplyPageOne(
+                            jobApplyModel: jobApplyModel,
                           ),
+                        ] else if (currentPage == 2) ...[
+                          ApplyPageTwo(
+                            jobApplyModel: jobApplyModel,
+                          ),
+                        ] else if (currentPage == 3 && !isQuestionsEmpty) ...[
+                          ApplyPageThree(
+                            jobPostModel: widget.jobPostModel,
+                            jobApplyModel: jobApplyModel,
+                          )
                         ],
                       ],
                     ),
@@ -115,7 +95,7 @@ class _ApplyJobPostState extends State<ApplyJobPost> {
                 color: Colors.white,
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.05),
+                    color: Colors.black.withValues( alpha: 0.05),
                     spreadRadius: 10,
                     blurRadius: 50,
                     offset: const Offset(0, 0),
@@ -195,23 +175,40 @@ class _ApplyJobPostState extends State<ApplyJobPost> {
                   //Next button & submit button
                   Padding(
                     padding: const EdgeInsets.symmetric(
-                        vertical: 20, horizontal: 20),
+                        vertical: 30, horizontal: 20),
                     child: GestureDetector(
-                      onTap: () {
+                      onTap: () async {
                         if (_formKey.currentState!.validate()) {
                           //On submit button
                           if (currentPage == totalPages) {
-                            // context.read<JobApplyCubit>().submitFormData(
-                            //       jobId: widget.jobID ?? 0,
-                            //       seekerId: widget.seekerId ?? 0,
-                            //     );
-                            Navigator.pop(context);
-                            Navigator.pop(context);
+                            log(jobApplyModel.toMap().toString());
+
+                            // ignore: unnecessary_null_comparison
+                            if (jobApplyModel != null) {
+                              await JobService().applyToJob(
+                                firstName: jobApplyModel.firstName ?? '',
+                                lastName: jobApplyModel.lastName ?? '',
+                                phone: jobApplyModel.phone ?? '',
+                                country: jobApplyModel.country ?? '',
+                                city: jobApplyModel.city ?? '',
+                                emailAddress: jobApplyModel.emailAddress ?? '',
+                                resume: jobApplyModel.resume!,
+                                questionsAnswers:
+                                    jobApplyModel.questionsAnswers ?? [],
+                                jobId: widget.jobPostModel.jobpost.jobId,
+                              );
+                              // ignore: use_build_context_synchronously
+                              Navigator.pop(context);
+                              
+                              // ignore: use_build_context_synchronously
+                              Navigator.pop(context);
+                            }
                           } else {
                             //On next button
                             setState(() {
                               if (currentPage < totalPages) {
                                 currentPage++;
+                                log(jobApplyModel.toMap().toString());
                               }
                             });
                           }

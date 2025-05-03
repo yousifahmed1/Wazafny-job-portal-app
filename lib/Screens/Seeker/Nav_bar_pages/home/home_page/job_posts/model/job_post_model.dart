@@ -1,78 +1,199 @@
-// lib/models/job_model.dart
+class JobPostModel {
+  final String profileImg;
+  final JobPost jobpost;
+  final Company company;
+  final List<Skill> skills;
+  final List<Section> sections;
+  final List<Question> questions;
+  final String timeAgo;
+  final bool applyStatus;
 
-class JobModel {
+  JobPostModel({
+    required this.profileImg,
+    required this.jobpost,
+    required this.company,
+    required this.skills,
+    required this.sections,
+    required this.questions,
+    required this.timeAgo,
+    required this.applyStatus,
+  });
+
+  factory JobPostModel.fromJson(Map<String, dynamic> json) {
+    return JobPostModel(
+      profileImg: json['profile_img'],
+      jobpost: JobPost.fromJson(json['jobpost']),
+      company: Company.fromJson(json['company']),
+      skills: List<Skill>.from(json['skills'].map((x) => Skill.fromJson(x))),
+      sections: List<Section>.from(json['sections'].map((x) => Section.fromJson(x))),
+      questions: List<Question>.from(json['questions'].map((x) => Question.fromJson(x))),
+      timeAgo: json['time_ago'],
+      applyStatus: json['applystatus'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'profile_img': profileImg,
+      'jobpost': jobpost.toJson(),
+      'company': company.toJson(),
+      'skills': skills.map((x) => x.toJson()).toList(),
+      'sections': sections.map((x) => x.toJson()).toList(),
+      'questions': questions.map((x) => x.toJson()).toList(),
+      'time_ago': timeAgo,
+      'applystatus': applyStatus,
+    };
+  }
+}
+
+class JobPost {
   final int jobId;
-  final String title;
+  final String jobTitle;
   final String jobAbout;
+  final String jobTime;
   final String jobType;
   final String jobCountry;
   final String jobCity;
-  final String timeAgo;
-  final double score;
-  final Company company;
-  final List<String> skills;
+  final int companyId;
+  final String createdAt;
 
-  JobModel({
+  JobPost({
     required this.jobId,
-    required this.title,
+    required this.jobTitle,
     required this.jobAbout,
+    required this.jobTime,
     required this.jobType,
     required this.jobCountry,
     required this.jobCity,
-    required this.timeAgo,
-    required this.score,
-    required this.company,
-    required this.skills,
+    required this.companyId,
+    required this.createdAt,
   });
 
-  factory JobModel.fromJson(Map<String, dynamic> json) {
-    return JobModel(
-      jobId: json['job_id'] ?? 0,
-      title: json['title'] ?? '',
-      jobAbout: json['job_about'] ?? '',
-      jobType: json['job_type'] ?? '',
-      jobCountry: json['job_country'] ?? '',
-      jobCity: json['job_city'] ?? '',
-      timeAgo: json['time_ago'] ?? '',
-      score: (json['score'] ?? 0.0).toDouble(),
-      company: Company.fromJson(json['company'] ?? {}),
-      skills: json['skills'] != null
-          ? List<String>.from(json['skills'])
-          : [],
+  factory JobPost.fromJson(Map<String, dynamic> json) {
+    return JobPost(
+      jobId: json['job_id'],
+      jobTitle: json['job_title'],
+      jobAbout: json['job_about'],
+      jobTime: json['job_time'],
+      jobType: json['job_type'],
+      jobCountry: json['job_country'],
+      jobCity: json['job_city'],
+      companyId: json['company_id'],
+      createdAt: json['created_at'],
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'job_id': jobId,
+      'job_title': jobTitle,
+      'job_about': jobAbout,
+      'job_time': jobTime,
+      'job_type': jobType,
+      'job_country': jobCountry,
+      'job_city': jobCity,
+      'company_id': companyId,
+      'created_at': createdAt,
+    };
   }
 }
 
 class Company {
-  final int companyId;
   final String companyName;
-  final String profileImg;
+  final int userId;
 
   Company({
-    required this.companyId,
     required this.companyName,
-    required this.profileImg,
+    required this.userId,
   });
 
   factory Company.fromJson(Map<String, dynamic> json) {
     return Company(
-      companyId: json['company_id'] ?? 0,
-      companyName: json['company_name'] ?? '',
-      profileImg: json['profile_img'] ?? '',
+      companyName: json['company_name'],
+      userId: json['user_id'],
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'company_name': companyName,
+      'user_id': userId,
+    };
   }
 }
 
-class JobResponse {
-  final List<JobModel> jobs;
+class Skill {
+  final int skillId;
+  final String skill;
 
-  JobResponse({required this.jobs});
+  Skill({
+    required this.skillId,
+    required this.skill,
+  });
 
-  factory JobResponse.fromJson(Map<String, dynamic> json) {
-    return JobResponse(
-      jobs: json['jobs'] != null
-          ? List<JobModel>.from(json['jobs'].map((x) => JobModel.fromJson(x)))
-          : [],
+  factory Skill.fromJson(Map<String, dynamic> json) {
+    return Skill(
+      skillId: json['skill_id'],
+      skill: json['skill'],
     );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'skill_id': skillId,
+      'skill': skill,
+    };
+  }
+}
+
+class Section {
+  final int sectionId;
+  final String sectionName;
+  final String sectionDescription;
+
+  Section({
+    required this.sectionId,
+    required this.sectionName,
+    required this.sectionDescription,
+  });
+
+  factory Section.fromJson(Map<String, dynamic> json) {
+    return Section(
+      sectionId: json['section_id'],
+      sectionName: json['section_name'],
+      sectionDescription: json['section_description'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'section_id': sectionId,
+      'section_name': sectionName,
+      'section_description': sectionDescription,
+    };
+  }
+}
+
+class Question {
+  final int questionId;
+  final String question;
+
+  Question({
+    required this.questionId,
+    required this.question,
+  });
+
+  factory Question.fromJson(Map<String, dynamic> json) {
+    return Question(
+      questionId: json['question_id'],
+      question: json['question'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'question_id': questionId,
+      'question': question,
+    };
   }
 }

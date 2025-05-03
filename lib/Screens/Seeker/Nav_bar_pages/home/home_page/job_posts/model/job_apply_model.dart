@@ -1,29 +1,25 @@
 import 'dart:io';
 
 class JobApplyModel {
-  final String firstName;
-  final String lastName;
-  final String phone;
-  final String country;
-  final String city;
-  final String emailAddress;
-  final int seekerId;
-  final int jobId;
-  final File resume;
-  final List<Map<String, dynamic>>
+   String? firstName;
+   String? lastName;
+   String? phone;
+   String? country;
+   String? city;
+   String? emailAddress;
+   File? resume;
+   List<QuestionsAnswerModel>?
       questionsAnswers; // Refactored to List<Map<String, dynamic>>
 
-  const JobApplyModel({
-    required this.firstName,
-    required this.lastName,
-    required this.phone,
-    required this.country,
-    required this.city,
-    required this.emailAddress,
-    required this.seekerId,
-    required this.jobId,
-    required this.resume,
-    required this.questionsAnswers,
+   JobApplyModel({
+     this.firstName,
+     this.lastName,
+     this.phone,
+     this.country,
+     this.city,
+     this.emailAddress,
+     this.resume,
+     this.questionsAnswers,
   });
 
   Map<String, dynamic> toMap() {
@@ -34,8 +30,6 @@ class JobApplyModel {
       'country': country,
       'city': city,
       'emailAddress': emailAddress,
-      'seekerId': seekerId,
-      'jobId': jobId,
       'resume': resume,
       'questionsAnswers': questionsAnswers, // Now a list of maps
     };
@@ -50,11 +44,19 @@ class JobApplyModel {
       'country': country,
       'city': city,
       'emailAddress': emailAddress,
-      'seekerId': seekerId,
-      'jobId': jobId,
       'resume': resume,
       'questionsAnswers': questionsAnswers, // Now a list of maps
     };
   }
 
+}
+
+
+class QuestionsAnswerModel {
+   int? questionId;
+   String? answer;
+  QuestionsAnswerModel({
+     this.questionId,
+     this.answer,
+  });
 }

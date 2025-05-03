@@ -9,8 +9,8 @@ import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/cubit/profile_cubit
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/repo/profile_repo.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/services/profile_service.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/home/home_page/company/cubit/cubit/company_view_cubit.dart';
+import 'package:wazafny/Screens/Seeker/Nav_bar_pages/home/home_page/job_posts/cubits/job_post_cubit/job_post_cubit.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/home/home_page/job_posts/cubits/recommended_jobs_cubit/recommended_jobs_cubit.dart';
-import 'package:wazafny/Screens/Seeker/Nav_bar_pages/home/home_page/job_posts/model/job_post_model.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/nav_bar.dart';
 import 'package:wazafny/Screens/login_and_signup/repo/auth_repository.dart';
 import 'package:wazafny/Screens/welcome.dart';
@@ -58,6 +58,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (_) => CompanyViewCubit(),
+        ),
+        BlocProvider(
+          create: (_) => JobPostCubit(),
         ),
       ],
       child: MaterialApp(
