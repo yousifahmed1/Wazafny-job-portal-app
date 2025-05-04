@@ -1,12 +1,29 @@
 import 'package:dio/dio.dart';
+import 'package:wazafny/Screens/login_and_signup/repo/auth_repository.dart';
+import 'package:wazafny/core/constants/api_constants.dart';
 
 class GetSearchSkills {
-  final dio = Dio();
-  final token = "117|VQGaaToigEEzlSmwmBXhzk0buTINWlviUv0d4qk18d77ff70";
+  late int userID;
+  late String token;
+  final dio = Dio(
+    BaseOptions(
+      baseUrl: ApiConstants.baseUrl,
+    ),
+  );
+
+  GetSearchSkills() {
+    _initialize();
+  }
+
+  Future<void> _initialize() async {
+    token = await AuthRepository().getToken() ?? "";
+    userID = await AuthRepository().getSeekerId() ?? 0;
+  }
 
   Future<List<String>> getSkills() async {
+    await _initialize();
     final response = await dio.get(
-      'https://wazafny.online/api/skill-search',
+      '/skill-search',
       options: Options(
         headers: {
           'Authorization': 'Bearer $token',
@@ -14,11 +31,10 @@ class GetSearchSkills {
         },
       ),
     );
-    List<String> skills=[];
+    List<String> skills = [];
     for (var i = 0; i < response.data.length; i++) {
       skills.add(response.data[i]['skill']);
     }
-
 
     return skills;
   }

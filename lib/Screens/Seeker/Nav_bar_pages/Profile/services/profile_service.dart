@@ -2,16 +2,21 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:wazafny/Screens/login_and_signup/repo/auth_repository.dart';
+import 'package:wazafny/core/constants/api_constants.dart';
 import 'dart:developer';
 import '../model/profile_model.dart';
 
 class ProfileService {
-  final Dio dio;
+  final dio = Dio(
+    BaseOptions(
+      baseUrl: ApiConstants.baseUrl,
+    ),
+  );
   late int userID;
   late String token;
   // var token = AuthRepository().getToken();
 
-  ProfileService(this.dio) {
+  ProfileService() {
     _initialize();
   }
 
@@ -25,7 +30,7 @@ class ProfileService {
 
     try {
       final response = await dio.get(
-        'https://wazafny.online/api/show-seeker-profile/$userID',
+        '/show-seeker-profile/$userID',
         options: Options(
           headers: {
             'Authorization': 'Bearer $token',
@@ -50,7 +55,7 @@ class ProfileService {
   }) async {
     try {
       final response = await dio.post(
-        'https://wazafny.online/api/update-about',
+        '/update-about',
         data: {
           "seeker_id": userID, // Replace with dynamic ID later
           "about": about
@@ -91,7 +96,7 @@ class ProfileService {
   }) async {
     try {
       final response = await dio.post(
-        'https://wazafny.online/api/update-personal-info',
+        '/update-personal-info',
         data: {
           "seeker_id": userID, // Replace with dynamic ID later
           "first_name": firstName,
@@ -140,7 +145,7 @@ class ProfileService {
   }) async {
     try {
       final response = await dio.delete(
-        'https://wazafny.online/api/delete-link/$linkId',
+        '/delete-link/$linkId',
         options: Options(
           headers: {
             'Authorization': 'Bearer $token',
@@ -178,7 +183,7 @@ class ProfileService {
     });
     try {
       final response = await dio.post(
-        'https://wazafny.online/api/update-cover-img',
+        '/update-cover-img',
         data: formData,
         options: Options(
           headers: {
@@ -209,7 +214,7 @@ class ProfileService {
   Future<String> deleteCover() async {
     try {
       final response = await dio.delete(
-        'https://wazafny.online/api/delete-cover-img/$userID',
+        '/delete-cover-img/$userID',
         options: Options(
           headers: {
             'Authorization': 'Bearer $token',
@@ -248,7 +253,7 @@ class ProfileService {
     });
     try {
       final response = await dio.post(
-        'https://wazafny.online/api/update-profile-img',
+        '/update-profile-img',
         data: formData,
         options: Options(
           headers: {
@@ -279,7 +284,7 @@ class ProfileService {
   Future<String> deleteProfileImage() async {
     try {
       final response = await dio.delete(
-        'https://wazafny.online/api/delete-profile-img/$userID',
+        '/delete-profile-img/$userID',
         options: Options(
           headers: {
             'Authorization': 'Bearer $token',
@@ -317,7 +322,7 @@ class ProfileService {
     });
     try {
       final response = await dio.post(
-        'https://wazafny.online/api/update-resume',
+        '/update-resume',
         data: formData,
         options: Options(
           headers: {
@@ -348,7 +353,7 @@ class ProfileService {
   Future<String> deleteResume() async {
     try {
       final response = await dio.delete(
-        'https://wazafny.online/api/delete-resume/$userID',
+        '/delete-resume/$userID',
         options: Options(
           headers: {
             'Authorization': 'Bearer $token',
@@ -384,7 +389,7 @@ class ProfileService {
   }) async {
     try {
       final response = await dio.post(
-        'https://wazafny.online/api/create-experience',
+        '/create-experience',
         data: {
           "seeker_id": userID,
           "company": company,
@@ -424,7 +429,7 @@ class ProfileService {
   }) async {
     try {
       final response = await dio.delete(
-        'https://wazafny.online/api/delete-experience/$experienceId',
+        '/delete-experience/$experienceId',
         options: Options(
           headers: {
             'Authorization': 'Bearer $token',
@@ -461,7 +466,7 @@ class ProfileService {
   }) async {
     try {
       final response = await dio.put(
-        'https://wazafny.online/api/update-experience/$experienceId',
+        '/update-experience/$experienceId',
         data: {
           "company": company,
           "job_title": jobTitle,
@@ -503,7 +508,7 @@ class ProfileService {
   }) async {
     try {
       final response = await dio.post(
-        'https://wazafny.online/api/update-education',
+        '/update-education',
         data: {
           "seeker_id": userID,
           "university": university,
@@ -540,7 +545,7 @@ class ProfileService {
   Future<String> deleteEducation() async {
     try {
       final response = await dio.delete(
-        'https://wazafny.online/api/delete-education/$userID',
+        '/delete-education/$userID',
         options: Options(
           headers: {
             'Authorization': 'Bearer $token',
@@ -582,7 +587,7 @@ class ProfileService {
   }) async {
     try {
       final response = await dio.post(
-        'https://wazafny.online/api/update-skills',
+        '/update-skills',
         data: {
           "seeker_id": userID,
           "skills": skills,

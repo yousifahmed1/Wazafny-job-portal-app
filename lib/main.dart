@@ -43,7 +43,7 @@ class MyApp extends StatelessWidget {
     }
 
     // Services
-    final profileService = ProfileService(dio);
+    final profileService = ProfileService();
 
     // Repositories
     final profileRepo = ProfileRepository(profileService);

@@ -2,9 +2,14 @@ import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:wazafny/core/constants/api_constants.dart';
 
 class AuthRepository {
-  final Dio dio =Dio();
+  final Dio dio =Dio(
+    BaseOptions(
+      baseUrl: ApiConstants.baseUrl,
+    ),
+  );
 
   AuthRepository();
 
@@ -12,7 +17,7 @@ class AuthRepository {
   Future<bool> login(String email, String password, String role) async {
     try {
       final response = await dio.post(
-        'https://wazafny.online/api/login', // Replace with your actual endpoint
+        '/login', // Replace with your actual endpoint
         data: {
           'email': email,
           'password': password,
@@ -41,7 +46,7 @@ class AuthRepository {
 
     try {
       final response = await dio.post(
-        'https://wazafny.online/api/logout', // Replace with your actual endpoint
+        '/logout', // Replace with your actual endpoint
         data: {
           'user_id': userID,
         },

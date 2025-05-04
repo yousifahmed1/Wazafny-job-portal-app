@@ -1,11 +1,15 @@
 import 'dart:developer';
-
 import 'package:dio/dio.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/home/company/model/company_model.dart';
 import 'package:wazafny/Screens/login_and_signup/repo/auth_repository.dart';
+import 'package:wazafny/core/constants/api_constants.dart';
 
 class CompanyServices {
-  final Dio dio = Dio();
+  final Dio dio = Dio(
+    BaseOptions(
+      baseUrl: ApiConstants.baseUrl,
+    ),
+  );
   late int userID;
   late String token;
 
@@ -23,7 +27,7 @@ class CompanyServices {
 
     try {
       final response = await dio.get(
-        'https://wazafny.online/api/show-compaines',
+        '/show-compaines',
         options: Options(
           headers: {
             'Authorization': 'Bearer $token',
@@ -53,7 +57,7 @@ class CompanyServices {
     await _initialize();
     try {
       final response = await dio.get(
-        'https://wazafny.online/api/show-company-profile/$companyId/$userID',
+        '/show-company-profile/$companyId/$userID',
         options: Options(
           headers: {
             'Authorization': 'Bearer $token',
@@ -79,7 +83,7 @@ class CompanyServices {
 
     try {
       final response = await dio.post(
-        'https://wazafny.online/api/follow',
+        '/follow',
         data: {
           "seeker_id": userID,
           "company_id": companyId,
@@ -125,7 +129,7 @@ class CompanyServices {
 
     try {
       final response = await dio.delete(
-        'https://wazafny.online/api/unfollow',
+        '/unfollow',
         data: {
           "seeker_id": userID,
           "company_id": companyId,

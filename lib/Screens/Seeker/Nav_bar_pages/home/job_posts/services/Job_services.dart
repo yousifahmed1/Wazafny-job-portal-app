@@ -7,14 +7,18 @@ import 'package:wazafny/Screens/Seeker/Nav_bar_pages/home/job_posts/model/job_ap
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/home/job_posts/model/job_post_model.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/home/job_posts/model/jobs_model.dart';
 import 'package:wazafny/Screens/login_and_signup/repo/auth_repository.dart';
+import 'package:wazafny/core/constants/api_constants.dart';
 
 class JobService {
-  final Dio _dio = Dio();
+  final Dio _dio = Dio(
+    BaseOptions(
+      baseUrl: ApiConstants.baseUrl,
+    ),
+  );
 
   late int userID;
   late String token;
-  final String _baseApiUrl =
-      'https://wazafny.online/api'; // Update this to match your API URL
+
 
   Future<void> _initialize() async {
     token = await AuthRepository().getToken() ?? "";
@@ -26,7 +30,7 @@ class JobService {
     try {
       log('Fetching jobs from API');
       final response = await _dio.post(
-        '$_baseApiUrl/recommended-jobs-posts',
+        '/recommended-jobs-posts',
         data: {
           "seeker_id": userID,
         },
@@ -60,7 +64,7 @@ class JobService {
     await _initialize();
     try {
       final response = await _dio.get(
-        '$_baseApiUrl/show-job-post/$jobId/$userID',
+        '/show-job-post/$jobId/$userID',
         options: Options(
           headers: {
             'Authorization': 'Bearer $token',
@@ -126,7 +130,7 @@ class JobService {
 
     try {
       final response = await _dio.post(
-        'https://wazafny.online/api/create-application', // correct API endpoint?
+        '/create-application', // correct API endpoint?
         data: formData,
         options: Options(
           headers: {
