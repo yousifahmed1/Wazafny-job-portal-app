@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/home/company/model/company_model.dart';
+import 'package:wazafny/Screens/Seeker/Nav_bar_pages/home/job_posts/screens/job_post_preview.dart';
 import 'package:wazafny/constants.dart';
+import 'package:wazafny/widgets/Navigators/slide_to.dart';
 
 class CompanyViewPosts extends StatefulWidget {
   const CompanyViewPosts({
@@ -27,7 +29,8 @@ class _CompanyViewPostsState extends State<CompanyViewPosts> {
       itemCount: widget.company.jobPosts!.length,
       itemBuilder: (context, index) {
         return InkWell(
-          overlayColor: MaterialStateProperty.all(Colors.transparent),
+          onTap: () => slideTo(context, JobPostPreview(jobId: widget.company.jobPosts![index].jobId,)),
+          overlayColor: WidgetStateColor.transparent,
           child: Container(
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10), color: Colors.white),

@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io'; // Add this for File
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
@@ -7,11 +8,16 @@ import 'package:wazafny/constants.dart';
 import 'package:wazafny/widgets/texts/heading_text.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:wazafny/widgets/texts/paragraph.dart';
+import 'package:wazafny/widgets/texts/sub_heading_text.dart';
 
 class ApplyPageTwo extends StatefulWidget {
-  const ApplyPageTwo({super.key,required this.jobApplyModel});
-    final JobApplyModel jobApplyModel;
-
+  const ApplyPageTwo({
+    super.key,
+    required this.jobApplyModel,
+    this.isEditMode = false,
+  });
+  final JobApplyModel jobApplyModel;
+  final bool isEditMode;
 
   @override
   State<ApplyPageTwo> createState() => _ApplyPageTwoState();
@@ -19,7 +25,10 @@ class ApplyPageTwo extends StatefulWidget {
 
 class _ApplyPageTwoState extends State<ApplyPageTwo> {
   File? _selectedFile; // Store the file object instead of path
+  String? resumePath;
+  bool _isLoaded = false;
 
+  //pick file function
   Future<void> _pickFile() async {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
       type: FileType.custom,
@@ -27,18 +36,39 @@ class _ApplyPageTwoState extends State<ApplyPageTwo> {
     );
 
     if (result != null && result.files.single.path != null) {
-      setState(() {
-        _selectedFile = File(result.files.single.path!); // Create File object
-      });
-      // Update cubit with the File object
-                  widget.jobApplyModel.resume = _selectedFile ;
+      final filePath = result.files.single.path!;
+      final fileExtension = filePath.split('.').last.toLowerCase();
 
+      if (['pdf', 'doc', 'docx'].contains(fileExtension)) {
+        setState(() {
+          _selectedFile = File(filePath);
+        });
+        // Update cubit with the File object
+        widget.jobApplyModel.resume = _selectedFile;
+      } else {
+        // Show error: unsupported file type
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content:
+                Text("Unsupported file type. Please select PDF, DOC, or DOCX."),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
     }
   }
 
   @override
   Widget build(BuildContext context) {
     SizeConfig.init(context);
+    if (_isLoaded == false &&
+        _selectedFile == null &&
+        widget.jobApplyModel.resume != "" &&
+        widget.jobApplyModel.resume != null) {
+      resumePath = widget.jobApplyModel.resume;
+      _isLoaded = true;
+      log(resumePath.toString());
+    }
 
     return Center(
       child: Column(
@@ -71,9 +101,47 @@ class _ApplyPageTwoState extends State<ApplyPageTwo> {
                       if (_selectedFile != null) ...[
                         const SizedBox(height: 20),
                         HeadingText(
+                          textAlignment: TextAlign.center,
                           title:
                               "Selected: ${_selectedFile!.path.split('/').last}",
                         ),
+                      ] else if (resumePath != null) ...[
+                        HeadingText(
+                          textAlignment: TextAlign.center,
+                          title:
+                              "${widget.jobApplyModel.firstName}_Resume.${resumePath!.split('.').last.toLowerCase()}  ",
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        InkWell(
+                          onTap: () {
+                            setState(() {
+                              _selectedFile = null;
+                              resumePath = null;
+                              widget.jobApplyModel.resume = null;
+                            });
+                          },
+                          child: Container(
+                            constraints: const BoxConstraints(
+                              minWidth: 150, // Set your minimum width here
+                            ),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(color: redColor, width: 2),
+                            ),
+                            child: const Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 15, vertical: 10),
+                              child: SubHeadingText(
+                                textAlignment: TextAlign.center,
+                                title: "Delete",
+                                fontSize: 20,
+                                titleColor: redColor,
+                              ),
+                            ),
+                          ),
+                        )
                       ] else ...[
                         const HeadingText(title: "Upload Resume"),
                         const SizedBox(height: 5),

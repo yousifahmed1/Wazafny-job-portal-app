@@ -5,11 +5,12 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Application/cubit/job_applications_cubit.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/cubit/profile_cubit.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/repo/profile_repo.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/services/profile_service.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/home/company/cubit/cubit/company_view_cubit.dart';
-import 'package:wazafny/Screens/Seeker/Nav_bar_pages/home/job_posts/cubits/job_apply_cubit/job_post_cubit.dart';
+import 'package:wazafny/Screens/Seeker/Nav_bar_pages/home/job_posts/cubits/job_post_cubit/job_post_cubit.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/home/job_posts/cubits/recommended_jobs_cubit/recommended_jobs_cubit.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/nav_bar.dart';
 import 'package:wazafny/Screens/login_and_signup/repo/auth_repository.dart';
@@ -43,10 +44,9 @@ class MyApp extends StatelessWidget {
 
     // Services
     final profileService = ProfileService(dio);
-    
+
     // Repositories
     final profileRepo = ProfileRepository(profileService);
-
 
     return MultiBlocProvider(
       providers: [
@@ -61,6 +61,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (_) => JobPostCubit(),
+        ),
+        BlocProvider(
+          create: (_) => JobApplicationsCubit(),
         ),
       ],
       child: MaterialApp(

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:wazafny/Screens/Seeker/Nav_bar_pages/home/job_posts/cubits/job_apply_cubit/job_post_cubit.dart';
+import 'package:wazafny/Screens/Seeker/Nav_bar_pages/home/job_posts/cubits/job_post_cubit/job_post_cubit.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/home/job_posts/screens/job_apply/apply_job_post.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/home/job_posts/widgets/apply_button.dart';
 import 'package:wazafny/constants.dart';
@@ -172,11 +172,22 @@ class _JobPostPreviewState extends State<JobPostPreview> {
                         right: 0,
                         bottom: 0,
                         child: ApplyButton(
-                          onTap: () => slideUp(
+                          onTap: () async {
+                            final result = await slideUp2(
                               context,
                               ApplyJobPost(
                                 jobPostModel: jobPost,
-                              )),
+                              ),
+                            );
+
+                            if (result == true) {
+                              // Re-fetch job post details to update applyStatus
+                              context
+                                  .read<JobPostCubit>()
+                                  .fetchJobPostDetails(jobId: widget.jobId);
+                            }
+                          },
+                        
                         ),
                       )
                     : const SizedBox(),

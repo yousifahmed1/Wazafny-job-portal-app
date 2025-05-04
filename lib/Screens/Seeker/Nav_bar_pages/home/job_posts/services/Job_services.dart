@@ -154,4 +154,5 @@ class JobService {
       throw Exception('Failed to apply to job');
     }
   }
+
 }

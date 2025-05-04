@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/home/job_posts/model/job_apply_model.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/home/job_posts/model/job_post_model.dart';
@@ -9,14 +7,16 @@ import 'package:wazafny/widgets/texts/heading_text.dart';
 import 'package:wazafny/widgets/texts/sub_heading_text.dart';
 
 class ApplyPageThree extends StatefulWidget {
-  final JobPostModel jobPostModel; // Accept questions as parameter
+  final JobPostModel? jobPostModel;
+  final JobApplyModel jobApplyModel;
+  final bool isEditMode;
 
   const ApplyPageThree({
     super.key,
-    required this.jobPostModel,
+    this.jobPostModel,
     required this.jobApplyModel,
+    this.isEditMode = false,
   });
-  final JobApplyModel jobApplyModel;
 
   @override
   State<ApplyPageThree> createState() => _ApplyPageThreeState();
@@ -28,35 +28,50 @@ class _ApplyPageThreeState extends State<ApplyPageThree> {
   @override
   void initState() {
     super.initState();
-    // Initialize controllers for each question
-    for (var questionModel in widget.jobPostModel.questions) {
+    // Initialize controllers based on questions
+    final questions = _getQuestions();
+    for (var questionModel in questions) {
       final questionID = questionModel.questionId;
       if (!_controllers.containsKey(questionID)) {
-        _controllers[questionID] = TextEditingController();
+        // Pre-fill with existing answer if in edit mode
+        final existingAnswer = widget.jobApplyModel.questionsAnswers
+            ?.firstWhere(
+              (answer) => answer.questionId == questionID,
+              orElse: () => QuestionsAnswerModel(),
+            )
+            .answer;
+        _controllers[questionID] = TextEditingController(text: existingAnswer);
       }
     }
   }
 
   @override
   void dispose() {
-    // Dispose of all controllers
-    _controllers.forEach((key, controller) => controller.dispose());
+    _controllers.forEach((_, controller) => controller.dispose());
     super.dispose();
   }
 
-  String? _requiredFieldValidator(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'This field is required';
+  String? _requiredFieldValidator(String? value, String question) {
+    if (value == null || value.trim().isEmpty) {
+      return 'Please answer: $question';
     }
     return null;
+  }
+
+  List<dynamic> _getQuestions() {
+    if (widget.isEditMode && widget.jobApplyModel.questionsAnswers != null) {
+      // Return QuestionsAnswerModel objects instead of just question strings
+      return widget.jobApplyModel.questionsAnswers!;
+    } else if (widget.jobPostModel != null) {
+      return widget.jobPostModel!.questions;
+    }
+    return [];
   }
 
   @override
   Widget build(BuildContext context) {
     SizeConfig.init(context);
-
-    final questions = widget.jobPostModel.questions;
-    log(questions.toList().toString());
+    final questions = _getQuestions();
 
     return Column(
       children: [
@@ -64,7 +79,7 @@ class _ApplyPageThreeState extends State<ApplyPageThree> {
         const Center(child: HeadingText(title: "Additional Questions")),
         const SizedBox(height: 15),
         if (questions.isEmpty)
-          const Center(child: HeadingText(title: "No Questions Avilable"))
+          const Center(child: HeadingText(title: "No Questions Available"))
         else
           ...List.generate(questions.length, (index) {
             final questionModel = questions[index];
@@ -80,27 +95,21 @@ class _ApplyPageThreeState extends State<ApplyPageThree> {
                 AnswerTextField(
                   controller: _controllers[questionID],
                   keyboardType: TextInputType.text,
-                  // labelText: "$question*",
-                  validator: _requiredFieldValidator,
+                  validator: (value) => _requiredFieldValidator(value, question),
                   onChanged: (value) {
-                    // Initialize list if null
                     widget.jobApplyModel.questionsAnswers ??= [];
-
-                    // Check if question already answered
                     final existingIndex = widget.jobApplyModel.questionsAnswers!
-                        .indexWhere(
-                            (element) => element.questionId == questionID);
+                        .indexWhere((element) => element.questionId == questionID);
 
                     if (existingIndex != -1) {
-                      // Update existing answer
                       widget.jobApplyModel.questionsAnswers![existingIndex]
-                          .answer = value ;
+                          .answer = value;
                     } else {
-                      // Add new answer
                       widget.jobApplyModel.questionsAnswers!.add(
                         QuestionsAnswerModel(
                           questionId: questionID,
-                          answer: value ,
+                          answer: value,
+                          question: question,
                         ),
                       );
                     }

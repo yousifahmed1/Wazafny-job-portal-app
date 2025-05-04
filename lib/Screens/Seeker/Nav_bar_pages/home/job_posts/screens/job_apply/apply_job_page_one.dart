@@ -8,8 +8,13 @@ import 'package:wazafny/widgets/text_fields/rounded_text_fields.dart';
 import 'package:wazafny/widgets/texts/heading_text.dart';
 
 class ApplyPageOne extends StatefulWidget {
-  const ApplyPageOne({super.key, required this.jobApplyModel});
+  const ApplyPageOne({
+    super.key,
+    required this.jobApplyModel,
+    this.isEditMode = false,
+  });
   final JobApplyModel jobApplyModel;
+  final bool isEditMode;
 
   @override
   State<ApplyPageOne> createState() => _ApplyPageOneState();
@@ -36,6 +41,14 @@ class _ApplyPageOneState extends State<ApplyPageOne> {
 
   @override
   Widget build(BuildContext context) {
+    if (widget.isEditMode) {
+      _firstNameController.text = widget.jobApplyModel.firstName!;
+      _lastNameController.text = widget.jobApplyModel.lastName!;
+      _phoneNumberController.text = widget.jobApplyModel.phone!;
+      _emailController.text = widget.jobApplyModel.emailAddress!;
+      _countryController.text = widget.jobApplyModel.country!;
+      _cityController.text = widget.jobApplyModel.city!;
+    }
     SizeConfig.init(context);
     return Column(
       children: [
