@@ -47,80 +47,79 @@ class _NotificationsPageState extends State<NotificationsPage> {
         }
         if (state is NotificationsLoaded) {
           notifications = state.notifications;
-            return SafeArea(
-          bottom: false,
-          child: Scaffold(
-            body: Column(
-              children: [
-                //search bar and profile circle
-                SearchBarProfileCircle(searchController: _searchController),
-                const SizedBox(height: 15),
+          return SafeArea(
+            bottom: false,
+            child: Scaffold(
+              body: Column(
+                children: [
+                  //search bar and profile circle
+                  SearchBarProfileCircle(searchController: _searchController),
+                  const SizedBox(height: 15),
 
-                Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Column(
-                    children: [
-                      //Header
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const HeadingText(title: "Notifications center"),
-                          const Spacer(),
-                          !notifications.isNotEmpty
-                              ? const SizedBox()
-                              : Container(
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(15),
-                                    color: lightPrimary,
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 15, vertical: 5),
-                                    child: InkWell(
-                                      onTap:
-                                          clearAllNotifications, // Connect to clear function
-                                      child: const Text(
-                                        "Clear",
-                                        style: TextStyle(
-                                            color: primaryColor,
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.w600),
+                  Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Column(
+                      children: [
+                        //Header
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const HeadingText(title: "Notifications center"),
+                            const Spacer(),
+                            !notifications.isNotEmpty
+                                ? const SizedBox()
+                                : Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(15),
+                                      color: lightPrimary,
+                                    ),
+                                    child: Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 15, vertical: 5),
+                                      child: InkWell(
+                                        onTap:
+                                            clearAllNotifications, // Connect to clear function
+                                        child: const Text(
+                                          "Clear",
+                                          style: TextStyle(
+                                              color: primaryColor,
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.w600),
+                                        ),
                                       ),
                                     ),
                                   ),
-                                ),
-                        ],
-                      ),
-                      const SizedBox(height: 15),
-                    ],
+                          ],
+                        ),
+                        const SizedBox(height: 15),
+                      ],
+                    ),
                   ),
-                ),
 
-                notifications.isEmpty
-                    ? const Expanded(
-                        child: Center(
-                          child: Text(
-                            "No notifications yet",
-                            style: TextStyle(
-                              color: bordersColor,
-                              fontSize: 18,
-                              fontWeight: FontWeight.w600,
+                  notifications.isEmpty
+                      ? const Expanded(
+                          child: Center(
+                            child: Text(
+                              "No notifications yet",
+                              style: TextStyle(
+                                color: bordersColor,
+                                fontSize: 18,
+                                fontWeight: FontWeight.w600,
+                              ),
                             ),
                           ),
+                        )
+                      : Expanded(
+                          child: NotificationsListView(
+                              notifications: notifications),
                         ),
-                      )
-                    : Expanded(
-                        child:
-                            NotificationsListView(notifications: notifications),
-                      ),
-              ],
+                ],
+              ),
             ),
-          ),
-        );
-      
-      }else {
-              return const SizedBox(); // fallback for initial state
-            }
+          );
+        } else {
+          return const SizedBox(); // fallback for initial state
+        }
       },
     );
   }

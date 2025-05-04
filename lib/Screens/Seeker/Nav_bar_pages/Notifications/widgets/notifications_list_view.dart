@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Notifications/model/notifications_model.dart';
 import 'package:wazafny/core/constants/constants.dart';
 
@@ -31,12 +32,20 @@ class NotificationsListView extends StatelessWidget {
               children: [
                 ClipRRect(
                   borderRadius: BorderRadius.circular(10),
-                  child: Image.network(
-                    notification.profileImg,
-                    width: 50,
-                    height: 50,
-                    fit: BoxFit.fill,
-                  ),
+                  child: notification.profileImg.isNotEmpty &&
+                          notification.profileImg != ""
+                      ? Image.network(
+                          notification.profileImg,
+                          width: 50,
+                          height: 50,
+                          fit: BoxFit.fill,
+                        )
+                      : SvgPicture.asset(
+                          "assets/Images/Profile-default-image.svg",
+                          width: 50,
+                          height: 50,
+                          fit: BoxFit.cover,
+                        ),
                 ),
                 const SizedBox(width: 10),
                 Expanded(
