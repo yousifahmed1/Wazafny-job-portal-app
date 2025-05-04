@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/cubit/profile_cubit.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/home/company/Screens/company_view_about.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/home/company/Screens/company_view_posts.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/home/company/model/company_model.dart';
@@ -29,10 +31,14 @@ class _CompanyViewState extends State<CompanyView> {
 
   Future<void> _followCompany() async {
     CompanyServices().followCompany(companyId: widget.companyID);
+                context.read<ProfileCubit>().fetchProfile();
+
   }
 
   Future<void> _unfollowCompany() async {
     CompanyServices().unfollowCompany(companyId: widget.companyID);
+                    context.read<ProfileCubit>().fetchProfile();
+
   }
 
   var future;
@@ -154,6 +160,7 @@ class _CompanyViewState extends State<CompanyView> {
                                                 height: 50,
                                               ),
                                             ),
+                                    
                                     ],
                                   ),
                                   const SizedBox(height: 10),
