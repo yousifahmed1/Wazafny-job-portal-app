@@ -2,12 +2,38 @@ import 'package:flutter/material.dart';
 import 'package:wazafny/widgets/search_bar_profile_circle.dart';
 import 'package:wazafny/core/constants/constants.dart';
 import 'company/companies_list_view.dart';
-import 'job_posts/widgets/jobs_list_view.dart';
+import 'job_posts/jobs_list_view.dart';
 
-class HomePage extends StatelessWidget {
-  HomePage({super.key});
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
 
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
   final TextEditingController _searchController = TextEditingController();
+  String _searchQuery = '';
+
+  @override
+  void initState() {
+    super.initState();
+    // Add listener to update search query when text changes
+    _searchController.addListener(_onSearchChanged);
+  }
+
+  @override
+  void dispose() {
+    _searchController.removeListener(_onSearchChanged);
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  void _onSearchChanged() {
+    setState(() {
+      _searchQuery = _searchController.text.trim();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,10 +44,16 @@ class HomePage extends StatelessWidget {
         child: Scaffold(
           body: Column(
             children: [
-              // Search Bar & Profile Circle
-              SearchBarProfileCircle(searchController: _searchController),
+              // Search Bar & Profile Circle with callback
+              SearchBarProfileCircle(
+                searchController: _searchController,
+                onSearchChanged: (query) {
+                  setState(() {
+                    _searchQuery = query;
+                  });
+                },
+              ),
               const SizedBox(height: 15),
-              // TabBar
 
               // TabBar
               Container(
@@ -71,15 +103,14 @@ class HomePage extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 15),
-              // TabBar
-              // TabBarView
-              const Expanded(
+              
+              // TabBarView with search query passed to list views
+              Expanded(
                 child: TabBarView(
-                  physics:  BouncingScrollPhysics(),
+                  physics: const BouncingScrollPhysics(),
                   children: [
-                    JobsListView(),
-                    // Company Tab Content
-                     CompaniesListView(),
+                    JobsListView(searchQuery: _searchQuery),
+                    CompaniesListView(searchQuery: _searchQuery),
                   ],
                 ),
               ),

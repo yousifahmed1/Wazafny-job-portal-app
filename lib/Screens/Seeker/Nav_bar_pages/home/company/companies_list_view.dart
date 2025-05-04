@@ -5,9 +5,15 @@ import 'package:wazafny/Screens/Seeker/Nav_bar_pages/home/company/cubit/cubit/co
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/home/company/cubit/cubit/company_view_state.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/home/company/Screens/company_view.dart';
 import 'package:wazafny/widgets/Navigators/slide_to.dart';
+import 'package:wazafny/core/constants/constants.dart';
 
 class CompaniesListView extends StatefulWidget {
-  const CompaniesListView({super.key});
+  final String searchQuery;
+
+  const CompaniesListView({
+    super.key,
+    this.searchQuery = '',
+  });
 
   @override
   State<CompaniesListView> createState() => _CompaniesListViewState();
@@ -19,11 +25,11 @@ class _CompaniesListViewState extends State<CompaniesListView> {
     return BlocBuilder<CompanyViewCubit, CompanyState>(
       builder: (context, state) {
         if (state is CompanyInitial) {
-          // Automatically fetch jobs when screen loads
+          // Automatically fetch companies when screen loads
           WidgetsBinding.instance.addPostFrameCallback((_) {
             context.read<CompanyViewCubit>().fetchCompany();
           });
-          return const Center(child: Text('Loading jobs...'));
+          return const Center(child: Text('Loading companies...'));
         }
         if (state is CompanyLoading) {
           return const Center(child: CircularProgressIndicator());
@@ -32,13 +38,49 @@ class _CompaniesListViewState extends State<CompaniesListView> {
           return Center(child: Text(state.error));
         }
         if (state is CompanyLoaded) {
-          final companies = state.companies;
+          // Filter companies based on search query
+          final filteredCompanies = widget.searchQuery.isEmpty
+              ? state.companies
+              : state.companies.where((company) {
+                  final searchLower = widget.searchQuery.toLowerCase();
+                  return company.companyName.toLowerCase().contains(searchLower) ||
+                      (company.companyCity ?? '').toLowerCase().contains(searchLower) ||
+                      (company.companyCountry ?? '').toLowerCase().contains(searchLower) ||
+                      (company.about ?? '').toLowerCase().contains(searchLower);
+                }).toList();
+
+          if (filteredCompanies.isEmpty) {
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    'No companies found matching your search',
+                    style: TextStyle(fontSize: 16),
+                  ),
+                  const SizedBox(height: 16),
+                  if (widget.searchQuery.isNotEmpty)
+                    ElevatedButton(
+                      onPressed: () {
+                        // Clear search - this would be handled by the parent widget
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: darkPrimary,
+                      ),
+                      child: const Text('Clear Search', 
+                        style: TextStyle(color: Colors.white)),
+                    ),
+                ],
+              ),
+            );
+          }
+
           return ListView.builder(
             padding: const EdgeInsets.only(bottom: 105), // navbar height
             physics: const BouncingScrollPhysics(),
-            itemCount: state.companies.length,
+            itemCount: filteredCompanies.length,
             itemBuilder: (context, index) {
-              final company = companies[index];
+              final company = filteredCompanies[index];
               return InkWell(
                 onTap: () => slideTo(
                     context,

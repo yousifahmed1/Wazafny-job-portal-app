@@ -7,8 +7,11 @@ import 'package:wazafny/core/constants/constants.dart';
 import 'package:wazafny/widgets/Navigators/slide_to.dart';
 
 class JobsListView extends StatelessWidget {
+  final String searchQuery;
+
   const JobsListView({
     super.key,
+    this.searchQuery = '',
   });
 
   @override
@@ -24,13 +27,52 @@ class JobsListView extends StatelessWidget {
         } else if (state is JobLoading) {
           return const Center(child: CircularProgressIndicator());
         } else if (state is JobLoaded) {
+          // Filter jobs based on search query
+          final filteredJobs = searchQuery.isEmpty
+              ? state.jobs
+              : state.jobs.where((job) {
+                  final searchLower = searchQuery.toLowerCase();
+                  return job.title.toLowerCase().contains(searchLower) ||
+                      job.company.companyName.toLowerCase().contains(searchLower) ||
+                      job.jobCity.toLowerCase().contains(searchLower) ||
+                      job.jobCountry.toLowerCase().contains(searchLower) ||
+                      job.jobType.toLowerCase().contains(searchLower);
+                }).toList();
+
+          if (filteredJobs.isEmpty) {
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    'No jobs found matching your search',
+                    style: TextStyle(fontSize: 16),
+                  ),
+                  const SizedBox(height: 16),
+                  if (searchQuery.isNotEmpty)
+                    ElevatedButton(
+                      onPressed: () {
+                        // Clear search - this would be handled by the parent widget
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: darkPrimary,
+                      ),
+                      child: const Text('Clear Search', 
+                        style: TextStyle(color: Colors.white)),
+                    ),
+                ],
+              ),
+            );
+          }
+
           return ListView.builder(
             padding: const EdgeInsets.only(bottom: 105), //navbar height
             physics: const BouncingScrollPhysics(),
-            itemCount: state.jobs.length,
+            itemCount: filteredJobs.length,
             itemBuilder: (context, index) {
+              final job = filteredJobs[index];
               return InkWell(
-                onTap: () => slideTo(context, JobPostPreview(jobId: state.jobs[index].jobId,)),
+                onTap: () => slideTo(context, JobPostPreview(jobId: job.jobId)),
                 overlayColor: WidgetStateColor.transparent,
                 child: Container(
                   decoration: BoxDecoration(
@@ -53,7 +95,7 @@ class JobsListView extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(5),
                                   //company profile
                                   child: Image.network(
-                                    state.jobs[index].company.profileImg,
+                                    job.company.profileImg,
                                     width: 50,
                                     height: 50,
                                     fit: BoxFit.cover,
@@ -64,7 +106,7 @@ class JobsListView extends StatelessWidget {
                                 ),
                                 //company name
                                 Text(
-                                  state.jobs[index].company.companyName,
+                                  job.company.companyName,
                                   style: const TextStyle(
                                     fontWeight: FontWeight.w500,
                                     fontSize: 15,
@@ -75,7 +117,7 @@ class JobsListView extends StatelessWidget {
                             const Spacer(),
                             //time ago
                             Text(
-                              "${state.jobs[index].timeAgo} ago",
+                              "${job.timeAgo} ago",
                               style: const TextStyle(
                                 fontWeight: FontWeight.w600,
                               ),
@@ -87,7 +129,7 @@ class JobsListView extends StatelessWidget {
                         ),
                         //job title
                         Text(
-                          state.jobs[index].title,
+                          job.title,
                           style: const TextStyle(
                             fontWeight: FontWeight.w700,
                             fontSize: 18,
@@ -100,7 +142,7 @@ class JobsListView extends StatelessWidget {
                         Row(
                           children: [
                             Text(
-                              "${state.jobs[index].jobCity}, ${state.jobs[index].jobCountry} (${state.jobs[index].jobType})",
+                              "${job.jobCity}, ${job.jobCountry} (${job.jobType})",
                               style: const TextStyle(
                                 fontWeight: FontWeight.w500,
                                 fontSize: 15,
@@ -114,7 +156,7 @@ class JobsListView extends StatelessWidget {
                 ),
               );
             },
-          ); // Close the ListView.builder here
+          );
         } else if (state is JobError) {
           return Center(
             child: Column(
