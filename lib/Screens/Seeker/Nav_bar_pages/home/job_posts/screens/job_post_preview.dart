@@ -42,127 +42,122 @@ class _JobPostPreviewState extends State<JobPostPreview> {
             ),
             body: Stack(
               children: [
-                SingleChildScrollView(
-                  physics: const BouncingScrollPhysics(),
-                  child: Padding(
-                    padding: const EdgeInsets.all(20),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(10),
-                              //image
-                              child: Image.network(
-                                jobPost.profileImg,
-                                fit: BoxFit.fill,
-                                height: 50,
-                                width: 50,
-                              ),
+                Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: ListView(
+                    children: [
+                      Row(
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            //image
+                            child: Image.network(
+                              jobPost.profileImg,
+                              fit: BoxFit.fill,
+                              height: 50,
+                              width: 50,
                             ),
-                            const SizedBox(
-                              width: 10,
+                          ),
+                          const SizedBox(
+                            width: 10,
+                          ),
+                          //company name
+                          Text(
+                            jobPost.company.companyName,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 15,
                             ),
-                            //company name
-                            Text(
-                              jobPost.company.companyName,
-                              style: const TextStyle(
-                                fontWeight: FontWeight.w600,
-                                fontSize: 15,
-                              ),
-                            ),
-                            const Spacer(),
-                            //company name
-                            jobPost.applyStatus
-                                ? const Text(
-                                    "ALready Applied",
-                                    style: TextStyle(
-                                        fontWeight: FontWeight.w700,
-                                        fontSize: 15,
-                                        color: greenColor),
-                                  )
-                                : const SizedBox(),
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        //job title
-                        HeadingText(title: jobPost.jobpost.jobTitle),
-                        Row(
-                          children: [
-                            Text("${jobPost.jobpost.jobCity}, "),
-                            Text("${jobPost.jobpost.jobCountry} , "),
-                            Text("${jobPost.jobpost.jobTime} ago")
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        const HeadingText(title: "Skills"),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        //skills
-                        Wrap(
-                          spacing: 15, // Space between items
-                          runSpacing: 10, // Space between lines
-                          children:
-                              List.generate(jobPost.skills.length, (index) {
-                            return Container(
-                              decoration: BoxDecoration(
-                                  color: lightPrimary,
-                                  borderRadius: BorderRadius.circular(12)),
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 15, vertical: 8),
-                                child: Text(
-                                  jobPost.skills[index].skill,
-                                  style: const TextStyle(
-                                    color: darkPrimary,
-                                    fontWeight: FontWeight.w600,
-                                  ),
+                          ),
+                          const Spacer(),
+                          //company name
+                          jobPost.applyStatus
+                              ? const Text(
+                                  "ALready Applied",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 15,
+                                      color: greenColor),
+                                )
+                              : const SizedBox(),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      //job title
+                      HeadingText(title: jobPost.jobpost.jobTitle),
+                      Row(
+                        children: [
+                          Text("${jobPost.jobpost.jobCity}, "),
+                          Text("${jobPost.jobpost.jobCountry} , "),
+                          Text("${jobPost.jobpost.jobTime} ago")
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      const HeadingText(title: "Skills"),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      //skills
+                      Wrap(
+                        spacing: 15, // Space between items
+                        runSpacing: 10, // Space between lines
+                        children: List.generate(jobPost.skills.length, (index) {
+                          return Container(
+                            decoration: BoxDecoration(
+                                color: lightPrimary,
+                                borderRadius: BorderRadius.circular(12)),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 15, vertical: 8),
+                              child: Text(
+                                jobPost.skills[index].skill,
+                                style: const TextStyle(
+                                  color: darkPrimary,
+                                  fontWeight: FontWeight.w600,
                                 ),
                               ),
-                            );
-                          }),
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        const CustomLine(),
-                        const SizedBox(height: 20),
-                        //about
-                        const HeadingText(title: "About the job"),
-                        const SizedBox(height: 8),
-                        Paragraph(
-                          paragraph: jobPost.jobpost.jobAbout,
-                        ),
-                        const SizedBox(height: 8),
-                        Column(
-                          children:
-                              List.generate(jobPost.sections.length, (index) {
-                            return Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const SizedBox(height: 15),
-                                HeadingText(
-                                    title: jobPost.sections[index].sectionName),
-                                const SizedBox(height: 10),
-                                Paragraph(
-                                  paragraph: jobPost
-                                      .sections[index].sectionDescription,
-                                ),
-                                const SizedBox(
-                                    height: 15), // Separator between items
-                              ],
-                            );
-                          }),
-                        ),
-                        const SizedBox(height: 80),
-                      ],
-                    ),
+                            ),
+                          );
+                        }),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      const CustomLine(),
+                      const SizedBox(height: 20),
+                      //about
+                      const HeadingText(title: "About the job"),
+                      const SizedBox(height: 8),
+                      Paragraph(
+                        paragraph: jobPost.jobpost.jobAbout,
+                      ),
+                      const SizedBox(height: 8),
+                      Column(
+                        children:
+                            List.generate(jobPost.sections.length, (index) {
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const SizedBox(height: 15),
+                              HeadingText(
+                                  title: jobPost.sections[index].sectionName),
+                              const SizedBox(height: 10),
+                              Paragraph(
+                                paragraph:
+                                    jobPost.sections[index].sectionDescription,
+                              ),
+                              const SizedBox(
+                                  height: 15), // Separator between items
+                            ],
+                          );
+                        }),
+                      ),
+                      const SizedBox(height: 80),
+                    ],
                   ),
                 ),
                 //if applystatus is true show apply button
@@ -187,7 +182,6 @@ class _JobPostPreviewState extends State<JobPostPreview> {
                                   .fetchJobPostDetails(jobId: widget.jobId);
                             }
                           },
-                        
                         ),
                       )
                     : const SizedBox(),
