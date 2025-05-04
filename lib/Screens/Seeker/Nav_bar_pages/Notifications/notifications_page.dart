@@ -18,14 +18,40 @@ class NotificationsPage extends StatefulWidget {
 class _NotificationsPageState extends State<NotificationsPage> {
   final TextEditingController _searchController = TextEditingController();
 
-  // Function to clear all notifications
-  void clearAllNotifications() {
+  List<NotificationModel> allNotifications = []; // Original fetched list
+  List<NotificationModel> filteredNotifications = []; // Shown list
+
+  @override
+  void initState() {
+    super.initState();
+    // Listen to search text changes
+    _searchController.addListener(_onSearchChanged);
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  void _onSearchChanged() {
+    final query = _searchController.text.toLowerCase();
     setState(() {
-      notifications.clear();
+      filteredNotifications = allNotifications.where((notification) {
+        return notification.jobTitle.toLowerCase().contains(query) ||
+            notification.companyName.toLowerCase().contains(query);
+      }).toList();
     });
   }
 
-  List<NotificationModel> notifications = [];
+  // Clear all notifications
+  void clearAllNotifications() {
+    
+    setState(() {
+      allNotifications.clear();
+      filteredNotifications.clear();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,13 +72,18 @@ class _NotificationsPageState extends State<NotificationsPage> {
           return Center(child: Text('Error: ${state.error}'));
         }
         if (state is NotificationsLoaded) {
-          notifications = state.notifications;
+          // Only load notifications if list is empty (avoid override when searching)
+          if (allNotifications.isEmpty) {
+            allNotifications = state.notifications;
+            filteredNotifications = allNotifications;
+          }
+
           return SafeArea(
             bottom: false,
             child: Scaffold(
               body: Column(
                 children: [
-                  //search bar and profile circle
+                  // Search bar with listener
                   SearchBarProfileCircle(searchController: _searchController),
                   const SizedBox(height: 15),
 
@@ -60,35 +91,33 @@ class _NotificationsPageState extends State<NotificationsPage> {
                     padding: const EdgeInsets.all(20.0),
                     child: Column(
                       children: [
-                        //Header
+                        // Header
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             const HeadingText(title: "Notifications center"),
                             const Spacer(),
-                            !notifications.isNotEmpty
-                                ? const SizedBox()
-                                : Container(
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(15),
-                                      color: lightPrimary,
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 15, vertical: 5),
-                                      child: InkWell(
-                                        onTap:
-                                            clearAllNotifications, // Connect to clear function
-                                        child: const Text(
-                                          "Clear",
-                                          style: TextStyle(
-                                              color: primaryColor,
-                                              fontSize: 18,
-                                              fontWeight: FontWeight.w600),
-                                        ),
-                                      ),
+                            if (filteredNotifications.isNotEmpty)
+                              Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15),
+                                  color: lightPrimary,
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 15, vertical: 5),
+                                  child: InkWell(
+                                    onTap: clearAllNotifications,
+                                    child: const Text(
+                                      "Clear",
+                                      style: TextStyle(
+                                          color: primaryColor,
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w600),
                                     ),
                                   ),
+                                ),
+                              ),
                           ],
                         ),
                         const SizedBox(height: 15),
@@ -96,7 +125,8 @@ class _NotificationsPageState extends State<NotificationsPage> {
                     ),
                   ),
 
-                  notifications.isEmpty
+                  // Notifications list
+                  filteredNotifications.isEmpty
                       ? const Expanded(
                           child: Center(
                             child: Text(
@@ -111,14 +141,14 @@ class _NotificationsPageState extends State<NotificationsPage> {
                         )
                       : Expanded(
                           child: NotificationsListView(
-                              notifications: notifications),
+                              notifications: filteredNotifications),
                         ),
                 ],
               ),
             ),
           );
         } else {
-          return const SizedBox(); // fallback for initial state
+          return const SizedBox(); // fallback
         }
       },
     );
