@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Notifications/model/notifications_model.dart';
 import 'package:wazafny/Screens/login_and_signup/repo/auth_repository.dart';
@@ -51,6 +53,38 @@ class NotificationsServices {
       }
     } catch (e) {
       throw Exception('Error occurred: $e');
+    }
+  }
+
+  Future<String> deleteAllNotifications() async {
+    await _initialize(); // ✅ Always ensure token/userID are ready
+
+    try {
+      final response = await dio.delete(
+        '/delete-all-notifications/$userID',
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+            'Content-Type': 'application/json',
+          },
+        ),
+      );
+
+      if (response.statusCode == 200) {
+        final data = response.data;
+
+        if (data is Map<String, dynamic> && data['message'] is String) {
+          log("${response.statusCode}");
+          return data['message']; // Return success message
+        } else {
+          throw Exception('Unexpected response format: ${response.data}');
+        }
+      }
+
+      throw Exception('Failed to delete Notifications');
+    } catch (e) {
+      log('Error deleting link: $e');
+      throw Exception('Failed to delete Notifications');
     }
   }
 }

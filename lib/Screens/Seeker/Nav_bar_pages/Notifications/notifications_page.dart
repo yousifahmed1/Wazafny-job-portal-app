@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Notifications/cubit/notifications_cubit.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Notifications/cubit/notifications_states.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Notifications/model/notifications_model.dart';
+import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Notifications/services/notifications_services.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Notifications/widgets/notifications_list_view.dart';
 import 'package:wazafny/widgets/search_bar_profile_circle.dart';
 import 'package:wazafny/core/constants/constants.dart';
@@ -45,12 +46,15 @@ class _NotificationsPageState extends State<NotificationsPage> {
   }
 
   // Clear all notifications
-  void clearAllNotifications() {
-    
+  Future<void> clearAllNotifications() async {
+    await NotificationsServices().deleteAllNotifications();
+
     setState(() {
       allNotifications.clear();
       filteredNotifications.clear();
     });
+
+    //context.read<NotificationsCubit>().fetchNotifications();
   }
 
   @override
