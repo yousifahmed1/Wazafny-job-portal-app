@@ -54,6 +54,10 @@ class _ApplyJobPostState extends State<ApplyJobPost> {
       jobApplyModel = await JobApplicationServices().showJobApplication(
         applicationId: widget.applicationID!,
       );
+      if (jobApplyModel.questionsAnswers!.isEmpty) {
+        isQuestionsEmpty = true;
+        totalPages = 2;
+      }
     }
 
     setState(() {
