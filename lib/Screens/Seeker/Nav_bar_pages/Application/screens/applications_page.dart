@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Application/cubit/job_applications_cubit.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Application/cubit/job_applications_state.dart';
+import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Application/model/job_applications_model.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Application/widgets/applications_list_view.dart';
 import 'package:wazafny/widgets/search_bar_profile_circle.dart';
 import 'package:wazafny/core/constants/constants.dart';
@@ -25,6 +26,26 @@ class _ApplicationPageState extends State<ApplicationPage> {
   ];
 
   final Set<String> selectedCategories = {'All'}; // Default selected
+
+  // Method to filter applications based on search text
+  List<JobApplicationModel> getFilteredApplications(
+      List<JobApplicationModel> applications) {
+    final searchText = _searchController.text.toLowerCase();
+    final filteredByCategory = selectedCategories.isEmpty ||
+            selectedCategories.contains("All")
+        ? applications
+        : applications
+            .where((jobPost) => selectedCategories.contains(jobPost.jobStatus))
+            .toList();
+
+    // Filtering based on search text
+    return filteredByCategory.where((jobPost) {
+      return jobPost.jobTitle.toLowerCase().contains(searchText) ||
+          jobPost.companyName
+              .toLowerCase()
+              .contains(searchText); // You can add more fields here
+    }).toList();
+  }
 
   @override
   void dispose() {
@@ -51,24 +72,24 @@ class _ApplicationPageState extends State<ApplicationPage> {
             } else if (state is JobApplicationsError) {
               return Center(child: Text('Error: ${state.error}'));
             } else if (state is JobApplicationsLoaded) {
-              // Do the filtering here
-              final filteredJobPosts = selectedCategories.isEmpty ||
-                      selectedCategories.contains("All")
-                  ? state.applications
-                  : state.applications
-                      .where((jobPost) =>
-                          selectedCategories.contains(jobPost.jobStatus))
-                      .toList();
+              // Apply search filter here
+              final filteredJobPosts =
+                  getFilteredApplications(state.applications);
 
               return Column(
                 children: [
-                  // search bar and profile circle
-                  SearchBarProfileCircle(searchController: _searchController),
+                  // Search bar and profile circle
+                  SearchBarProfileCircle(
+                    searchController: _searchController,
+                    onSearchChanged: (searchText) {
+                      setState(() {}); // Rebuild when search text changes
+                    },
+                  ),
                   const SizedBox(height: 15),
                   const HeadingText1(title: "My Applications"),
                   const SizedBox(height: 15),
 
-                  // filters
+                  // Filters
                   SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
                     physics: const BouncingScrollPhysics(),
@@ -127,7 +148,7 @@ class _ApplicationPageState extends State<ApplicationPage> {
                   ),
 
                   const SizedBox(height: 15),
-                  // job posts
+                  // Job posts
                   Expanded(
                     child: ApplicationsListView(
                         filteredJobPosts: filteredJobPosts),
