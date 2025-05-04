@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wazafny/core/constants/constants.dart';
 
 class SearchTextField extends StatelessWidget {
   final TextEditingController? controller;
+  final ValueChanged<String>? onChanged; // Add onChanged callback
 
   const SearchTextField({
     super.key,
     required this.controller,
+    this.onChanged, // Add it to constructor
   });
 
   @override
@@ -48,9 +50,9 @@ class SearchTextField extends StatelessWidget {
             enabledBorder: InputBorder.none,
             focusedBorder: InputBorder.none,
           ),
+          onChanged: onChanged, // Set the onChanged callback
         ),
       ),
     );
-  
   }
 }

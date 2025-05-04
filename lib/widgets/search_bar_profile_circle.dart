@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:wazafny/Screens/login_and_signup/repo/auth_repository.dart';
 import 'package:wazafny/Screens/welcome.dart';
-//import 'package:wazafny/constants.dart';
 import 'package:wazafny/widgets/text_fields/search_field.dart';
 import 'package:wazafny/widgets/texts/heading_text.dart';
 
@@ -13,9 +12,11 @@ class SearchBarProfileCircle extends StatelessWidget {
   const SearchBarProfileCircle({
     super.key,
     required TextEditingController searchController,
+    this.onSearchChanged, // Add the onSearchChanged callback
   }) : _searchController = searchController;
 
   final TextEditingController _searchController;
+  final ValueChanged<String>? onSearchChanged; // Add the onSearchChanged callback type
 
   @override
   Widget build(BuildContext context) {
@@ -28,13 +29,16 @@ class SearchBarProfileCircle extends StatelessWidget {
           Expanded(
             child: SizedBox(
               height: 60,
-              child: SearchTextField(controller: _searchController),
+              child: SearchTextField(
+                controller: _searchController,
+                onChanged: onSearchChanged, // Pass the onSearchChanged callback
+              ),
             ),
           ),
 
           const SizedBox(width: 12),
 
-          //Profile Circle
+          // Profile Circle
           InkWell(
             overlayColor: MaterialStateProperty.all(Colors.transparent),
             onTap: () {
@@ -44,48 +48,49 @@ class SearchBarProfileCircle extends StatelessWidget {
                   width: double.infinity,
                   child: Column(
                     children: [
-                      SizedBox(height: 30,),
+                      const SizedBox(height: 30),
                       Padding(
                         padding: const EdgeInsets.all(16),
                         child: InkWell(
-                          onTap: ()  async {
+                          onTap: () async {
                             final response = await AuthRepository().logoutService();
                             log(response.toString());
-                            if (response){
+                            if (response) {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(builder: (context) => WelcomePage()),
                               );
-                            }else log("error logout");
-
-
+                            } else {
+                              log("Error logging out");
+                            }
                           },
-                          child: Row(
+                          child: const Row(
                             children: [
                               HeadingText(title: "Logout"),
                               Spacer(),
-                              Icon(Icons.logout_sharp,
+                              Icon(
+                                Icons.logout_sharp,
                                 size: 40,
                               ),
                             ],
                           ),
                         ),
-                      )
+                      ),
                     ],
                   ),
                 );
-              },);
+              });
             },
-            // onTap: () => slideTo(context, const LogoutPage()),
             child: const CircleAvatar(
               radius: 30,
               backgroundColor: darkPrimary,
               child: Text(
                 "YA",
                 style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 22),
+                  color: Colors.white,
+                  fontWeight: FontWeight.w600,
+                  fontSize: 22,
+                ),
               ),
             ),
           ),
