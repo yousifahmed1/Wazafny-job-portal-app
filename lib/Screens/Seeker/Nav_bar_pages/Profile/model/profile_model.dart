@@ -13,6 +13,7 @@ class SeekerProfileModel {
   final Education? education;
   final List<SkillsModel> skills;
   final List<LinkModel> links;
+  final List<FollowingsModel>? followings;
 
   SeekerProfileModel({
     required this.image,
@@ -29,6 +30,7 @@ class SeekerProfileModel {
     this.education,
     required this.skills,
     required this.links,
+    this.followings,
   });
 
   factory SeekerProfileModel.fromJson(Map<String, dynamic> json) {
@@ -54,6 +56,9 @@ class SeekerProfileModel {
           .toList(),
       links: (json["personal_info"]['links'] as List? ?? [])
           .map((e) => LinkModel.fromJson(e))
+          .toList(),
+      followings: (json['followings'] as List? ?? [])
+          .map((e) => FollowingsModel.fromJson(e))
           .toList(),
     );
   }
@@ -152,6 +157,26 @@ class SkillsModel {
     return SkillsModel(
       skillID: json['skill_id'],
       skill: json['skill'],
+    );
+  }
+}
+
+class FollowingsModel {
+  final String? companName;
+  final String? profileImg;
+  final int? companyId;
+
+  FollowingsModel({
+    this.companName,
+    this.profileImg,
+    this.companyId,
+  });
+
+  factory FollowingsModel.fromJson(Map<String, dynamic> json) {
+    return FollowingsModel(
+      companyId: json['company_id'],
+      companName: json['company_name'],
+      profileImg: json['profile_img'],
     );
   }
 }

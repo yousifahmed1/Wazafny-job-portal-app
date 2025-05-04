@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/Screens/Edit_pages/edit_cover_page.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/Screens/Edit_pages/edit_information_page.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/Screens/Edit_pages/edit_profile_img.dart';
+import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/Screens/followings_page.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/cubit/profile_cubit.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/cubit/profile_states.dart';
 import 'package:wazafny/core/constants/constants.dart';
@@ -82,9 +83,7 @@ class PersonalInformations extends StatelessWidget {
                                     fit: BoxFit.cover,
                                   ),
                           ),
-                        
                         ),
-                      
                       ),
                       const SizedBox(height: 16),
                       Row(
@@ -106,9 +105,12 @@ class PersonalInformations extends StatelessWidget {
                         ],
                       ),
                       const SizedBox(height: 10),
-                      SubHeadingText(
-                        title: "${seekerProfile.profile.following} following",
-                        titleColor: primaryColor,
+                      InkWell(
+                        onTap: () => slideUp(context, FollowingsPage(followings: seekerProfile.profile.followings ?? [],)),
+                        child: SubHeadingText(
+                          title: "${seekerProfile.profile.following} following",
+                          titleColor: primaryColor,
+                        ),
                       ),
                       const SizedBox(height: 10),
                       SubHeadingText1(
