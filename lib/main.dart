@@ -6,6 +6,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Application/cubit/job_applications_cubit.dart';
+import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Notifications/cubit/notifications_cubit.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/cubit/profile_cubit.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/repo/profile_repo.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/services/profile_service.dart';
@@ -64,6 +65,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (_) => JobApplicationsCubit(),
+        ),
+        BlocProvider(
+          create: (_) => NotificationsCubit(),
         ),
       ],
       child: MaterialApp(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Notifications/model/notifications_model.dart';
 import 'package:wazafny/core/constants/constants.dart';
 
 class NotificationsListView extends StatelessWidget {
@@ -7,7 +8,7 @@ class NotificationsListView extends StatelessWidget {
     required this.notifications,
   });
 
-  final List<Map<String, dynamic>> notifications;
+  final List<NotificationModel> notifications;
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +32,7 @@ class NotificationsListView extends StatelessWidget {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(10),
                   child: Image.network(
-                    notification['image'],
+                    notification.profileImg,
                     width: 50,
                     height: 50,
                     fit: BoxFit.fill,
@@ -48,12 +49,12 @@ class NotificationsListView extends StatelessWidget {
                       ),
                       children: [
                         TextSpan(
-                          text: notification['companyName'],
+                          text: notification.companyName,
                           style: const TextStyle(fontWeight: FontWeight.w700),
                         ),
                         const TextSpan(text: " Posted new job for "),
                         TextSpan(
-                          text: notification['jobTitle'],
+                          text: notification.jobTitle,
                           style: const TextStyle(fontWeight: FontWeight.w700),
                         ),
                       ],
@@ -63,7 +64,7 @@ class NotificationsListView extends StatelessWidget {
                 ),
                 const SizedBox(width: 10),
                 Text(
-                  notification['time'],
+                  notification.timeAgo,
                   style: const TextStyle(
                     color: darkPrimary,
                     fontWeight: FontWeight.w600,
