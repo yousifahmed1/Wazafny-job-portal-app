@@ -30,15 +30,19 @@ class _CompanyViewState extends State<CompanyView> {
   }
 
   Future<void> _followCompany() async {
-    CompanyServices().followCompany(companyId: widget.companyID);
-                context.read<ProfileCubit>().fetchProfile();
-
+    await CompanyServices().followCompany(companyId: widget.companyID);
+    setState(() {
+      isFollwed = true;
+    });
+    context.read<ProfileCubit>().fetchProfile();
   }
 
   Future<void> _unfollowCompany() async {
-    CompanyServices().unfollowCompany(companyId: widget.companyID);
-                    context.read<ProfileCubit>().fetchProfile();
-
+    await CompanyServices().unfollowCompany(companyId: widget.companyID);
+    setState(() {
+      isFollwed = false;
+    });
+    context.read<ProfileCubit>().fetchProfile();
   }
 
   var future;
@@ -131,7 +135,7 @@ class _CompanyViewState extends State<CompanyView> {
                                           ? InkWell(
                                               onTap: () {
                                                 setState(() {
-                                                  isFollwed = true;
+                                                  //isFollwed = true;
 
                                                   _followCompany();
                                                 });
@@ -147,7 +151,7 @@ class _CompanyViewState extends State<CompanyView> {
                                           : InkWell(
                                               onTap: () {
                                                 setState(() {
-                                                  isFollwed = false;
+                                                  //isFollwed = false;
 
                                                   _unfollowCompany();
                                                 });
@@ -160,7 +164,6 @@ class _CompanyViewState extends State<CompanyView> {
                                                 height: 50,
                                               ),
                                             ),
-                                    
                                     ],
                                   ),
                                   const SizedBox(height: 10),
