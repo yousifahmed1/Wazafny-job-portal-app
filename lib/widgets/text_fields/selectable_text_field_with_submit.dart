@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:wazafny/constants.dart';
+import 'package:wazafny/core/constants/constants.dart';
 import 'package:wazafny/widgets/texts/sub_heading_text.dart';
 
 class SearchableTextField extends StatefulWidget {

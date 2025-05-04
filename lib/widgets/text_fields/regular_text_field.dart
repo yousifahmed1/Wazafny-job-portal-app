@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:wazafny/constants.dart';
+import 'package:wazafny/core/constants/constants.dart';
 
 class RegularTextField extends StatelessWidget {
   final TextEditingController? controller;

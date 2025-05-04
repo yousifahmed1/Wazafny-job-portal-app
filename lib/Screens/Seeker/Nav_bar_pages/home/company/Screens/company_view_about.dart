@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/home/company/model/company_model.dart';
-import 'package:wazafny/constants.dart';
+import 'package:wazafny/core/constants/constants.dart';
 import 'package:wazafny/widgets/texts/heading_text.dart';
 import 'package:wazafny/widgets/texts/paragraph.dart';
 import 'package:wazafny/widgets/texts/sub_heading_text.dart';

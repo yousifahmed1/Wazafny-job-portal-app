@@ -7,7 +7,7 @@ import 'package:wazafny/Screens/welcome.dart';
 import 'package:wazafny/widgets/text_fields/search_field.dart';
 import 'package:wazafny/widgets/texts/heading_text.dart';
 
-import '../constants.dart';
+import '../core/constants/constants.dart';
 
 class SearchBarProfileCircle extends StatelessWidget {
   const SearchBarProfileCircle({

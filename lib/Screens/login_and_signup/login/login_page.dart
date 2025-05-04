@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wazafny/Screens/login_and_signup/repo/auth_repository.dart';
-import 'package:wazafny/constants.dart';
-import 'package:wazafny/services/textfields_validators.dart';
+import 'package:wazafny/core/constants/constants.dart';
+import 'package:wazafny/core/constants/textfields_validators.dart';
 import 'package:wazafny/widgets/button.dart';
 import 'package:wazafny/widgets/custom_app_bar.dart';
 import 'package:wazafny/widgets/Navigators/slide_to.dart';

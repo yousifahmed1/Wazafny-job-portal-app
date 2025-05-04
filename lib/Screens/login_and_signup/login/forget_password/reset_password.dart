@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wazafny/Screens/login_and_signup/login/login_page.dart';
-import 'package:wazafny/constants.dart';
+import 'package:wazafny/core/constants/constants.dart';
 import 'package:wazafny/widgets/button.dart';
 import 'package:wazafny/widgets/custom_app_bar.dart';
 import 'package:wazafny/widgets/text_fields/password_text_filed.dart';

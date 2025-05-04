@@ -6,7 +6,7 @@ import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/cubit/profile_cubit
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/cubit/profile_states.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/widgets/about_textfield.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/widgets/save_button.dart';
-import 'package:wazafny/constants.dart';
+import 'package:wazafny/core/constants/constants.dart';
 import 'package:wazafny/widgets/custom_app_bar.dart';
 import 'package:wazafny/widgets/texts/sub_heading_text.dart';
 

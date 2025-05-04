@@ -5,7 +5,7 @@ import 'package:flutter_file_downloader/flutter_file_downloader.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:open_file/open_file.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/Screens/Edit_pages/edit_resume_page.dart';
-import 'package:wazafny/constants.dart';
+import 'package:wazafny/core/constants/constants.dart';
 import 'package:wazafny/widgets/Navigators/slide_up.dart';
 import 'package:wazafny/widgets/texts/heading_text.dart';
 import 'package:wazafny/widgets/texts/sub_heading_text.dart';

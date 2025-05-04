@@ -2,8 +2,8 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/home/job_posts/model/job_apply_model.dart';
-import 'package:wazafny/constants.dart';
-import 'package:wazafny/services/textfields_validators.dart';
+import 'package:wazafny/core/constants/constants.dart';
+import 'package:wazafny/core/constants/textfields_validators.dart';
 import 'package:wazafny/widgets/text_fields/rounded_text_fields.dart';
 import 'package:wazafny/widgets/texts/heading_text.dart';
 

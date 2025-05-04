@@ -4,7 +4,7 @@ import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Application/cubit/job_appli
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Application/cubit/job_applications_state.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Application/widgets/applications_list_view.dart';
 import 'package:wazafny/widgets/search_bar_profile_circle.dart';
-import 'package:wazafny/constants.dart';
+import 'package:wazafny/core/constants/constants.dart';
 import 'package:wazafny/widgets/texts/heading_text.dart';
 
 class ApplicationPage extends StatefulWidget {

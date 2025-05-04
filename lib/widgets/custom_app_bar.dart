@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:wazafny/constants.dart'; // Assuming loginTextColor is defined here
+import 'package:wazafny/core/constants/constants.dart'; // Assuming loginTextColor is defined here
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final VoidCallback onBackPressed;

@@ -6,7 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/Screens/Edit_pages/experience/add_edit_experience.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/widgets/delete_experience_dialog.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/widgets/save_button.dart';
-import 'package:wazafny/constants.dart';
+import 'package:wazafny/core/constants/constants.dart';
 import 'package:wazafny/widgets/Navigators/slide_to.dart';
 import 'package:wazafny/widgets/custom_line.dart';
 import 'package:wazafny/widgets/texts/heading_text.dart';

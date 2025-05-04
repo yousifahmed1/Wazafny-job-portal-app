@@ -5,7 +5,7 @@ import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Application/Services/job_ap
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/home/job_posts/model/job_apply_model.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/home/job_posts/model/job_post_model.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/home/job_posts/services/Job_services.dart';
-import 'package:wazafny/constants.dart';
+import 'package:wazafny/core/constants/constants.dart';
 import 'package:wazafny/widgets/custom_app_bar.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/home/job_posts/screens/job_apply/apply_job_page_one.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/home/job_posts/screens/job_apply/apply_job_page_two.dart';

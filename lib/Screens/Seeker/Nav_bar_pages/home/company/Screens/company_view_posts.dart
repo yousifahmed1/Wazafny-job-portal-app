@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/home/company/model/company_model.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/home/job_posts/screens/job_post_preview.dart';
-import 'package:wazafny/constants.dart';
+import 'package:wazafny/core/constants/constants.dart';
 import 'package:wazafny/widgets/Navigators/slide_to.dart';
 
 class CompanyViewPosts extends StatefulWidget {

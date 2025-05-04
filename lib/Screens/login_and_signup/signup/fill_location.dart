@@ -1,6 +1,6 @@
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:wazafny/constants.dart';
+import 'package:wazafny/core/constants/constants.dart';
 import 'package:wazafny/widgets/Navigators/slide_to.dart';
 import 'package:wazafny/widgets/text_fields/regular_text_field.dart';
 import '../../../widgets/button.dart';

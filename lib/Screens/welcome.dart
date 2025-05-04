@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 //import 'package:flutter_svg/svg.dart';
-import 'package:wazafny/constants.dart';
+import 'package:wazafny/core/constants/constants.dart';
 import 'package:wazafny/widgets/Navigators/slide_to.dart';
 
 import '../widgets/button.dart';

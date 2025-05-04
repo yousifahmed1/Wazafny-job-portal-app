@@ -15,7 +15,7 @@ import 'package:wazafny/Screens/Seeker/Nav_bar_pages/home/job_posts/cubits/recom
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/nav_bar.dart';
 import 'package:wazafny/Screens/login_and_signup/repo/auth_repository.dart';
 import 'package:wazafny/Screens/welcome.dart';
-import 'package:wazafny/constants.dart';
+import 'package:wazafny/core/constants/constants.dart';
 
 void main() {
   runApp(const MyApp());

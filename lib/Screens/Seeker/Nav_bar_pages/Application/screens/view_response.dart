@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:wazafny/constants.dart';
+import 'package:wazafny/core/constants/constants.dart';
 import 'package:wazafny/widgets/custom_app_bar.dart';
 
 class ViewApplicationResponse extends StatelessWidget {

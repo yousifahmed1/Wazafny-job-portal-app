@@ -8,7 +8,7 @@ import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/widgets/save_button
 import 'package:wazafny/widgets/text_fields/rounded_text_fields.dart';
 import 'package:wazafny/widgets/texts/heading_text.dart';
 import 'package:wazafny/widgets/texts/sub_heading_text.dart';
-import '../../../../../../services/textfields_validators.dart';
+import '../../../../../../core/constants/textfields_validators.dart';
 import '../../../../../../widgets/custom_app_bar.dart';
 import '../../cubit/profile_cubit.dart';
 import '../../cubit/profile_states.dart';

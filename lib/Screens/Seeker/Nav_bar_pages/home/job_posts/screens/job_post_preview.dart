@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/home/job_posts/cubits/job_post_cubit/job_post_cubit.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/home/job_posts/screens/job_apply/apply_job_post.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/home/job_posts/widgets/apply_button.dart';
-import 'package:wazafny/constants.dart';
+import 'package:wazafny/core/constants/constants.dart';
 import 'package:wazafny/widgets/Navigators/slide_up.dart';
 import 'package:wazafny/widgets/custom_app_bar.dart';
 import 'package:wazafny/widgets/custom_line.dart';

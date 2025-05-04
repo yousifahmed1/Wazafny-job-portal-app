@@ -4,7 +4,7 @@ import 'package:wazafny/Screens/Seeker/Nav_bar_pages/home/company/Screens/compan
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/home/company/Screens/company_view_posts.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/home/company/model/company_model.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/home/company/services/company_services.dart';
-import 'package:wazafny/constants.dart';
+import 'package:wazafny/core/constants/constants.dart';
 import 'package:wazafny/widgets/button.dart';
 import 'package:wazafny/widgets/custom_app_bar.dart';
 import 'package:wazafny/widgets/texts/heading_text.dart';

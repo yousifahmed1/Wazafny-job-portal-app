@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Application/model/job_applications_model.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Application/screens/view_response.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/home/job_posts/screens/job_apply/apply_job_post.dart';
-import 'package:wazafny/constants.dart';
+import 'package:wazafny/core/constants/constants.dart';
 import 'package:wazafny/widgets/Navigators/slide_up.dart';
 import 'package:wazafny/widgets/texts/sub_heading_text.dart';
 
