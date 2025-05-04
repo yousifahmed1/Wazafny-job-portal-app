@@ -1,7 +1,9 @@
 import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Application/Services/job_applications_services.dart';
+import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Application/cubit/job_applications_cubit.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/home/job_posts/model/job_apply_model.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/home/job_posts/model/job_post_model.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/home/job_posts/services/Job_services.dart';
@@ -95,8 +97,9 @@ class _ApplyJobPostState extends State<ApplyJobPost> {
                                 currentPage: currentPage,
                                 totalPages: totalPages),
                             if (currentPage == 1) ...[
-                              ApplyPageOne(jobApplyModel: jobApplyModel,
-                              isEditMode:widget.editMode ,
+                              ApplyPageOne(
+                                jobApplyModel: jobApplyModel,
+                                isEditMode: widget.editMode,
                               ),
                             ] else if (currentPage == 2) ...[
                               ApplyPageTwo(
@@ -119,8 +122,6 @@ class _ApplyJobPostState extends State<ApplyJobPost> {
             ),
     );
   }
-
-
 
   Widget buildBottomButtons() {
     return Container(
@@ -145,8 +146,6 @@ class _ApplyJobPostState extends State<ApplyJobPost> {
       ),
     );
   }
-
-
 
   Widget buildBackButton() {
     return Padding(
@@ -183,8 +182,6 @@ class _ApplyJobPostState extends State<ApplyJobPost> {
     );
   }
 
-
-
   Widget buildDisabledBackButton() {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
@@ -213,8 +210,6 @@ class _ApplyJobPostState extends State<ApplyJobPost> {
       ),
     );
   }
-
-
 
   Widget buildNextOrSubmitButton() {
     return Padding(
@@ -284,6 +279,7 @@ class _ApplyJobPostState extends State<ApplyJobPost> {
 
               // ignore: use_build_context_synchronously
               Navigator.pop(context, true);
+              context.read<JobApplicationsCubit>().fetchJobApplications();
             } else {
               setState(() {
                 if (currentPage < totalPages) {
