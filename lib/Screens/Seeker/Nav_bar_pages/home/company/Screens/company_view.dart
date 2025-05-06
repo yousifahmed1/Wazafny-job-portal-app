@@ -189,22 +189,22 @@ class _CompanyViewState extends State<CompanyView> {
                                         )
                                       : const SizedBox(),
                                   const SizedBox(height: 10),
-                                  company.companyEmail != null
-                                      ? Row(
-                                          children: [
-                                            SubHeadingText(
-                                              title: company.companyEmail!,
-                                              titleColor: primaryColor,
-                                            ),
-                                            const SizedBox(width: 10),
-                                            SvgPicture.asset(
-                                              "assets/Icons/Link.svg",
-                                              width: 25,
-                                              height: 25,
-                                            ),
-                                          ],
-                                        )
-                                      : const SizedBox(),
+                                  // company.companyEmail != null
+                                  //     ? Row(
+                                  //         children: [
+                                  //           SubHeadingText(
+                                  //             title: company.companyEmail!,
+                                  //             titleColor: primaryColor,
+                                  //           ),
+                                  //           const SizedBox(width: 10),
+                                  //           SvgPicture.asset(
+                                  //             "assets/Icons/Link.svg",
+                                  //             width: 25,
+                                  //             height: 25,
+                                  //           ),
+                                  //         ],
+                                  //       )
+                                  //     : const SizedBox(),
                                   Center(
                                     child: Container(
                                       height: 60,

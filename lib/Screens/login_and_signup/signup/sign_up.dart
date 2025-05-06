@@ -9,6 +9,8 @@ import 'package:wazafny/widgets/custom_app_bar.dart';
 import 'package:wazafny/widgets/text_fields/password_text_filed.dart';
 import 'package:wazafny/widgets/text_fields/regular_text_field.dart';
 
+import '../repo/auth_repository.dart';
+
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key, required this.role});
@@ -63,9 +65,27 @@ class _SignUpPageState extends State<SignUpPage> {
 
   Future<void> onTapSignUp() async {
     if (_formKey.currentState!.validate()) {
-      final result = await SignUpService().signUp(
+      if (widget.role=="Seeker"){
+      final result = await AuthRepository().signUpSeeker(
         firstName: _firstNameController.text.trim(),
         lastName: _lastNameController.text.trim(),
+        email: _emailController.text.trim(),
+        password: _passwordController.text,
+      );
+
+      if (result['statusCode'] == 201) {
+        slideTo(context,  FillHeadline());
+
+      } else {
+        final errorMsg = result['error'] ?? 'Registration failed. Please try again.';
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(errorMsg)),
+        );
+      }
+    }
+    }else if (widget.role=="Company"){
+      final result = await AuthRepository().signUpCompany(
+        companyName: _companyNameController.text,
         email: _emailController.text.trim(),
         password: _passwordController.text,
       );
@@ -101,13 +121,25 @@ class _SignUpPageState extends State<SignUpPage> {
               child: Column(
                 children: [
                   const SizedBox(height: 30),
-                  const Text(
-                    "SIGN UP",
-                    style: TextStyle(
-                      color: loginTextColor,
-                      fontSize: 40,
-                      fontWeight: FontWeight.w900,
-                    ),
+                  Column(
+                    children: [
+                      const Text(
+                        "SIGN UP",
+                        style: TextStyle(
+                          color: loginTextColor,
+                          fontSize: 40,
+                          fontWeight: FontWeight.w900,
+                        ),
+                      ),
+                       Text(
+                        widget.role,
+                        style:const  TextStyle(
+                          color: loginTextColor,
+                          fontSize: 20,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
                   ),
                   const SizedBox(height: 20),
                   widget.role == "Seeker"

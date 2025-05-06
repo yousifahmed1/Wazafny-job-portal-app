@@ -84,13 +84,25 @@ class _LoginPageState extends State<LoginPage> {
               child: Column(
                 children: [
                   const SizedBox(height: 30),
-                  const Text(
-                    "LOGIN",
-                    style: TextStyle(
-                      color: loginTextColor,
-                      fontSize: 40,
-                      fontWeight: FontWeight.w900,
-                    ),
+                  Column(
+                    children: [
+                      const Text(
+                        "LOGIN",
+                        style: TextStyle(
+                          color: loginTextColor,
+                          fontSize: 40,
+                          fontWeight: FontWeight.w900,
+                        ),
+                      ),
+                       Text(
+                        widget.role,
+                        style: const TextStyle(
+                          color: loginTextColor,
+                          fontSize: 20,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
                   ),
                   const SizedBox(height: 20),
                   RegularTextField(

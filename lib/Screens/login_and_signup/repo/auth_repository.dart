@@ -40,6 +40,66 @@ class AuthRepository {
     }
   }
 
+  Future<Map<String, dynamic>> signUpSeeker({
+    required String firstName,
+    required String lastName,
+    required String email,
+    required String password,
+  }) async {
+    try {
+      final response = await dio.post(
+        '/register/Seeker',
+        data: {
+          'first_name': firstName,
+          'last_name': lastName,
+          'email': email,
+          'password': password,
+        },
+      );
+
+      return {
+        'statusCode': response.statusCode,
+        'data': response.data,
+      };
+    } on DioException catch (e) {
+      print('Registration failed: ${e.message}');
+      return {
+        'statusCode': e.response?.statusCode ?? 500,
+        'error': e.message,
+      };
+    }
+  }
+
+  Future<Map<String, dynamic>> signUpCompany({
+
+    required String companyName,
+    required String email,
+    required String password,
+  }) async {
+    try {
+      final response = await dio.post(
+        '/register/Company',
+        data: {
+          'company_name': companyName,
+          'email': email,
+          'password': password,
+        },
+      );
+
+      return {
+        'statusCode': response.statusCode,
+        'data': response.data,
+      };
+    } on DioException catch (e) {
+      print('Registration failed: ${e.message}');
+      return {
+        'statusCode': e.response?.statusCode ?? 500,
+        'error': e.message,
+      };
+    }
+  }
+
+
   Future<bool> logoutService() async {
     final userID = await getSeekerId();
     final token = await getToken();
