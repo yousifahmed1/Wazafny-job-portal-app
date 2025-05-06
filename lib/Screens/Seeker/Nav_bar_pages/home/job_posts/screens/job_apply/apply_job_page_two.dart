@@ -83,7 +83,7 @@ class _ApplyPageTwoState extends State<ApplyPageTwo> {
           GestureDetector(
             onTap: _pickFile,
             child: DottedBorder(
-              color: darkPrimary, // Border color
+              color: darkerPrimary, // Border color
               strokeWidth: 2, // Thickness
               dashPattern: const [6, 3], // Dots and space
               borderType: BorderType.RRect,

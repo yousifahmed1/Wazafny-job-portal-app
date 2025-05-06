@@ -29,7 +29,7 @@ class AnswerTextField extends StatelessWidget {
             : Text(
                 labelText ?? "",
                 style: const TextStyle(
-                  color: loginTextColor,
+                  color: darkPrimary,
                   fontWeight: FontWeight.w500,
                   fontSize: 18,
                 ),
@@ -40,9 +40,9 @@ class AnswerTextField extends StatelessWidget {
           onChanged: onChanged,
           controller: controller,
           validator: validator,
-          cursorColor: loginTextColor,
+          cursorColor: darkPrimary,
           style: const TextStyle(
-            color: loginTextColor,
+            color: darkPrimary,
             fontSize: 20,
             fontWeight: FontWeight.w600,
           ),

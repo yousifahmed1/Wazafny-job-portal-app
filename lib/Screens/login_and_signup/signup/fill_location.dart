@@ -79,7 +79,7 @@ class _FillLocationState extends State<FillLocation> {
                       flagSize: 25,
                       textStyle: TextStyle(
                           fontSize: 20,
-                          color: loginTextColor,
+                          color: darkPrimary,
                           fontWeight: FontWeight.w500),
                     ),
                     context: context,
@@ -110,7 +110,6 @@ class _FillLocationState extends State<FillLocation> {
                 onTap: () {
                   if (_formKey.currentState!.validate()) {
                     slideTo(context, const FillHeadline());
-
                   }
                 },
                 child: Opacity(

@@ -200,7 +200,7 @@ class _AddEditEducationState extends State<AddEditEducation> {
                                 _currentlyStudent = value!;
                               });
                             },
-                            activeColor: darkPrimary, // Custom active color
+                            activeColor: darkerPrimary, // Custom active color
                             size: 30.0, // Custom checkbox size
                           ),
                           const SizedBox(
@@ -208,7 +208,7 @@ class _AddEditEducationState extends State<AddEditEducation> {
                           ),
                           const SubHeadingText(
                             title: "I ‘m still a student in this University",
-                            titleColor: darkPrimary,
+                            titleColor: darkerPrimary,
                           ),
                         ],
                       ),

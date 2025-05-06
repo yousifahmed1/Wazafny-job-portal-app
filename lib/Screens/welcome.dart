@@ -18,13 +18,12 @@ class WelcomePage extends StatelessWidget {
       body: Center(
         child: Column(
           children: [
-            const  Spacer(),
+            const Spacer(),
             Image.asset(
               "assets/Images/welcome.png",
               width: SizeConfig.screenWidth,
               fit: BoxFit.fill,
             ),
-
 
             // Expanded(
             //   child: Padding(
@@ -60,7 +59,7 @@ class WelcomePage extends StatelessWidget {
             //   ),
             // ),
             Container(
-              height: SizeConfig.screenHeight *(1/3) ,
+              height: SizeConfig.screenHeight * (1 / 3),
               width: double.infinity,
               //height: SizeConfig.screenHeight*0.32,
               decoration: const BoxDecoration(
@@ -77,7 +76,7 @@ class WelcomePage extends StatelessWidget {
                   const Text(
                     "YOU ARE A",
                     style: TextStyle(
-                      color: loginTextColor,
+                      color: darkPrimary,
                       fontSize: 40,
                       fontWeight: FontWeight.w900,
                     ),
@@ -104,7 +103,6 @@ class WelcomePage extends StatelessWidget {
                       ],
                     ),
                   )
-
                 ],
               ),
             )

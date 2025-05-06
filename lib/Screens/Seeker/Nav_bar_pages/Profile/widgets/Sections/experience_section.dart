@@ -93,24 +93,22 @@ class ExperienceSection extends StatelessWidget {
                                     SubHeadingText2(
                                       title:
                                           "${seekerProfile.profile.experience[index].employmentType}",
-                                      titleColor: darkPrimary,
+                                      titleColor: darkerPrimary,
                                     ),
                                     SubHeadingText2(
                                       title:
                                           " - ${seekerProfile.profile.experience[index].company}",
-                                      titleColor: darkPrimary,
+                                      titleColor: darkerPrimary,
                                     ),
                                   ],
                                 ),
                                 SubHeadingText2(
                                     title:
                                         "${seekerProfile.profile.experience[index].startDate} - ${seekerProfile.profile.experience[index].endDate}"),
-                              
                               ],
                             )
                           ],
                         );
-                      
                       },
                     )
                   : const Padding(

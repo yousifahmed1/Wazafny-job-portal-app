@@ -65,7 +65,7 @@ class SkillsSection extends StatelessWidget {
                       itemBuilder: (context, index) {
                         return SubHeadingText(
                           title: seekerProfile.profile.skills[index].skill!,
-                          titleColor: darkPrimary,
+                          titleColor: darkerPrimary,
                           fontSize: 20,
                         );
                       },

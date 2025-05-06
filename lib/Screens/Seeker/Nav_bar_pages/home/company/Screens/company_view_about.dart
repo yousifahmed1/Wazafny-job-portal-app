@@ -50,7 +50,7 @@ class _CompanyViewAboutState extends State<CompanyViewAbout> {
                             },
                             child: SubHeadingText(
                               title: isExpanded ? "Show more" : "Show less",
-                              titleColor: darkPrimary,
+                              titleColor: darkerPrimary,
                             ))
                       ],
                     ),
@@ -70,7 +70,7 @@ class _CompanyViewAboutState extends State<CompanyViewAbout> {
                               ),
                               SubHeadingText(
                                 title: widget.company.companyEmail!,
-                                titleColor: darkPrimary,
+                                titleColor: darkerPrimary,
                               ),
                             ]),
                   const SizedBox(
@@ -87,7 +87,7 @@ class _CompanyViewAboutState extends State<CompanyViewAbout> {
                               ),
                               SubHeadingText(
                                 title: widget.company.companyIndustry!,
-                                titleColor: darkPrimary,
+                                titleColor: darkerPrimary,
                               ),
                             ]),
                   const SizedBox(
@@ -104,7 +104,7 @@ class _CompanyViewAboutState extends State<CompanyViewAbout> {
                               ),
                               SubHeadingText(
                                 title: widget.company.companySize!,
-                                titleColor: darkPrimary,
+                                titleColor: darkerPrimary,
                               ),
                             ]),
                   const SizedBox(
@@ -121,7 +121,7 @@ class _CompanyViewAboutState extends State<CompanyViewAbout> {
                               ),
                               SubHeadingText(
                                 title: widget.company.companyHeads!,
-                                titleColor: darkPrimary,
+                                titleColor: darkerPrimary,
                               ),
                             ]),
                   const SizedBox(
@@ -138,7 +138,7 @@ class _CompanyViewAboutState extends State<CompanyViewAbout> {
                               ),
                               SubHeadingText(
                                 title: widget.company.companyFounded!,
-                                titleColor: darkPrimary,
+                                titleColor: darkerPrimary,
                               ),
                             ]),
                   const SizedBox(
@@ -157,7 +157,7 @@ class _CompanyViewAboutState extends State<CompanyViewAbout> {
                               SubHeadingText(
                                 title:
                                     "${widget.company.companyCountry}, ${widget.company.companyCity}",
-                                titleColor: darkPrimary,
+                                titleColor: darkerPrimary,
                               ),
                             ]),
                   const SizedBox(

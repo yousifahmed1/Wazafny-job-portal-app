@@ -88,9 +88,9 @@ class _SearchableTextFieldState extends State<SearchableTextField> {
                         child: Center(
                           child: TextFormField(
                             controller: widget.controller,
-                            cursorColor: loginTextColor,
+                            cursorColor: darkPrimary,
                             style: const TextStyle(
-                              color: loginTextColor,
+                              color: darkPrimary,
                               fontSize: 20,
                               fontWeight: FontWeight.w600,
                             ),
@@ -136,7 +136,7 @@ class _SearchableTextFieldState extends State<SearchableTextField> {
                               title: Text(skill,
                                   style: const TextStyle(
                                       fontSize: 20,
-                                      color: darkPrimary,
+                                      color: darkerPrimary,
                                       fontWeight: FontWeight.w700)),
                               onTap: () {
                                 widget.onSkillSelected(skill);
@@ -152,7 +152,7 @@ class _SearchableTextFieldState extends State<SearchableTextField> {
                                 "Add custom skill",
                                 style: TextStyle(
                                   fontSize: 20,
-                                  color: darkPrimary,
+                                  color: darkerPrimary,
                                   fontWeight: FontWeight.w700,
                                 ),
                               ),
@@ -187,7 +187,7 @@ class _SearchableTextFieldState extends State<SearchableTextField> {
         Text(
           widget.labelText,
           style: const TextStyle(
-            color: loginTextColor,
+            color: darkPrimary,
             fontWeight: FontWeight.w500,
             fontSize: 18,
           ),

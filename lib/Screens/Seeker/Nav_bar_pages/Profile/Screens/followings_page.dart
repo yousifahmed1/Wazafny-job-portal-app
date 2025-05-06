@@ -113,7 +113,7 @@ class _FollowingsPageState extends State<FollowingsPage> {
                             SubHeadingText(
                               title: company.companName ?? "",
                               fontSize: 18,
-                              titleColor: darkPrimary,
+                              titleColor: darkerPrimary,
                             ),
                             const Spacer(),
                             isFollowedList[originalIndex] == false
@@ -127,7 +127,7 @@ class _FollowingsPageState extends State<FollowingsPage> {
                                     child: const Button1(
                                       text: "Follow",
                                       size: 18,
-                                      btnColor: darkPrimary,
+                                      btnColor: darkerPrimary,
                                       width: 110,
                                       height: 50,
                                     ),
@@ -142,7 +142,7 @@ class _FollowingsPageState extends State<FollowingsPage> {
                                     child: const RoundedButton(
                                       text: "Following",
                                       size: 16,
-                                      borderColor: darkPrimary,
+                                      borderColor: darkerPrimary,
                                       width: 110,
                                       height: 50,
                                     ),

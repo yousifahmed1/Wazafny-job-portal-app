@@ -28,7 +28,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
             ? Text(
                 title!,
                 style: const TextStyle(
-                  color: loginTextColor,
+                  color: darkPrimary,
                   fontSize: 25,
                   fontWeight: FontWeight.w700,
                 ),
@@ -41,7 +41,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
             "assets/Icons/backArrow.svg",
             width: 30,
             height: 30,
-            color: buttonColor ?? loginTextColor,
+            color: buttonColor ?? darkPrimary,
           ),
         ),
       ),
@@ -74,7 +74,7 @@ class ForgetPasswordCustomAppBar extends StatelessWidget
         title: const Text(
           "Forget Password",
           style: TextStyle(
-            color: loginTextColor,
+            color: darkPrimary,
             fontSize: 25,
             fontWeight: FontWeight.w700,
           ),
@@ -124,7 +124,7 @@ class CustomAppBar1 extends StatelessWidget implements PreferredSizeWidget {
                   ? Text(
                       title!,
                       style: const TextStyle(
-                        color: loginTextColor,
+                        color: darkPrimary,
                         fontSize: 25,
                         fontWeight: FontWeight.w700,
                       ),

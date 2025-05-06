@@ -11,7 +11,7 @@ class AnimatedCustomCheckbox extends StatefulWidget {
     super.key,
     required this.value,
     required this.onChanged,
-    this.activeColor = darkPrimary,
+    this.activeColor = darkerPrimary,
     this.size = 24.0,
   });
 

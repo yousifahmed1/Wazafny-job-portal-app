@@ -32,7 +32,7 @@ We appreciate your interest in joining our team and look forward to speaking wit
               "Dear Yousif Ahmed",
               style: TextStyle(
                 fontWeight: FontWeight.w700,
-                color: darkPrimary,
+                color: darkerPrimary,
                 fontSize: 24,
               ),
             ),
@@ -44,13 +44,13 @@ We appreciate your interest in joining our team and look forward to speaking wit
               style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w500,
-                  color: darkPrimary),
+                  color: darkerPrimary),
             ),
             const Text(
               "Best regards,\n[Company Name]",
               style: TextStyle(
                 fontWeight: FontWeight.w700,
-                color: darkPrimary,
+                color: darkerPrimary,
                 fontSize: 20,
               ),
             ),

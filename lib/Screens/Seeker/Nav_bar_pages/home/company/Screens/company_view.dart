@@ -159,7 +159,7 @@ class _CompanyViewState extends State<CompanyView> {
                                               child: const RoundedButton(
                                                 text: "Following",
                                                 size: 16,
-                                                borderColor: darkPrimary,
+                                                borderColor: darkerPrimary,
                                                 width: 110,
                                                 height: 50,
                                               ),
@@ -172,12 +172,12 @@ class _CompanyViewState extends State<CompanyView> {
                                       SubHeadingText(
                                         title:
                                             "${company.followersCount} Followers",
-                                        titleColor: darkPrimary,
+                                        titleColor: darkerPrimary,
                                       ),
                                       const SizedBox(width: 20),
                                       SubHeadingText(
                                         title: "${company.jobsCount} Jobs",
-                                        titleColor: darkPrimary,
+                                        titleColor: darkerPrimary,
                                       ),
                                     ],
                                   ),
@@ -185,7 +185,7 @@ class _CompanyViewState extends State<CompanyView> {
                                   company.headline != null
                                       ? SubHeadingText1(
                                           title: company.headline ?? "",
-                                          titleColor: darkPrimary,
+                                          titleColor: darkerPrimary,
                                         )
                                       : const SizedBox(),
                                   const SizedBox(height: 10),
@@ -214,8 +214,8 @@ class _CompanyViewState extends State<CompanyView> {
                                         overlayColor: MaterialStateProperty.all(
                                             Colors.transparent),
                                         dividerColor: Colors.transparent,
-                                        labelColor: darkPrimary,
-                                        unselectedLabelColor: darkPrimary,
+                                        labelColor: darkerPrimary,
+                                        unselectedLabelColor: darkerPrimary,
                                         indicator: const BoxDecoration(
                                           border: Border(
                                             bottom: BorderSide(

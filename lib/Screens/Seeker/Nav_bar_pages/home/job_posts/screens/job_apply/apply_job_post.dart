@@ -162,7 +162,7 @@ class _ApplyJobPostState extends State<ApplyJobPost> {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
             color: Colors.white,
-            border: Border.all(color: darkPrimary, width: 2),
+            border: Border.all(color: darkerPrimary, width: 2),
           ),
           child: const Center(
             child: Padding(
@@ -170,7 +170,7 @@ class _ApplyJobPostState extends State<ApplyJobPost> {
               child: Text(
                 "Back",
                 style: TextStyle(
-                  color: darkPrimary,
+                  color: darkerPrimary,
                   fontWeight: FontWeight.w700,
                   fontSize: 20,
                 ),
@@ -293,7 +293,7 @@ class _ApplyJobPostState extends State<ApplyJobPost> {
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
-            color: darkPrimary,
+            color: darkerPrimary,
           ),
           child: Center(
             child: Padding(

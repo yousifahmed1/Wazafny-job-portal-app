@@ -24,9 +24,9 @@ class RegularTextField extends StatelessWidget {
       onTap: ontap,
       controller: controller,
       validator: validator,
-      cursorColor: loginTextColor,
+      cursorColor: darkPrimary,
       style: const TextStyle(
-        color: loginTextColor,
+        color: darkPrimary,
         fontSize: 20,
         fontWeight: FontWeight.w600,
       ),
@@ -38,7 +38,7 @@ class RegularTextField extends StatelessWidget {
         ),
         labelText: labelText,
         labelStyle: const TextStyle(
-          color: loginTextColor,
+          color: darkPrimary,
           fontWeight: FontWeight.w600,
           fontSize: 18,
         ),

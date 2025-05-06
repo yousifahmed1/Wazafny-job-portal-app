@@ -16,7 +16,8 @@ class SearchBarProfileCircle extends StatelessWidget {
   }) : _searchController = searchController;
 
   final TextEditingController _searchController;
-  final ValueChanged<String>? onSearchChanged; // Add the onSearchChanged callback type
+  final ValueChanged<String>?
+      onSearchChanged; // Add the onSearchChanged callback type
 
   @override
   Widget build(BuildContext context) {
@@ -42,48 +43,52 @@ class SearchBarProfileCircle extends StatelessWidget {
           InkWell(
             overlayColor: MaterialStateProperty.all(Colors.transparent),
             onTap: () {
-              showModalBottomSheet(context: context, builder: (context) {
-                return Container(
-                  height: 150,
-                  width: double.infinity,
-                  child: Column(
-                    children: [
-                      const SizedBox(height: 30),
-                      Padding(
-                        padding: const EdgeInsets.all(16),
-                        child: InkWell(
-                          onTap: () async {
-                            final response = await AuthRepository().logoutService();
-                            log(response.toString());
-                            if (response) {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => WelcomePage()),
-                              );
-                            } else {
-                              log("Error logging out");
-                            }
-                          },
-                          child: const Row(
-                            children: [
-                              HeadingText(title: "Logout"),
-                              Spacer(),
-                              Icon(
-                                Icons.logout_sharp,
-                                size: 40,
+              showModalBottomSheet(
+                  context: context,
+                  builder: (context) {
+                    return Container(
+                      height: 150,
+                      width: double.infinity,
+                      child: Column(
+                        children: [
+                          const SizedBox(height: 30),
+                          Padding(
+                            padding: const EdgeInsets.all(16),
+                            child: InkWell(
+                              onTap: () async {
+                                final response =
+                                    await AuthRepository().logoutService();
+                                log(response.toString());
+                                if (response) {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => WelcomePage()),
+                                  );
+                                } else {
+                                  log("Error logging out");
+                                }
+                              },
+                              child: const Row(
+                                children: [
+                                  HeadingText(title: "Logout"),
+                                  Spacer(),
+                                  Icon(
+                                    Icons.logout_sharp,
+                                    size: 40,
+                                  ),
+                                ],
                               ),
-                            ],
+                            ),
                           ),
-                        ),
+                        ],
                       ),
-                    ],
-                  ),
-                );
-              });
+                    );
+                  });
             },
             child: const CircleAvatar(
               radius: 30,
-              backgroundColor: darkPrimary,
+              backgroundColor: darkerPrimary,
               child: Text(
                 "YA",
                 style: TextStyle(

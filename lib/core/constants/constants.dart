@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-const darkPrimary = Color(0xff201A23);
-const loginTextColor = Color(0xff242645);
+const darkerPrimary = Color(0xff201A23);
+const darkPrimary = Color(0xff242645);
 const primaryColor = Color(0xff6A0DAD);
 const lightPrimary = Color(0xffF2E9FF);
 const backgroundColor = Color(0xffFBF8FD);

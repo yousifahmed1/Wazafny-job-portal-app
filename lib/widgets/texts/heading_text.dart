@@ -16,7 +16,7 @@ class HeadingText1 extends StatelessWidget {
       style: const TextStyle(
         fontWeight: FontWeight.w700,
         fontSize: 30,
-        color: darkPrimary,
+        color: darkerPrimary,
       ),
     );
   }
@@ -45,7 +45,7 @@ class HeadingText extends StatelessWidget {
       style: TextStyle(
         fontWeight: FontWeight.w700,
         fontSize: fontSize ?? 24,
-        color: titleColor ?? darkPrimary,
+        color: titleColor ?? darkerPrimary,
       ),
     );
   }

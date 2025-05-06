@@ -43,9 +43,15 @@ class _CompaniesListViewState extends State<CompaniesListView> {
               ? state.companies
               : state.companies.where((company) {
                   final searchLower = widget.searchQuery.toLowerCase();
-                  return company.companyName.toLowerCase().contains(searchLower) ||
-                      (company.companyCity ?? '').toLowerCase().contains(searchLower) ||
-                      (company.companyCountry ?? '').toLowerCase().contains(searchLower) ||
+                  return company.companyName
+                          .toLowerCase()
+                          .contains(searchLower) ||
+                      (company.companyCity ?? '')
+                          .toLowerCase()
+                          .contains(searchLower) ||
+                      (company.companyCountry ?? '')
+                          .toLowerCase()
+                          .contains(searchLower) ||
                       (company.about ?? '').toLowerCase().contains(searchLower);
                 }).toList();
 
@@ -65,10 +71,10 @@ class _CompaniesListViewState extends State<CompaniesListView> {
                         // Clear search - this would be handled by the parent widget
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: darkPrimary,
+                        backgroundColor: darkerPrimary,
                       ),
-                      child: const Text('Clear Search', 
-                        style: TextStyle(color: Colors.white)),
+                      child: const Text('Clear Search',
+                          style: TextStyle(color: Colors.white)),
                     ),
                 ],
               ),
@@ -133,6 +139,7 @@ class _CompaniesListViewState extends State<CompaniesListView> {
                                   style: const TextStyle(
                                     fontWeight: FontWeight.w800,
                                     fontSize: 16,
+                                    color: darkerPrimary,
                                   ),
                                 ),
                                 Text(
@@ -140,6 +147,7 @@ class _CompaniesListViewState extends State<CompaniesListView> {
                                   style: const TextStyle(
                                     fontWeight: FontWeight.w600,
                                     fontSize: 14,
+                                    color: darkerPrimary,
                                   ),
                                 ),
                               ],
@@ -152,11 +160,14 @@ class _CompaniesListViewState extends State<CompaniesListView> {
                                   style: const TextStyle(
                                     fontWeight: FontWeight.w700,
                                     fontSize: 16,
+                                    color: darkerPrimary,
                                   ),
                                 ),
                                 const Text(
                                   "Followers",
-                                  style: TextStyle(fontSize: 12),
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                  ),
                                 ),
                               ],
                             ),
@@ -168,6 +179,7 @@ class _CompaniesListViewState extends State<CompaniesListView> {
                                   style: const TextStyle(
                                     fontWeight: FontWeight.w700,
                                     fontSize: 16,
+                                    color: darkerPrimary,
                                   ),
                                 ),
                                 const Text(
@@ -182,8 +194,9 @@ class _CompaniesListViewState extends State<CompaniesListView> {
                         const Text(
                           "Description",
                           style: TextStyle(
-                            fontWeight: FontWeight.w600,
+                            fontWeight: FontWeight.w700,
                             fontSize: 16,
+                            color: darkerPrimary,
                           ),
                         ),
                         Text(
@@ -193,6 +206,7 @@ class _CompaniesListViewState extends State<CompaniesListView> {
                           style: const TextStyle(
                             fontWeight: FontWeight.w500,
                             fontSize: 15,
+                            color: darkerPrimary,
                           ),
                         ),
                       ],

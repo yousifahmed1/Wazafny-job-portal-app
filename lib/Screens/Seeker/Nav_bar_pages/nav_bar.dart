@@ -140,8 +140,8 @@ class IconNav extends StatelessWidget {
         ),
         Text(
           title,
-          style:
-              const TextStyle(color: darkPrimary, fontWeight: FontWeight.w600),
+          style: const TextStyle(
+              color: darkerPrimary, fontWeight: FontWeight.w600),
         ),
       ],
     );

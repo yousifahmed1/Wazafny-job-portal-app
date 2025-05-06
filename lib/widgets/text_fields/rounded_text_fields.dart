@@ -29,7 +29,7 @@ class RoundedTextField extends StatelessWidget {
             : Text(
                 labelText ?? "",
                 style: const TextStyle(
-                  color: loginTextColor,
+                  color: darkPrimary,
                   fontWeight: FontWeight.w500,
                   fontSize: 18,
                 ),
@@ -39,9 +39,9 @@ class RoundedTextField extends StatelessWidget {
           onChanged: onChanged, // Pass onChanged to TextFormField
           controller: controller,
           validator: validator,
-          cursorColor: loginTextColor,
+          cursorColor: darkPrimary,
           style: const TextStyle(
-            color: loginTextColor,
+            color: darkPrimary,
             fontSize: 20,
             fontWeight: FontWeight.w600,
           ),

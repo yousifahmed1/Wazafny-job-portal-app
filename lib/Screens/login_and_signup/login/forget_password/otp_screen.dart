@@ -6,7 +6,6 @@ import 'package:wazafny/widgets/custom_app_bar.dart';
 import 'package:wazafny/widgets/texts/heading_text.dart';
 import 'package:wazafny/widgets/texts/sub_heading_text.dart';
 
-
 import 'reset_password.dart';
 
 class OtpScreen extends StatefulWidget {
@@ -34,7 +33,7 @@ class _OtpScreenState extends State<OtpScreen> {
   void _validateForm() {
     setState(() {
       _isButtonEnabled =
-          otbController.text.isNotEmpty&&otbController.text.length==6 ;
+          otbController.text.isNotEmpty && otbController.text.length == 6;
     });
   }
 
@@ -44,12 +43,9 @@ class _OtpScreenState extends State<OtpScreen> {
     super.dispose();
   }
 
-
-
   @override
   Widget build(BuildContext context) {
-
-    const focusedBorderColor = loginTextColor;
+    const focusedBorderColor = darkPrimary;
     const fillColor = Colors.white;
     const borderColor = linesColor;
 
@@ -58,11 +54,11 @@ class _OtpScreenState extends State<OtpScreen> {
       height: 70,
       textStyle: const TextStyle(
         fontSize: 22,
-        color: loginTextColor,
+        color: darkPrimary,
       ),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(7),
-        border: Border.all(color: borderColor,width: 2),
+        border: Border.all(color: borderColor, width: 2),
       ),
     );
 
@@ -72,7 +68,6 @@ class _OtpScreenState extends State<OtpScreen> {
       appBar: ForgetPasswordCustomAppBar(
         onBackPressed: () => Navigator.pop(context),
       ),
-
       body: Padding(
         padding: const EdgeInsets.all(normalPadding),
         child: Form(
@@ -84,54 +79,57 @@ class _OtpScreenState extends State<OtpScreen> {
                 SizedBox(height: SizeConfig.screenHeight * 0.05),
                 const HeadingText1(title: "Email Sent"),
                 const SizedBox(height: 20),
-                const SubHeadingText(title: "If this email address was used to create an account, an OTP will be sent to you. Please check your email."),
+                const SubHeadingText(
+                    title:
+                        "If this email address was used to create an account, an OTP will be sent to you. Please check your email."),
                 const SizedBox(height: 20),
                 //OTB
                 Center(
                   child: Pinput(
                     length: 6,
-                  controller: otbController,
-                  keyboardType: TextInputType.number,
-                  defaultPinTheme: defaultPinTheme,
-                  separatorBuilder: (index) => const SizedBox(width: 8),
-                  validator: (value) {
-                    return value == '222222' ? null : 'Pin is incorrect';
-                  },
-                  hapticFeedbackType: HapticFeedbackType.lightImpact,
-                  onCompleted: (pin) {
-                    debugPrint('onCompleted: $pin');
-                  },
-                  onChanged: (value) {
-                    debugPrint('onChanged: $value');
-                  },
-                  cursor: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Container(
-                        margin: const EdgeInsets.only(bottom: 9),
-                        width: 22,
-                        height: 1,
-                        color: focusedBorderColor,
+                    controller: otbController,
+                    keyboardType: TextInputType.number,
+                    defaultPinTheme: defaultPinTheme,
+                    separatorBuilder: (index) => const SizedBox(width: 8),
+                    validator: (value) {
+                      return value == '222222' ? null : 'Pin is incorrect';
+                    },
+                    hapticFeedbackType: HapticFeedbackType.lightImpact,
+                    onCompleted: (pin) {
+                      debugPrint('onCompleted: $pin');
+                    },
+                    onChanged: (value) {
+                      debugPrint('onChanged: $value');
+                    },
+                    cursor: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Container(
+                          margin: const EdgeInsets.only(bottom: 9),
+                          width: 22,
+                          height: 1,
+                          color: focusedBorderColor,
+                        ),
+                      ],
+                    ),
+                    focusedPinTheme: defaultPinTheme.copyWith(
+                      decoration: defaultPinTheme.decoration!.copyWith(
+                        borderRadius: BorderRadius.circular(7),
+                        border: Border.all(color: focusedBorderColor, width: 2),
                       ),
-                    ],
-                  ),
-                  focusedPinTheme: defaultPinTheme.copyWith(
-                    decoration: defaultPinTheme.decoration!.copyWith(
-                      borderRadius: BorderRadius.circular(7),
-                      border: Border.all(color: focusedBorderColor,width: 2),
+                    ),
+                    submittedPinTheme: defaultPinTheme.copyWith(
+                      decoration: defaultPinTheme.decoration!.copyWith(
+                        color: fillColor,
+                        borderRadius: BorderRadius.circular(7),
+                        border: Border.all(color: focusedBorderColor, width: 2),
+                      ),
+                    ),
+                    errorPinTheme: defaultPinTheme.copyBorderWith(
+                      border: Border.all(color: Colors.redAccent, width: 2),
                     ),
                   ),
-                  submittedPinTheme: defaultPinTheme.copyWith(
-                    decoration: defaultPinTheme.decoration!.copyWith(
-                      color: fillColor,
-                      borderRadius: BorderRadius.circular(7),
-                      border: Border.all(color: focusedBorderColor,width: 2),
-                    ),
-                  ),
-                  errorPinTheme: defaultPinTheme.copyBorderWith(
-                    border: Border.all(color: Colors.redAccent,width: 2),
-                  ),
-                ),),
+                ),
                 const SizedBox(height: 40),
 
                 GestureDetector(
@@ -139,7 +137,9 @@ class _OtpScreenState extends State<OtpScreen> {
                     print(otbController);
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => ResetPassword(role: widget.role)),
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              ResetPassword(role: widget.role)),
                     );
                   },
                   child: Opacity(
@@ -154,13 +154,13 @@ class _OtpScreenState extends State<OtpScreen> {
                     const Text(
                       "Didn't get OTP ?",
                       style: TextStyle(
-                        color: loginTextColor,
+                        color: darkPrimary,
                         fontWeight: FontWeight.w700,
                         fontSize: 16,
                       ),
                     ),
                     TextButton(
-                      onPressed: (){},
+                      onPressed: () {},
                       child: const Text(
                         "Try Again",
                         style: TextStyle(
@@ -172,9 +172,7 @@ class _OtpScreenState extends State<OtpScreen> {
                     ),
                   ],
                 ),
-
               ],
-
             ),
           ),
         ),

@@ -106,7 +106,12 @@ class PersonalInformations extends StatelessWidget {
                       ),
                       const SizedBox(height: 10),
                       InkWell(
-                        onTap: () => slideUp(context, FollowingsPage(followings: seekerProfile.profile.followings ?? [],)),
+                        onTap: () => slideUp(
+                            context,
+                            FollowingsPage(
+                              followings:
+                                  seekerProfile.profile.followings ?? [],
+                            )),
                         child: SubHeadingText(
                           title: "${seekerProfile.profile.following} following",
                           titleColor: primaryColor,
@@ -115,7 +120,7 @@ class PersonalInformations extends StatelessWidget {
                       const SizedBox(height: 10),
                       SubHeadingText1(
                         title: seekerProfile.profile.headline,
-                        titleColor: darkPrimary,
+                        titleColor: darkerPrimary,
                       ),
                       const SizedBox(height: 10),
                       SubHeadingText1(

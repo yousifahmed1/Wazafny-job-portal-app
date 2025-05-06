@@ -197,7 +197,7 @@ class _AddExperienceState extends State<AddExperience> {
                                 _currentlyEmployed = value!;
                               });
                             },
-                            activeColor: darkPrimary, // Custom active color
+                            activeColor: darkerPrimary, // Custom active color
                             size: 30.0, // Custom checkbox size
                           ),
                           const SizedBox(
@@ -205,7 +205,7 @@ class _AddExperienceState extends State<AddExperience> {
                           ),
                           const SubHeadingText(
                             title: "I am currently working in this role",
-                            titleColor: darkPrimary,
+                            titleColor: darkerPrimary,
                           ),
                         ],
                       )

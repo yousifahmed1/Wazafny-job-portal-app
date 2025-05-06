@@ -29,7 +29,7 @@ class _EditAllExperiencesState extends State<EditAllExperiences> {
     context.read<ProfileCubit>().deleteExperience(experienceId: experienceId);
     context.read<ProfileCubit>().fetchProfile();
     Navigator.of(context).pop(); // close the dialog
-  ///
+    ///
   }
 
   Future<void> _handleSave(BuildContext context, ProfileState state) async {
@@ -115,11 +115,11 @@ class _EditAllExperiencesState extends State<EditAllExperiences> {
                                           SubHeadingText2(
                                             title:
                                                 experience.employmentType ?? '',
-                                            titleColor: darkPrimary,
+                                            titleColor: darkerPrimary,
                                           ),
                                           SubHeadingText2(
                                             title: " - ${experience.company}",
-                                            titleColor: darkPrimary,
+                                            titleColor: darkerPrimary,
                                           ),
                                         ],
                                       ),

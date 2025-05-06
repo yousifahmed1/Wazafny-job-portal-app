@@ -65,7 +65,7 @@ class _SelectableTextFieldState extends State<SelectableTextField> {
                     .map((option) => Center(
                             child: SubHeadingText1(
                           title: option,
-                          titleColor: darkPrimary,
+                          titleColor: darkerPrimary,
                           fontSize: 26,
                         )))
                     .toList(),
@@ -88,7 +88,7 @@ class _SelectableTextFieldState extends State<SelectableTextField> {
         Text(
           widget.labelText,
           style: const TextStyle(
-            color: loginTextColor,
+            color: darkPrimary,
             fontWeight: FontWeight.w500,
             fontSize: 18,
           ),
@@ -101,9 +101,9 @@ class _SelectableTextFieldState extends State<SelectableTextField> {
           readOnly:
               true, // Make the text field read-only to prevent manual input
           validator: widget.validator,
-          cursorColor: loginTextColor,
+          cursorColor: darkPrimary,
           style: const TextStyle(
-            color: loginTextColor,
+            color: darkPrimary,
             fontSize: 20,
             fontWeight: FontWeight.w600,
           ),

@@ -116,7 +116,7 @@ class _JobPostPreviewState extends State<JobPostPreview> {
                               child: Text(
                                 jobPost.skills[index].skill,
                                 style: const TextStyle(
-                                  color: darkPrimary,
+                                  color: darkerPrimary,
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),

@@ -33,7 +33,9 @@ class JobsListView extends StatelessWidget {
               : state.jobs.where((job) {
                   final searchLower = searchQuery.toLowerCase();
                   return job.title.toLowerCase().contains(searchLower) ||
-                      job.company.companyName.toLowerCase().contains(searchLower) ||
+                      job.company.companyName
+                          .toLowerCase()
+                          .contains(searchLower) ||
                       job.jobCity.toLowerCase().contains(searchLower) ||
                       job.jobCountry.toLowerCase().contains(searchLower) ||
                       job.jobType.toLowerCase().contains(searchLower);
@@ -55,10 +57,10 @@ class JobsListView extends StatelessWidget {
                         // Clear search - this would be handled by the parent widget
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: darkPrimary,
+                        backgroundColor: darkerPrimary,
                       ),
-                      child: const Text('Clear Search', 
-                        style: TextStyle(color: Colors.white)),
+                      child: const Text('Clear Search',
+                          style: TextStyle(color: Colors.white)),
                     ),
                 ],
               ),
@@ -108,8 +110,9 @@ class JobsListView extends StatelessWidget {
                                 Text(
                                   job.company.companyName,
                                   style: const TextStyle(
-                                    fontWeight: FontWeight.w500,
+                                    fontWeight: FontWeight.w600,
                                     fontSize: 15,
+                                    color: darkerPrimary,
                                   ),
                                 ),
                               ],
@@ -119,7 +122,8 @@ class JobsListView extends StatelessWidget {
                             Text(
                               "${job.timeAgo} ago",
                               style: const TextStyle(
-                                fontWeight: FontWeight.w600,
+                                fontWeight: FontWeight.w500,
+                                color: darkerPrimary,
                               ),
                             ),
                           ],
@@ -133,6 +137,7 @@ class JobsListView extends StatelessWidget {
                           style: const TextStyle(
                             fontWeight: FontWeight.w700,
                             fontSize: 18,
+                            color: darkerPrimary,
                           ),
                         ),
                         const SizedBox(
@@ -146,6 +151,7 @@ class JobsListView extends StatelessWidget {
                               style: const TextStyle(
                                 fontWeight: FontWeight.w500,
                                 fontSize: 15,
+                                color: darkerPrimary,
                               ),
                             ),
                           ],
@@ -171,7 +177,7 @@ class JobsListView extends StatelessWidget {
                 ElevatedButton(
                   onPressed: () => context.read<JobCubit>().fetchJobs(),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: darkPrimary,
+                    backgroundColor: darkerPrimary,
                   ),
                   child: const Text('Try Again',
                       style: TextStyle(color: Colors.white)),

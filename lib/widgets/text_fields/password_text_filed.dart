@@ -27,9 +27,9 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
       controller: widget.controller,
       validator: widget.validator,
       obscureText: _obscureText,
-      cursorColor: loginTextColor,
+      cursorColor: darkPrimary,
       style: const TextStyle(
-        color: loginTextColor,
+        color: darkPrimary,
         fontSize: 20,
         fontWeight: FontWeight.w600,
       ),
@@ -53,9 +53,8 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
           fontSize: 14,
           fontWeight: FontWeight.w500,
         ),
-
         labelStyle: const TextStyle(
-          color: loginTextColor,
+          color: darkPrimary,
           fontWeight: FontWeight.w600,
           fontSize: 18,
         ),

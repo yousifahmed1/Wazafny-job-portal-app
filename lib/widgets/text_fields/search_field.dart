@@ -19,15 +19,15 @@ class SearchTextField extends StatelessWidget {
         borderRadius: BorderRadius.circular(70),
         border: Border.all(
           color: linesColor, // your custom border color
-          width: 2.0,        // border thickness
+          width: 2.0, // border thickness
         ),
       ),
       child: Center(
         child: TextFormField(
           controller: controller,
-          cursorColor: loginTextColor,
+          cursorColor: darkPrimary,
           style: const TextStyle(
-            color: loginTextColor,
+            color: darkPrimary,
             fontSize: 20,
             fontWeight: FontWeight.w600,
           ),

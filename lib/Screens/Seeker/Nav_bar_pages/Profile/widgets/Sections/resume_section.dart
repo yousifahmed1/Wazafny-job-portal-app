@@ -79,7 +79,7 @@ class ResumeSection extends StatelessWidget {
                               const SubHeadingText(
                                 //underline: true,
                                 title: "View Resume",
-                                titleColor: darkPrimary,
+                                titleColor: darkerPrimary,
                                 fontSize: 20,
                               ),
                               const SizedBox(
@@ -89,7 +89,7 @@ class ResumeSection extends StatelessWidget {
                                 "assets/Icons/Link.svg",
                                 height: 20,
                                 // ignore: deprecated_member_use
-                                color: darkPrimary,
+                                color: darkerPrimary,
                               ),
                             ],
                           ),

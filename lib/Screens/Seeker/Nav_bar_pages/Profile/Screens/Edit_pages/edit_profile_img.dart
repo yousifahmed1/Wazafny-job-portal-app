@@ -23,7 +23,6 @@ class _EditProfileImgState extends State<EditProfileImg> {
   String? imagePath;
   bool _initialized = false;
 
-
   Future<void> _pickImageFromGallery() async {
     final pickedFile =
         await ImagePicker().pickImage(source: ImageSource.gallery);
@@ -48,19 +47,18 @@ class _EditProfileImgState extends State<EditProfileImg> {
 
   Future<void> _handleSave(BuildContext context, ProfileState state) async {
     try {
-
       showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (_) => const Center(child: CircularProgressIndicator()),
-    );
+        context: context,
+        barrierDismissible: false,
+        builder: (_) => const Center(child: CircularProgressIndicator()),
+      );
       if (_selectedImage != null || imagePath != null) {
         final message = await context.read<ProfileCubit>().uploadProfileImage(
               image: _selectedImage!,
             );
         log(message);
       }
-    Navigator.pop(context); // Close loading dialog
+      Navigator.pop(context); // Close loading dialog
 
       Future.delayed(const Duration(milliseconds: 50), () {
         Navigator.pop(context);
@@ -97,12 +95,12 @@ class _EditProfileImgState extends State<EditProfileImg> {
   Widget build(BuildContext context) {
     SizeConfig.init(context);
     return BlocBuilder<ProfileCubit, ProfileState>(builder: (context, state) {
-      if (!_initialized && state is ProfileLoaded &&
+      if (!_initialized &&
+          state is ProfileLoaded &&
           _selectedImage == null &&
           state.profile.image != "") {
         imagePath = state.profile.image;
-          _initialized = true;
-
+        _initialized = true;
       }
       return Scaffold(
         backgroundColor: whiteColor,
@@ -168,7 +166,7 @@ class _EditProfileImgState extends State<EditProfileImg> {
                         minWidth: 150, // Set your minimum width here
                       ),
                       decoration: BoxDecoration(
-                        color: darkPrimary,
+                        color: darkerPrimary,
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: const Padding(

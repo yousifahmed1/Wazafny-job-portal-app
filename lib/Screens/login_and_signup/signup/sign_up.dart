@@ -10,7 +10,6 @@ import 'package:wazafny/widgets/text_fields/regular_text_field.dart';
 
 import '../repo/auth_repository.dart';
 
-
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key, required this.role});
 
@@ -28,7 +27,8 @@ class _SignUpPageState extends State<SignUpPage> {
   final TextEditingController _lastNameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _confirmPasswordController = TextEditingController();
+  final TextEditingController _confirmPasswordController =
+      TextEditingController();
 
   @override
   void dispose() {
@@ -61,30 +61,29 @@ class _SignUpPageState extends State<SignUpPage> {
     });
   }
 
-
   Future<void> onTapSignUp() async {
     if (_formKey.currentState!.validate()) {
-      if (widget.role=="Seeker"){
-      final result = await AuthRepository().signUpSeeker(
-        firstName: _firstNameController.text.trim(),
-        lastName: _lastNameController.text.trim(),
-        email: _emailController.text.trim(),
-        password: _passwordController.text,
-      );
-
-      if (result['statusCode'] == 201) {
-        // ignore: use_build_context_synchronously
-        slideTo(context,  const FillHeadline());
-
-      } else {
-        final errorMsg = result['error'] ?? 'Registration failed. Please try again.';
-        // ignore: use_build_context_synchronously
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(errorMsg)),
+      if (widget.role == "Seeker") {
+        final result = await AuthRepository().signUpSeeker(
+          firstName: _firstNameController.text.trim(),
+          lastName: _lastNameController.text.trim(),
+          email: _emailController.text.trim(),
+          password: _passwordController.text,
         );
+
+        if (result['statusCode'] == 201) {
+          // ignore: use_build_context_synchronously
+          slideTo(context, const FillHeadline());
+        } else {
+          final errorMsg =
+              result['error'] ?? 'Registration failed. Please try again.';
+          // ignore: use_build_context_synchronously
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(errorMsg)),
+          );
+        }
       }
-    }
-    }else if (widget.role=="Company"){
+    } else if (widget.role == "Company") {
       final result = await AuthRepository().signUpCompany(
         companyName: _companyNameController.text,
         email: _emailController.text.trim(),
@@ -93,10 +92,10 @@ class _SignUpPageState extends State<SignUpPage> {
 
       if (result['statusCode'] == 201) {
         // ignore: use_build_context_synchronously
-        slideTo(context,  const FillHeadline());
-
+        slideTo(context, const FillHeadline());
       } else {
-        final errorMsg = result['error'] ?? 'Registration failed. Please try again.';
+        final errorMsg =
+            result['error'] ?? 'Registration failed. Please try again.';
         // ignore: use_build_context_synchronously
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(errorMsg)),
@@ -104,7 +103,6 @@ class _SignUpPageState extends State<SignUpPage> {
       }
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -129,15 +127,15 @@ class _SignUpPageState extends State<SignUpPage> {
                       const Text(
                         "SIGN UP",
                         style: TextStyle(
-                          color: loginTextColor,
+                          color: darkPrimary,
                           fontSize: 40,
                           fontWeight: FontWeight.w900,
                         ),
                       ),
-                       Text(
+                      Text(
                         widget.role,
-                        style:const  TextStyle(
-                          color: loginTextColor,
+                        style: const TextStyle(
+                          color: darkPrimary,
                           fontSize: 20,
                           fontWeight: FontWeight.w600,
                         ),
@@ -147,47 +145,47 @@ class _SignUpPageState extends State<SignUpPage> {
                   const SizedBox(height: 20),
                   widget.role == "Seeker"
                       ? Row(
-                    children: [
-                      Expanded(
-                        child: RegularTextField(
-                          keyboardType: TextInputType.name,
-                          labelText: "First name",
-                          controller: _firstNameController,
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'First name is required';
-                            }
-                            return null;
-                          },
-                        ),
-                      ),
-                      const SizedBox(width: 16),
-                      Expanded(
-                        child: RegularTextField(
-                          keyboardType: TextInputType.name,
-                          labelText: "Last Name",
-                          controller: _lastNameController,
-                          validator: (value) {
-                            if (value == null || value.isEmpty) {
-                              return 'Last name is required';
-                            }
-                            return null;
-                          },
-                        ),
-                      ),
-                    ],
-                  )
+                          children: [
+                            Expanded(
+                              child: RegularTextField(
+                                keyboardType: TextInputType.name,
+                                labelText: "First name",
+                                controller: _firstNameController,
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'First name is required';
+                                  }
+                                  return null;
+                                },
+                              ),
+                            ),
+                            const SizedBox(width: 16),
+                            Expanded(
+                              child: RegularTextField(
+                                keyboardType: TextInputType.name,
+                                labelText: "Last Name",
+                                controller: _lastNameController,
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Last name is required';
+                                  }
+                                  return null;
+                                },
+                              ),
+                            ),
+                          ],
+                        )
                       : RegularTextField(
-                      controller: _companyNameController,
-                      labelText: "Company Name",
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Comapny name is required';
-                        }
-                        return null;
-                      },
-                      keyboardType: TextInputType.name,
-                  ) ,
+                          controller: _companyNameController,
+                          labelText: "Company Name",
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Comapny name is required';
+                            }
+                            return null;
+                          },
+                          keyboardType: TextInputType.name,
+                        ),
                   const SizedBox(height: 10),
                   RegularTextField(
                     labelText: "Email",
@@ -237,7 +235,8 @@ class _SignUpPageState extends State<SignUpPage> {
                       if (_formKey.currentState!.validate()) {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => const FillLocation()),
+                          MaterialPageRoute(
+                              builder: (context) => const FillLocation()),
                         );
                       }
                     },
@@ -255,7 +254,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       const Text(
                         "Already have an account?",
                         style: TextStyle(
-                          color: loginTextColor,
+                          color: darkPrimary,
                           fontWeight: FontWeight.w700,
                           fontSize: 16,
                         ),

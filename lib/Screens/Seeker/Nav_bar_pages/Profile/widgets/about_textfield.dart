@@ -19,7 +19,7 @@ class AboutTextField extends StatelessWidget {
         border: Border.all(color: bordersColor, width: 2),
       ),
       child: TextFormField(
-        cursorColor: loginTextColor,
+        cursorColor: darkPrimary,
         controller: _aboutController,
         maxLines: null,
         keyboardType: TextInputType.multiline,
@@ -31,7 +31,7 @@ class AboutTextField extends StatelessWidget {
               vertical: 16, horizontal: 12), // Adjust padding
         ),
         style: const TextStyle(
-          color: loginTextColor,
+          color: darkPrimary,
           fontSize: 20,
           fontWeight: FontWeight.w600,
         ), // Optional: Adjust text style

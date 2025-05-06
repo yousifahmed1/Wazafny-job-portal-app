@@ -32,14 +32,13 @@ class EducationSection extends StatelessWidget {
                   const Spacer(),
                   seekerProfile.profile.education != null
                       ? InkWell(
-                        onTap: () =>
-                              slideUp(context,  AddEditEducation()),
-                        child: SvgPicture.asset(
+                          onTap: () => slideUp(context, AddEditEducation()),
+                          child: SvgPicture.asset(
                             "assets/Icons/edit_icon.svg",
                             width: 20,
                             height: 20,
                           ),
-                      )
+                        )
                       : InkWell(
                           onTap: () =>
                               slideUp(context, const AddEditEducation()),
@@ -77,13 +76,13 @@ class EducationSection extends StatelessWidget {
                                     style: const TextStyle(
                                       fontWeight: FontWeight.w700,
                                       fontSize: 16,
-                                      color: darkPrimary,
+                                      color: darkerPrimary,
                                     ),
                                   ),
                                   SubHeadingText2(
                                     title:
                                         "${seekerProfile.profile.education?.college}",
-                                    titleColor: darkPrimary,
+                                    titleColor: darkerPrimary,
                                   ),
                                   SubHeadingText2(
                                       title:

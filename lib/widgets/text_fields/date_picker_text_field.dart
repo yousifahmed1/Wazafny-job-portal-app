@@ -9,14 +9,14 @@ class DatePickerField extends StatelessWidget {
   final TextEditingController? controller;
   final String? labelText;
   final bool isEnabled;
-    final String? Function(String?)? validator;
-
+  final String? Function(String?)? validator;
 
   const DatePickerField({
     super.key,
     required this.controller,
     this.labelText,
-    this.isEnabled = true, this.validator,
+    this.isEnabled = true,
+    this.validator,
   });
 
   void _showMonthYearPicker(BuildContext context) {
@@ -95,7 +95,7 @@ class DatePickerField extends StatelessWidget {
         Text(
           labelText ?? "",
           style: const TextStyle(
-            color: loginTextColor,
+            color: darkPrimary,
             fontWeight: FontWeight.w500,
             fontSize: 18,
           ),
@@ -108,9 +108,9 @@ class DatePickerField extends StatelessWidget {
             if (isEnabled) _showMonthYearPicker(context);
           },
           controller: controller,
-          cursorColor: loginTextColor,
+          cursorColor: darkPrimary,
           style: const TextStyle(
-            color: loginTextColor,
+            color: darkPrimary,
             fontSize: 20,
             fontWeight: FontWeight.w600,
           ),

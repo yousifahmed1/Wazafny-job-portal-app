@@ -41,7 +41,6 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void _login() async {
-
     if (_formKey.currentState!.validate()) {
       bool loginSuccessful = await AuthRepository().login(
         _emailController.text,
@@ -54,7 +53,7 @@ class _LoginPageState extends State<LoginPage> {
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Login failed. Please try again.')),
-      );
+        );
       }
     }
   }
@@ -89,15 +88,15 @@ class _LoginPageState extends State<LoginPage> {
                       const Text(
                         "LOGIN",
                         style: TextStyle(
-                          color: loginTextColor,
+                          color: darkPrimary,
                           fontSize: 40,
                           fontWeight: FontWeight.w900,
                         ),
                       ),
-                       Text(
+                      Text(
                         widget.role,
                         style: const TextStyle(
-                          color: loginTextColor,
+                          color: darkPrimary,
                           fontSize: 20,
                           fontWeight: FontWeight.w600,
                         ),
@@ -122,8 +121,7 @@ class _LoginPageState extends State<LoginPage> {
                       if (_formKey.currentState!.validate()) {
                         _login();
                       }
-                        // slideTo(context, const NavBar());
-
+                      // slideTo(context, const NavBar());
                     },
                     child: Opacity(
                         opacity: _isButtonEnabled ? 1.0 : 0.5,
@@ -150,7 +148,7 @@ class _LoginPageState extends State<LoginPage> {
                       const Text(
                         "New user ?",
                         style: TextStyle(
-                          color: loginTextColor,
+                          color: darkPrimary,
                           fontWeight: FontWeight.w700,
                           fontSize: 16,
                         ),

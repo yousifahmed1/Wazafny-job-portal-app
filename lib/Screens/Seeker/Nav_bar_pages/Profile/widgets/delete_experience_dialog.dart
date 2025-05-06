@@ -72,7 +72,7 @@ class DeleteExperienceDialog extends StatelessWidget {
                     child: const HeadingText(
                       fontSize: 20,
                       title: "Delete",
-                      titleColor: darkPrimary,
+                      titleColor: darkerPrimary,
                     ),
                   ),
                 ),

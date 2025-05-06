@@ -76,7 +76,10 @@ class _EditResumeState extends State<EditResume> {
         builder: (_) => const Center(child: CircularProgressIndicator()),
       );
 
-      if (_selectedFile != null || resumePath != null && _selectedFile is! String && resumePath is! String) {
+      if (_selectedFile != null ||
+          resumePath != null &&
+              _selectedFile is! String &&
+              resumePath is! String) {
         final message = await context.read<ProfileCubit>().uploadResume(
               resume: _selectedFile!,
             );
@@ -126,7 +129,7 @@ class _EditResumeState extends State<EditResume> {
                   GestureDetector(
                     onTap: _pickFile,
                     child: DottedBorder(
-                      color: darkPrimary, // Border color
+                      color: darkerPrimary, // Border color
                       strokeWidth: 2, // Thickness
                       dashPattern: const [6, 3], // Dots and space
                       borderType: BorderType.RRect,

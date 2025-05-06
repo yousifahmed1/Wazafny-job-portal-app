@@ -52,7 +52,7 @@ class NotificationsListView extends StatelessWidget {
                   child: RichText(
                     text: TextSpan(
                       style: const TextStyle(
-                        color: darkPrimary,
+                        color: darkerPrimary,
                         fontWeight: FontWeight.w400,
                         fontSize: 16,
                       ),
@@ -75,7 +75,7 @@ class NotificationsListView extends StatelessWidget {
                 Text(
                   notification.timeAgo,
                   style: const TextStyle(
-                    color: darkPrimary,
+                    color: darkerPrimary,
                     fontWeight: FontWeight.w600,
                   ),
                 ),

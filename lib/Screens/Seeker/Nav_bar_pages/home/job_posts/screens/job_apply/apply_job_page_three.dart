@@ -89,17 +89,19 @@ class _ApplyPageThreeState extends State<ApplyPageThree> {
               children: [
                 SubHeadingText(
                   title: "$question*",
-                  titleColor: darkPrimary,
+                  titleColor: darkerPrimary,
                 ),
                 const SizedBox(height: 5),
                 AnswerTextField(
                   controller: _controllers[questionID],
                   keyboardType: TextInputType.text,
-                  validator: (value) => _requiredFieldValidator(value, question),
+                  validator: (value) =>
+                      _requiredFieldValidator(value, question),
                   onChanged: (value) {
                     widget.jobApplyModel.questionsAnswers ??= [];
                     final existingIndex = widget.jobApplyModel.questionsAnswers!
-                        .indexWhere((element) => element.questionId == questionID);
+                        .indexWhere(
+                            (element) => element.questionId == questionID);
 
                     if (existingIndex != -1) {
                       widget.jobApplyModel.questionsAnswers![existingIndex]

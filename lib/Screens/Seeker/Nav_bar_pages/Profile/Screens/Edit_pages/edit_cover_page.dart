@@ -117,7 +117,7 @@ class _EditCoverState extends State<EditCover> {
                     height: SizeConfig.screenHeight * 0.2,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
-                      border: Border.all(color: darkPrimary, width: 2),
+                      border: Border.all(color: darkerPrimary, width: 2),
                       image: _selectedImage != null
                           ? DecorationImage(
                               image: FileImage(_selectedImage!),
@@ -153,7 +153,7 @@ class _EditCoverState extends State<EditCover> {
                         minWidth: 150, // Set your minimum width here
                       ),
                       decoration: BoxDecoration(
-                        color: darkPrimary,
+                        color: darkerPrimary,
                         borderRadius: BorderRadius.circular(10),
                       ),
                       child: const Padding(

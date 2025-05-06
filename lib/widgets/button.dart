@@ -5,7 +5,9 @@ import '../core/constants/constants.dart';
 class Button extends StatelessWidget {
   const Button({
     super.key,
-    required this.text, this.btnColor, this.txtColor,
+    required this.text,
+    this.btnColor,
+    this.txtColor,
   });
   final String text;
   final Color? btnColor;
@@ -24,7 +26,7 @@ class Button extends StatelessWidget {
         child: Text(
           text,
           style: TextStyle(
-            color: txtColor ??Colors.white,
+            color: txtColor ?? Colors.white,
             fontWeight: FontWeight.w700,
             fontSize: 25,
           ),
@@ -95,7 +97,7 @@ class RoundedButton extends StatelessWidget {
       width: width,
       decoration: BoxDecoration(
         border: Border.all(
-          color: borderColor ?? darkPrimary,
+          color: borderColor ?? darkerPrimary,
           width: 2,
         ),
         borderRadius: BorderRadius.circular(10),
@@ -107,7 +109,7 @@ class RoundedButton extends StatelessWidget {
           child: Text(
             text,
             style: TextStyle(
-              color: darkPrimary,
+              color: darkerPrimary,
               fontWeight: FontWeight.w700,
               fontSize: size ?? 24.0,
             ),
