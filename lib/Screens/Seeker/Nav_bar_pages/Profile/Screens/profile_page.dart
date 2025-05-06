@@ -9,17 +9,8 @@ import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/widgets/Sections/pe
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/widgets/Sections/resume_section.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/widgets/Sections/skills_section.dart';
 
-class ProfilePage extends StatefulWidget {
+class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
-
-  @override
-  State<ProfilePage> createState() => _ProfilePageState();
-}
-
-class _ProfilePageState extends State<ProfilePage> {
-  Future<void> _refreshProfile() async {
-    context.read<ProfileCubit>().fetchProfile();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +24,9 @@ class _ProfilePageState extends State<ProfilePage> {
           } else if (state is ProfileLoaded) {
             // Display profile data when loaded
             return RefreshIndicator(
-              onRefresh: _refreshProfile,
+              onRefresh: () async {
+                context.read<ProfileCubit>().fetchProfile();
+              },
               child: ListView(
                 padding: const EdgeInsets.only(bottom: 95), //navbar height
 
