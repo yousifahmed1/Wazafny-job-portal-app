@@ -42,126 +42,136 @@ class JobsListView extends StatelessWidget {
                 }).toList();
 
           if (filteredJobs.isEmpty) {
-            return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text(
-                    'No jobs found matching your search',
-                    style: TextStyle(fontSize: 16),
-                  ),
-                  const SizedBox(height: 16),
-                  if (searchQuery.isNotEmpty)
-                    ElevatedButton(
-                      onPressed: () {
-                        // Clear search - this would be handled by the parent widget
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: darkerPrimary,
-                      ),
-                      child: const Text('Clear Search',
-                          style: TextStyle(color: Colors.white)),
+            return RefreshIndicator(
+              onRefresh: () async {
+                context.read<JobCubit>().fetchJobs();
+              },
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      'No jobs found matching your search',
+                      style: TextStyle(fontSize: 16),
                     ),
-                ],
+                    const SizedBox(height: 16),
+                    if (searchQuery.isNotEmpty)
+                      ElevatedButton(
+                        onPressed: () {
+                          // Clear search - this would be handled by the parent widget
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: darkerPrimary,
+                        ),
+                        child: const Text('Clear Search',
+                            style: TextStyle(color: Colors.white)),
+                      ),
+                  ],
+                ),
               ),
             );
           }
 
-          return ListView.builder(
-            padding: const EdgeInsets.only(bottom: 105), //navbar height
-            physics: const BouncingScrollPhysics(),
-            itemCount: filteredJobs.length,
-            itemBuilder: (context, index) {
-              final job = filteredJobs[index];
-              return InkWell(
-                onTap: () => slideTo(context, JobPostPreview(jobId: job.jobId)),
-                overlayColor: WidgetStateColor.transparent,
-                child: Container(
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Colors.white),
-                  margin:
-                      const EdgeInsets.symmetric(horizontal: 30, vertical: 8),
-                  child: Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                ClipRRect(
-                                  borderRadius: BorderRadius.circular(5),
-                                  //company profile
-                                  child: Image.network(
-                                    job.company.profileImg,
-                                    width: 50,
-                                    height: 50,
-                                    fit: BoxFit.cover,
+          return RefreshIndicator(
+            onRefresh: () async {
+                context.read<JobCubit>().fetchJobs();
+              },
+            child: ListView.builder(
+              padding: const EdgeInsets.only(bottom: 105), //navbar height
+              physics: const BouncingScrollPhysics(),
+              itemCount: filteredJobs.length,
+              itemBuilder: (context, index) {
+                final job = filteredJobs[index];
+                return InkWell(
+                  onTap: () => slideTo(context, JobPostPreview(jobId: job.jobId)),
+                  overlayColor: WidgetStateColor.transparent,
+                  child: Container(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: Colors.white),
+                    margin:
+                        const EdgeInsets.symmetric(horizontal: 30, vertical: 8),
+                    child: Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(5),
+                                    //company profile
+                                    child: Image.network(
+                                      job.company.profileImg,
+                                      width: 50,
+                                      height: 50,
+                                      fit: BoxFit.cover,
+                                    ),
                                   ),
-                                ),
-                                const SizedBox(
-                                  width: 10,
-                                ),
-                                //company name
-                                Text(
-                                  job.company.companyName,
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 15,
-                                    color: darkerPrimary,
+                                  const SizedBox(
+                                    width: 10,
                                   ),
-                                ),
-                              ],
-                            ),
-                            const Spacer(),
-                            //time ago
-                            Text(
-                              "${job.timeAgo} ago",
-                              style: const TextStyle(
-                                fontWeight: FontWeight.w500,
-                                color: darkerPrimary,
+                                  //company name
+                                  Text(
+                                    job.company.companyName,
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 15,
+                                      color: darkerPrimary,
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        //job title
-                        Text(
-                          job.title,
-                          style: const TextStyle(
-                            fontWeight: FontWeight.w700,
-                            fontSize: 18,
-                            color: darkerPrimary,
+                              const Spacer(),
+                              //time ago
+                              Text(
+                                "${job.timeAgo} ago",
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  color: darkerPrimary,
+                                ),
+                              ),
+                            ],
                           ),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        // job location + job type
-                        Row(
-                          children: [
-                            Text(
-                              "${job.jobCity}, ${job.jobCountry} (${job.jobType})",
-                              style: const TextStyle(
-                                fontWeight: FontWeight.w500,
-                                fontSize: 15,
-                                color: darkerPrimary,
-                              ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          //job title
+                          Text(
+                            job.title,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w700,
+                              fontSize: 18,
+                              color: darkerPrimary,
                             ),
-                          ],
-                        ),
-                      ],
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          // job location + job type
+                          Row(
+                            children: [
+                              Text(
+                                "${job.jobCity}, ${job.jobCountry} (${job.jobType})",
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.w500,
+                                  fontSize: 15,
+                                  color: darkerPrimary,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              );
-            },
+                );
+              },
+            ),
           );
         } else if (state is JobError) {
           return Center(

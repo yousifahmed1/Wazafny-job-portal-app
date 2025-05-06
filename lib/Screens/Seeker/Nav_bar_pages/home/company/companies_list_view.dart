@@ -56,165 +56,175 @@ class _CompaniesListViewState extends State<CompaniesListView> {
                 }).toList();
 
           if (filteredCompanies.isEmpty) {
-            return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text(
-                    'No companies found matching your search',
-                    style: TextStyle(fontSize: 16),
-                  ),
-                  const SizedBox(height: 16),
-                  if (widget.searchQuery.isNotEmpty)
-                    ElevatedButton(
-                      onPressed: () {
-                        // Clear search - this would be handled by the parent widget
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: darkerPrimary,
-                      ),
-                      child: const Text('Clear Search',
-                          style: TextStyle(color: Colors.white)),
+            return RefreshIndicator(
+              onRefresh: () async {
+                context.read<CompanyViewCubit>().fetchCompany();
+              },
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      'No companies found matching your search',
+                      style: TextStyle(fontSize: 16),
                     ),
-                ],
+                    const SizedBox(height: 16),
+                    if (widget.searchQuery.isNotEmpty)
+                      ElevatedButton(
+                        onPressed: () {
+                          // Clear search - this would be handled by the parent widget
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: darkerPrimary,
+                        ),
+                        child: const Text('Clear Search',
+                            style: TextStyle(color: Colors.white)),
+                      ),
+                  ],
+                ),
               ),
             );
           }
 
-          return ListView.builder(
-            padding: const EdgeInsets.only(bottom: 105), // navbar height
-            physics: const BouncingScrollPhysics(),
-            itemCount: filteredCompanies.length,
-            itemBuilder: (context, index) {
-              final company = filteredCompanies[index];
-              return InkWell(
-                onTap: () => slideTo(
-                    context,
-                    CompanyView(
-                      companyID: company.companyId,
-                    )),
-                overlayColor: WidgetStateColor.transparent,
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Colors.white,
-                  ),
-                  margin:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
-                  child: Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(10),
-                              child: company.profileImg != null &&
-                                      company.profileImg != ""
-                                  ? Image.network(
-                                      company.profileImg!,
-                                      width: 50,
-                                      height: 50,
-                                      fit: BoxFit.cover,
-                                      errorBuilder:
-                                          (context, error, stackTrace) =>
-                                              const Icon(Icons.error),
-                                    )
-                                  : SvgPicture.asset(
-                                      "assets/Images/Profile-default-image.svg",
-                                      width: 50,
-                                      height: 50,
-                                      fit: BoxFit.cover,
+          return RefreshIndicator(
+            onRefresh: () async {
+              context.read<CompanyViewCubit>().fetchCompany();
+            },
+            child: ListView.builder(
+              padding: const EdgeInsets.only(bottom: 105), // navbar height
+              physics: const BouncingScrollPhysics(),
+              itemCount: filteredCompanies.length,
+              itemBuilder: (context, index) {
+                final company = filteredCompanies[index];
+                return InkWell(
+                  onTap: () => slideTo(
+                      context,
+                      CompanyView(
+                        companyID: company.companyId,
+                      )),
+                  overlayColor: WidgetStateColor.transparent,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.white,
+                    ),
+                    margin:
+                        const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+                    child: Padding(
+                      padding: const EdgeInsets.all(16),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: company.profileImg != null &&
+                                        company.profileImg != ""
+                                    ? Image.network(
+                                        company.profileImg!,
+                                        width: 50,
+                                        height: 50,
+                                        fit: BoxFit.cover,
+                                        errorBuilder:
+                                            (context, error, stackTrace) =>
+                                                const Icon(Icons.error),
+                                      )
+                                    : SvgPicture.asset(
+                                        "assets/Images/Profile-default-image.svg",
+                                        width: 50,
+                                        height: 50,
+                                        fit: BoxFit.cover,
+                                      ),
+                              ),
+                              const SizedBox(width: 10),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    company.companyName,
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.w800,
+                                      fontSize: 16,
+                                      color: darkerPrimary,
                                     ),
-                            ),
-                            const SizedBox(width: 10),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  company.companyName,
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.w800,
-                                    fontSize: 16,
-                                    color: darkerPrimary,
                                   ),
-                                ),
-                                Text(
-                                  "${company.companyCity ?? ""}, ${company.companyCountry ?? ""}",
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 14,
-                                    color: darkerPrimary,
+                                  Text(
+                                    "${company.companyCity ?? ""}, ${company.companyCountry ?? ""}",
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 14,
+                                      color: darkerPrimary,
+                                    ),
                                   ),
-                                ),
-                              ],
-                            ),
-                            const Spacer(),
-                            Column(
-                              children: [
-                                Text(
-                                  "${company.followersCount}",
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 16,
-                                    color: darkerPrimary,
+                                ],
+                              ),
+                              const Spacer(),
+                              Column(
+                                children: [
+                                  Text(
+                                    "${company.followersCount}",
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 16,
+                                      color: darkerPrimary,
+                                    ),
                                   ),
-                                ),
-                                const Text(
-                                  "Followers",
-                                  style: TextStyle(
-                                    fontSize: 12,
+                                  const Text(
+                                    "Followers",
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                    ),
                                   ),
-                                ),
-                              ],
-                            ),
-                            const Spacer(),
-                            Column(
-                              children: [
-                                Text(
-                                  "${company.jobsCount}",
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 16,
-                                    color: darkerPrimary,
+                                ],
+                              ),
+                              const Spacer(),
+                              Column(
+                                children: [
+                                  Text(
+                                    "${company.jobsCount}",
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 16,
+                                      color: darkerPrimary,
+                                    ),
                                   ),
-                                ),
-                                const Text(
-                                  "Jobs",
-                                  style: TextStyle(fontSize: 12),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 5),
-                        const Text(
-                          "Description",
-                          style: TextStyle(
-                            fontWeight: FontWeight.w700,
-                            fontSize: 16,
-                            color: darkerPrimary,
+                                  const Text(
+                                    "Jobs",
+                                    style: TextStyle(fontSize: 12),
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
-                        ),
-                        Text(
-                          company.about ?? "",
-                          maxLines: 3,
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                            fontWeight: FontWeight.w500,
-                            fontSize: 15,
-                            color: darkerPrimary,
+                          const SizedBox(height: 5),
+                          const Text(
+                            "Description",
+                            style: TextStyle(
+                              fontWeight: FontWeight.w700,
+                              fontSize: 16,
+                              color: darkerPrimary,
+                            ),
                           ),
-                        ),
-                      ],
+                          Text(
+                            company.about ?? "",
+                            maxLines: 3,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w500,
+                              fontSize: 15,
+                              color: darkerPrimary,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              );
-            },
+                );
+              },
+            ),
           );
         }
         return const SizedBox(); // Empty fallback
