@@ -87,4 +87,34 @@ class NotificationsServices {
       throw Exception('Failed to delete Notifications');
     }
   }
+
+  Future<void> deleteNotification(int notificationId) async {
+    await _initialize(); // ✅ Always ensure token/userID are ready
+
+    try {
+      // Make API call to delete single notification
+      // Example:
+      final response = await dio.delete(
+        '/delete-notification/$notificationId',
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+            'Content-Type': 'application/json',
+          },
+        ),
+      );
+
+      if (response.statusCode != 200) {
+        throw Exception('Failed to delete notification');
+      }
+
+      // For now, this is a placeholder for the actual API call
+      // In a real implementation, you would make the actual HTTP request
+
+      print('Notification with ID: $notificationId deleted successfully');
+    } catch (e) {
+      print('Error deleting notification: $e');
+      rethrow; // Rethrow to handle in UI
+    }
+  }
 }

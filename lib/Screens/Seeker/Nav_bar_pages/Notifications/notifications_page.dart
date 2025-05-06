@@ -57,104 +57,136 @@ class _NotificationsPageState extends State<NotificationsPage> {
     //context.read<NotificationsCubit>().fetchNotifications();
   }
 
+  // Handle single notification deletion
+  void handleNotificationDeleted(int notificationId) {
+    setState(() {
+      // Remove from both lists
+      allNotifications.removeWhere(
+          (notification) => notification.notificationId == notificationId);
+      filteredNotifications.removeWhere(
+          (notification) => notification.notificationId == notificationId);
+    });
+  }
+
+  // Refresh notifications from server
+  Future<void> _refreshNotifications() async {
+    await context.read<NotificationsCubit>().fetchNotifications();
+    // Note: We don't update state here as BlocBuilder will handle that
+  }
+
+  @override
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<NotificationsCubit, NotificationsState>(
-      builder: (context, state) {
-        if (state is NotificationsInitial) {
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            context.read<NotificationsCubit>().fetchNotifications();
-          });
-          return const Center(child: Text('Loading notifications...'));
-        }
-        if (state is NotificationsLoading) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        }
-        if (state is NotificationsError) {
-          return Center(child: Text('Error: ${state.error}'));
-        }
-        if (state is NotificationsLoaded) {
-          // Only load notifications if list is empty (avoid override when searching)
-          if (allNotifications.isEmpty) {
-            allNotifications = state.notifications;
-            filteredNotifications = allNotifications;
-          }
+    return SafeArea(
+      bottom: false,
+      child: Scaffold(
+        body: Column(
+          children: [
+            // Search bar with listener
+            SearchBarProfileCircle(searchController: _searchController),
+            const SizedBox(height: 15),
 
-          return SafeArea(
-            bottom: false,
-            child: Scaffold(
-              body: Column(
+            // Header & Clear button
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
                 children: [
-                  // Search bar with listener
-                  SearchBarProfileCircle(searchController: _searchController),
-                  const SizedBox(height: 15),
-
-                  Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Column(
-                      children: [
-                        // Header
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const HeadingText(title: "Notifications center"),
-                            const Spacer(),
-                            if (filteredNotifications.isNotEmpty)
-                              Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(15),
-                                  color: lightPrimary,
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const HeadingText(title: "Notifications center"),
+                      const Spacer(),
+                      if (filteredNotifications.isNotEmpty)
+                        Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            color: lightPrimary,
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 15, vertical: 5),
+                            child: InkWell(
+                              onTap: clearAllNotifications,
+                              child: const Text(
+                                "Clear",
+                                style: TextStyle(
+                                  color: primaryColor,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w600,
                                 ),
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 15, vertical: 5),
-                                  child: InkWell(
-                                    onTap: clearAllNotifications,
-                                    child: const Text(
-                                      "Clear",
-                                      style: TextStyle(
-                                          color: primaryColor,
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.w600),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                          ],
-                        ),
-                        const SizedBox(height: 15),
-                      ],
-                    ),
-                  ),
-
-                  // Notifications list
-                  filteredNotifications.isEmpty
-                      ? const Expanded(
-                          child: Center(
-                            child: Text(
-                              "No notifications yet",
-                              style: TextStyle(
-                                color: bordersColor,
-                                fontSize: 18,
-                                fontWeight: FontWeight.w600,
                               ),
                             ),
                           ),
-                        )
-                      : Expanded(
-                          child: NotificationsListView(
-                              notifications: filteredNotifications),
                         ),
+                    ],
+                  ),
+                  const SizedBox(height: 15),
                 ],
               ),
             ),
-          );
-        } else {
-          return const SizedBox(); // fallback
-        }
-      },
+
+            // Notifications List
+            Expanded(
+              child: BlocBuilder<NotificationsCubit, NotificationsState>(
+                builder: (context, state) {
+                  if (state is NotificationsInitial) {
+                    WidgetsBinding.instance.addPostFrameCallback((_) {
+                      context.read<NotificationsCubit>().fetchNotifications();
+                    });
+                    return const Center(
+                        child: Text('Loading notifications...'));
+                  }
+                  if (state is NotificationsLoading) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                  if (state is NotificationsError) {
+                    return Center(child: Text('Error: ${state.error}'));
+                  }
+                  if (state is NotificationsLoaded) {
+                    // Only load notifications if list is empty (avoid override when searching)
+                    if (allNotifications.isEmpty) {
+                      allNotifications = state.notifications;
+                      filteredNotifications = allNotifications;
+                    }
+
+                    return filteredNotifications.isEmpty
+                        ? RefreshIndicator(
+                            onRefresh: _refreshNotifications,
+                            child: ListView(
+                              children: const [
+                                SizedBox(height: 40),
+                                Center(
+                                  child: Padding(
+                                    padding: EdgeInsets.only(top: 100),
+                                    child: Text(
+                                      "No notifications yet",
+                                      style: TextStyle(
+                                        color: bordersColor,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+                        : RefreshIndicator(
+                            onRefresh: _refreshNotifications,
+                            child: NotificationsListView(
+                              notifications: filteredNotifications,
+                              onNotificationDeleted: handleNotificationDeleted,
+                            ),
+                          );
+                  } else {
+                    return const SizedBox(); // fallback
+                  }
+                },
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
