@@ -19,7 +19,7 @@ class _NavBarState extends State<NavBar> {
   int _selectedIndex = 0;
 
   final List<Widget> _screens = [
-    HomePage(), // Homepage for Jobs and Company
+    const HomePage(), // Homepage for Jobs and Company
     const ApplicationPage(), // For "My Applications"
     const NotificationsPage(), // For "Notifications"
     const ProfilePage(), // For "Profile"
