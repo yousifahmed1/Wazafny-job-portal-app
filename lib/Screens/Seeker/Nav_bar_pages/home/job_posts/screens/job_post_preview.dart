@@ -137,6 +137,7 @@ class _JobPostPreviewState extends State<JobPostPreview> {
                       ),
                       const SizedBox(height: 8),
                       Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children:
                             List.generate(jobPost.sections.length, (index) {
                           return Column(
