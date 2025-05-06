@@ -75,6 +75,10 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           scaffoldBackgroundColor: scaffoldColor,
           fontFamily: 'Somar Sans',
+          primaryColor: primaryColor,
+          colorScheme: const ColorScheme.light(
+            primary: primaryColor,
+          ),
         ),
         home: isLoggedIn ? const NavBar() : const WelcomePage(),
       ),
