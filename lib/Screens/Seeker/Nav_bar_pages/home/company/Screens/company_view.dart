@@ -143,7 +143,7 @@ class _CompanyViewState extends State<CompanyView> {
                                               child: const Button1(
                                                 text: "Follow",
                                                 size: 18,
-                                                btnColor: darkPrimary,
+                                                btnColor: primaryColor,
                                                 width: 110,
                                                 height: 50,
                                               ),

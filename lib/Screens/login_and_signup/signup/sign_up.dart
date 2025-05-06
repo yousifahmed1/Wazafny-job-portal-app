@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:wazafny/Screens/login_and_signup/signup/fill_headline.dart';
 import 'package:wazafny/Screens/login_and_signup/signup/fill_location.dart';
 import 'package:wazafny/core/constants/constants.dart';
-import 'package:wazafny/services/sign_up_service.dart';
 import 'package:wazafny/widgets/Navigators/slide_to.dart';
 import 'package:wazafny/widgets/button.dart';
 import 'package:wazafny/widgets/custom_app_bar.dart';
@@ -74,10 +73,12 @@ class _SignUpPageState extends State<SignUpPage> {
       );
 
       if (result['statusCode'] == 201) {
-        slideTo(context,  FillHeadline());
+        // ignore: use_build_context_synchronously
+        slideTo(context,  const FillHeadline());
 
       } else {
         final errorMsg = result['error'] ?? 'Registration failed. Please try again.';
+        // ignore: use_build_context_synchronously
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(errorMsg)),
         );
@@ -91,10 +92,12 @@ class _SignUpPageState extends State<SignUpPage> {
       );
 
       if (result['statusCode'] == 201) {
-        slideTo(context,  FillHeadline());
+        // ignore: use_build_context_synchronously
+        slideTo(context,  const FillHeadline());
 
       } else {
         final errorMsg = result['error'] ?? 'Registration failed. Please try again.';
+        // ignore: use_build_context_synchronously
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text(errorMsg)),
         );

@@ -71,30 +71,35 @@ class ApplicationsListView extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(
-                  height: 10,
+                  height: 15,
                 ),
                 //company name
-                Text(
-                  filteredJobPosts[index].companyName,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.w700,
-                    fontSize: 15,
-                  ),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
                 Row(
                   children: [
                     Text(
-                      filteredJobPosts[index].jobLocation,
+                      filteredJobPosts[index].companyName,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w700,
+                        fontSize: 15,
+                      ),
+                    ),
+                    const Spacer(),
+                    Text(
+                      "(${filteredJobPosts[index].jobType})",
                       style: const TextStyle(
                         fontWeight: FontWeight.w500,
                         fontSize: 15,
                       ),
                     ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                Row(
+                  children: [
                     Text(
-                      " (${filteredJobPosts[index].jobType})",
+                      filteredJobPosts[index].jobLocation,
                       style: const TextStyle(
                         fontWeight: FontWeight.w500,
                         fontSize: 15,
