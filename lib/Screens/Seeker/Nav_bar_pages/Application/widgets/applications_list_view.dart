@@ -18,6 +18,8 @@ class ApplicationsListView extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView.builder(
       padding: const EdgeInsets.only(bottom: 105), //navbar height
+      physics: const AlwaysScrollableScrollPhysics(),
+
       itemCount: filteredJobPosts.length,
       itemBuilder: (context, index) {
         return Container(
@@ -120,7 +122,11 @@ class ApplicationsListView extends StatelessWidget {
                   filteredJobPosts[index].jobStatus == 'Accepted'
                       ? InkWell(
                           onTap: () {
-                            slideUp(context, const ViewApplicationResponse());
+                            slideUp(
+                                context,
+                                ViewApplicationResponse(
+                                  jobApplicationModel: filteredJobPosts[index],
+                                ));
                           },
                           child: const Center(
                               child: SubHeadingText(

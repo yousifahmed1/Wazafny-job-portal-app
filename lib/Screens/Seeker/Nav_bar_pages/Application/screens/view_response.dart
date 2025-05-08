@@ -1,19 +1,42 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Application/model/job_applications_model.dart';
+import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/cubit/profile_cubit.dart';
+import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/cubit/profile_states.dart';
+import 'package:wazafny/Screens/login_and_signup/repo/auth_repository.dart';
 import 'package:wazafny/core/constants/constants.dart';
 import 'package:wazafny/widgets/custom_app_bar.dart';
 
-class ViewApplicationResponse extends StatelessWidget {
-  const ViewApplicationResponse({super.key});
+class ViewApplicationResponse extends StatefulWidget {
+  const ViewApplicationResponse({super.key, required this.jobApplicationModel});
+  final JobApplicationModel jobApplicationModel;
 
-  final String response = '''
-Thank you for applying for the [Job Title] position at [Company Name]. 
-We have reviewed your application and are impressed with your background and experience.
+  @override
+  State<ViewApplicationResponse> createState() =>
+      _ViewApplicationResponseState();
+}
 
-We would like to invite you to the next stage of the recruitment process. 
-Please let us know your availability for a short interview in the coming days.
+class _ViewApplicationResponseState extends State<ViewApplicationResponse> {
+  var firstName;
+  var lastName;
 
-We appreciate your interest in joining our team and look forward to speaking with you soon.
-''';
+  bool isInistialized = false;
+
+  @override
+  initState() {
+    super.initState();
+    _initialize();
+  }
+Future<void> _initialize() async {
+  final fName = await AuthRepository().getFirstName() ?? "";
+  final lName = await AuthRepository().getLastName() ?? "";
+  setState(() {
+    firstName = fName;
+    lastName = lName;
+    isInistialized = true;
+  });
+}
+
 
   @override
   Widget build(BuildContext context) {
@@ -28,9 +51,9 @@ We appreciate your interest in joining our team and look forward to speaking wit
         child: ListView(
           padding: const EdgeInsets.only(bottom: 105), //navbar height
           children: [
-            const Text(
-              "Dear Yousif Ahmed",
-              style: TextStyle(
+            Text(
+              "Dear $firstName $lastName,",
+              style: const TextStyle(
                 fontWeight: FontWeight.w700,
                 color: darkerPrimary,
                 fontSize: 24,
@@ -40,15 +63,18 @@ We appreciate your interest in joining our team and look forward to speaking wit
               height: 25,
             ),
             Text(
-              response,
+              widget.jobApplicationModel.response ?? "No response yet",
               style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w500,
                   color: darkerPrimary),
             ),
-            const Text(
-              "Best regards,\n[Company Name]",
-              style: TextStyle(
+            const SizedBox(
+              height: 25,
+            ),
+            Text(
+              "Best regards,\n${widget.jobApplicationModel.companyName}",
+              style: const TextStyle(
                 fontWeight: FontWeight.w700,
                 color: darkerPrimary,
                 fontSize: 20,
