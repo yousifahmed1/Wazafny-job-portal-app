@@ -9,6 +9,7 @@ import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/Screens/followings_
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/cubit/profile_cubit.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/cubit/profile_states.dart';
 import 'package:wazafny/core/constants/constants.dart';
+import 'package:wazafny/widgets/Navigators/slide_to.dart';
 import 'package:wazafny/widgets/Navigators/slide_up.dart';
 import 'package:wazafny/widgets/texts/heading_text.dart';
 import 'package:wazafny/widgets/texts/sub_heading_text.dart';
@@ -107,7 +108,7 @@ class PersonalInformations extends StatelessWidget {
                       ),
                       const SizedBox(height: 10),
                       InkWell(
-                        onTap: () => slideUp(
+                        onTap: () => slideTo(
                             context,
                             FollowingsPage(
                               followings:
