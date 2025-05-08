@@ -23,15 +23,16 @@ class AuthRepository {
 
       if (response.statusCode == 200) {
         final token = response.data['token'];
-        final seekerId = response.data['user_id']; // adjust based on your API
+        final roleId = response.data['role_id']; // adjust based on your API
+        final userId = response.data['user_id']; // adjust based on your API
 
-        final respnseTwo = await _getSeekerMainData(seekerId, token);
+        final respnseTwo = await _getSeekerMainData(roleId, token);
 
         final firstName = respnseTwo['firstName'];
         final lastName = respnseTwo['lastName'];
 
         await _saveFirstNameAndLastName(firstName, lastName);
-        await _saveTokenAndId(token, seekerId);
+        await _saveTokenAndId(token, roleId, userId);
         return true;
       } else {
         return false;
@@ -128,7 +129,7 @@ class AuthRepository {
   }
 
   Future<bool> logoutService() async {
-    final userID = await getSeekerId();
+    final userID = await getRoleId();
     final token = await getToken();
 
     try {
@@ -161,10 +162,11 @@ class AuthRepository {
   }
 
   /// Save both token and seeker ID
-  Future<void> _saveTokenAndId(String token, int seekerId) async {
+  Future<void> _saveTokenAndId(String token, int roleId, int userId) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('auth_token', token);
-    await prefs.setInt('seeker_id', seekerId);
+    await prefs.setInt('role_id', roleId);
+    await prefs.setInt('user_id', userId);
   }
 
   Future<void> _saveFirstNameAndLastName(
@@ -178,7 +180,7 @@ class AuthRepository {
   Future<void> logout() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove('auth_token');
-    await prefs.remove('seeker_id');
+    await prefs.remove('role_id');
     await prefs.remove('first_name');
     await prefs.remove('last_name');
   }
@@ -196,9 +198,14 @@ class AuthRepository {
   }
 
   /// Get seeker/user ID
-  Future<int?> getSeekerId() async {
+  Future<int?> getRoleId() async {
     final prefs = await SharedPreferences.getInstance();
-    return prefs.getInt('seeker_id');
+    return prefs.getInt('role_id');
+  }
+
+  Future<int?> getUserId() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getInt('user_id');
   }
 
   Future<String?> getFirstName() async {

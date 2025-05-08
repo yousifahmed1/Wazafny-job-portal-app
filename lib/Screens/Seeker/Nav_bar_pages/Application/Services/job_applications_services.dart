@@ -22,7 +22,7 @@ class JobApplicationServices {
 
   Future<void> _initialize() async {
     token = await AuthRepository().getToken() ?? "";
-    userID = await AuthRepository().getSeekerId() ?? 0;
+    userID = await AuthRepository().getRoleId() ?? 0;
   }
 
   Future<List<JobApplicationModel>> fetchSeekerJobApplications() async {

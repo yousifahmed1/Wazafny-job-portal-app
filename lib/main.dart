@@ -34,7 +34,7 @@ class MyApp extends StatelessWidget {
 
     if (isLoggedIn) {
       final token = await authRepo.getToken();
-      final userID = await authRepo.getSeekerId();
+      final userID = await authRepo.getRoleId();
 
       log("Token : $token");
       log("UserID : $userID");

@@ -12,8 +12,9 @@ class ProfileService {
       baseUrl: ApiConstants.baseUrl,
     ),
   );
-  late int userID;
+  late int roleID;
   late String token;
+  late int userID;
   // var token = AuthRepository().getToken();
 
   ProfileService() {
@@ -22,7 +23,8 @@ class ProfileService {
 
   Future<void> _initialize() async {
     token = await AuthRepository().getToken() ?? "";
-    userID = await AuthRepository().getSeekerId() ?? 0;
+    roleID = await AuthRepository().getRoleId() ?? 0;
+    userID = await AuthRepository().getUserId() ?? 0;
   }
 
   Future<SeekerProfileModel> fetchProfile() async {
@@ -30,7 +32,7 @@ class ProfileService {
 
     try {
       final response = await dio.get(
-        '/show-seeker-profile/$userID',
+        '/show-seeker-profile/$roleID',
         options: Options(
           headers: {
             'Authorization': 'Bearer $token',
@@ -57,7 +59,7 @@ class ProfileService {
       final response = await dio.post(
         '/update-about',
         data: {
-          "seeker_id": userID, // Replace with dynamic ID later
+          "seeker_id": roleID, // Replace with dynamic ID later
           "about": about
         },
         options: Options(
@@ -98,7 +100,7 @@ class ProfileService {
       final response = await dio.post(
         '/update-personal-info',
         data: {
-          "seeker_id": userID, // Replace with dynamic ID later
+          "seeker_id": roleID, // Replace with dynamic ID later
           "first_name": firstName,
           "last_name": lastName,
           "headline": headline,
@@ -318,7 +320,7 @@ class ProfileService {
 
     FormData formData = FormData.fromMap({
       "resume": await MultipartFile.fromFile(resume.path, filename: fileName),
-      "seeker_id": userID, // Include user_id in the FormData
+      "seeker_id": roleID, // Include user_id in the FormData
     });
     try {
       final response = await dio.post(
@@ -353,7 +355,7 @@ class ProfileService {
   Future<String> deleteResume() async {
     try {
       final response = await dio.delete(
-        '/delete-resume/$userID',
+        '/delete-resume/$roleID',
         options: Options(
           headers: {
             'Authorization': 'Bearer $token',
@@ -391,7 +393,7 @@ class ProfileService {
       final response = await dio.post(
         '/create-experience',
         data: {
-          "seeker_id": userID,
+          "seeker_id": roleID,
           "company": company,
           "job_title": jobTitle,
           "job_time": jobTime,
@@ -510,7 +512,7 @@ class ProfileService {
       final response = await dio.post(
         '/update-education',
         data: {
-          "seeker_id": userID,
+          "seeker_id": roleID,
           "university": university,
           "college": college,
           "start_date": startDate,
@@ -545,7 +547,7 @@ class ProfileService {
   Future<String> deleteEducation() async {
     try {
       final response = await dio.delete(
-        '/delete-education/$userID',
+        '/delete-education/$roleID',
         options: Options(
           headers: {
             'Authorization': 'Bearer $token',
@@ -589,7 +591,7 @@ class ProfileService {
       final response = await dio.post(
         '/update-skills',
         data: {
-          "seeker_id": userID,
+          "seeker_id": roleID,
           "skills": skills,
         },
         options: Options(
