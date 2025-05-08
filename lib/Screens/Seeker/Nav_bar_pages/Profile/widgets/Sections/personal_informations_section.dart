@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/Screens/Edit_pages/edit_cover_page.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/Screens/Edit_pages/edit_information_page.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/Screens/Edit_pages/edit_profile_img.dart';
@@ -132,18 +133,53 @@ class PersonalInformations extends StatelessWidget {
                       if (seekerProfile.profile.links.isNotEmpty)
                         Row(
                           children: [
-                            SubHeadingText(
-                              title: "${seekerProfile.profile.links[0].name}",
-                              titleColor: primaryColor,
+                            InkWell(
+                              onTap: () async {
+                                final url = Uri.parse(
+                                    seekerProfile.profile.links[0].link!);
+                                final bool launched = await launchUrl(
+                                  url,
+                                  mode: LaunchMode.externalApplication,
+                                );
+                                if (!launched) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                        content: Text(
+                                            'Could not launch ${seekerProfile.profile.links[0].link!}')),
+                                  );
+                                }
+                              },
+                              child: Row(
+                                children: [
+                                  SvgPicture.asset(
+                                    "assets/Icons/Link.svg",
+                                    width: 25,
+                                    height: 25,
+                                  ),
+                                  SubHeadingText(
+                                    title:
+                                        "${seekerProfile.profile.links[0].name}",
+                                    titleColor: primaryColor,
+                                  ),
+                                ],
+                              ),
                             ),
                             const SizedBox(width: 10),
-                            SvgPicture.asset(
-                              "assets/Icons/Link.svg",
-                              width: 25,
-                              height: 25,
-                            ),
+                            seekerProfile.profile.links.length > 1
+                                ? InkWell(
+                                    onTap: () {
+                                      linksModalBottomSheet(
+                                          context, seekerProfile);
+                                    },
+                                    child: SubHeadingText(
+                                      title:
+                                          "and ${seekerProfile.profile.links.length - 1} more",
+                                      titleColor: primaryColor,
+                                    ),
+                                  )
+                                : const SizedBox(),
                           ],
-                        ),
+                        )
                     ],
                   ),
                 ),
@@ -158,5 +194,86 @@ class PersonalInformations extends StatelessWidget {
       return const Text('Failed to load profile');
     }
     return Container();
+  }
+
+  Future<dynamic> linksModalBottomSheet(
+      BuildContext context, ProfileLoaded seekerProfile) {
+    return showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) {
+        return Padding(
+          padding: const EdgeInsets.all(16),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Text(
+                  "All Links",
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: seekerProfile.profile.links.length,
+                  itemBuilder: (context, index) {
+                    final link = seekerProfile.profile.links[index];
+                    return GestureDetector(
+                      onTap: () async {
+                        final url = Uri.parse(link.link!);
+                        final bool launched = await launchUrl(
+                          url,
+                          mode: LaunchMode.externalApplication,
+                        );
+                        if (!launched) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                                content: Text('Could not launch ${link.link}')),
+                          );
+                        }
+                        Navigator.pop(context);
+                      },
+                      child: Container(
+                        margin: const EdgeInsets.only(bottom: 12),
+                        padding: const EdgeInsets.all(12),
+                        decoration: BoxDecoration(
+                          color: Colors.grey.shade100,
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(color: Colors.grey.shade300),
+                        ),
+                        child: Row(
+                          children: [
+                            SvgPicture.asset(
+                              "assets/Icons/Link.svg",
+                              width: 30,
+                              height: 30,
+                            ),
+                            const SizedBox(width: 12),
+                            Expanded(
+                              child: SubHeadingText(
+                                title: link.name ?? 'No Name',
+                                titleColor: darkerPrimary,
+                                fontSize: 18,
+                              ),
+                            ),
+                            const Icon(Icons.arrow_forward_ios,
+                                size: 16, color: Colors.grey),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
   }
 }

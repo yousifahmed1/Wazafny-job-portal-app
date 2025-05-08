@@ -90,15 +90,17 @@ class _EditInformationState extends State<EditInformation> {
         );
 
         for (var link in _exitsingLinks) {
-          String name = link.name ?? '';
-          String url = link.link ?? '';
           var linkID = link.linkID;
-          if (name.isNotEmpty && url.isNotEmpty) {
-            updatedLinks.add(LinkModel(
-              name: name,
-              link: url,
-              linkID: linkID,
-            ));
+          if (linkID != null) {
+            String name = _linkNameControllers[linkID]?.text ?? '';
+            String url = _linkUrlControllers[linkID]?.text ?? '';
+            if (name.isNotEmpty && url.isNotEmpty) {
+              updatedLinks.add(LinkModel(
+                name: name,
+                link: url,
+                linkID: linkID,
+              ));
+            }
           }
         }
 
