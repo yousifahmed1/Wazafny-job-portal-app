@@ -7,7 +7,6 @@ import 'package:wazafny/Screens/welcome.dart';
 import 'package:wazafny/widgets/text_fields/search_field.dart';
 import 'package:wazafny/widgets/texts/heading_text.dart';
 
-
 class SearchBarProfileCircle extends StatelessWidget {
   const SearchBarProfileCircle({
     super.key,
@@ -41,12 +40,12 @@ class SearchBarProfileCircle extends StatelessWidget {
 
           // Profile Circle
           InkWell(
-            overlayColor: MaterialStateProperty.all(Colors.transparent),
+            overlayColor: WidgetStateColor.transparent,
             onTap: () {
               showModalBottomSheet(
                   context: context,
                   builder: (context) {
-                    return Container(
+                    return SizedBox(
                       height: 150,
                       width: double.infinity,
                       child: Column(
@@ -63,7 +62,8 @@ class SearchBarProfileCircle extends StatelessWidget {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => WelcomePage()),
+                                        builder: (context) =>
+                                            const WelcomePage()),
                                   );
                                 } else {
                                   log("Error logging out");
