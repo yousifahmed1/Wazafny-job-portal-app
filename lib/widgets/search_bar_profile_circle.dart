@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:wazafny/Screens/login_and_signup/repo/auth_repository.dart';
 import 'package:wazafny/Screens/welcome.dart';
 import 'package:wazafny/widgets/text_fields/search_field.dart';
@@ -86,18 +87,23 @@ class SearchBarProfileCircle extends StatelessWidget {
                     );
                   });
             },
-            child: const CircleAvatar(
-              radius: 30,
-              backgroundColor: darkerPrimary,
-              child: Text(
-                "YA",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.w600,
-                  fontSize: 22,
-                ),
-              ),
+            child: SvgPicture.asset(
+              'assets/Icons/settings.svg',
+              width: 50,
+              height: 50,
             ),
+            //const CircleAvatar(
+            //   radius: 30,
+            //   backgroundColor: darkerPrimary,
+            //   child: Text(
+            //     "YA",
+            //     style: TextStyle(
+            //       color: Colors.white,
+            //       fontWeight: FontWeight.w600,
+            //       fontSize: 22,
+            //     ),
+            //   ),
+            // ),
           ),
         ],
       ),
