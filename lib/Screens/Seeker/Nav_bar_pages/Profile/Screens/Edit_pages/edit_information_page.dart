@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/model/profile_model.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/widgets/save_button.dart';
+import 'package:wazafny/widgets/text_fields/Country_picker_text_field.dart';
 import 'package:wazafny/widgets/text_fields/rounded_text_fields.dart';
 import 'package:wazafny/widgets/texts/heading_text.dart';
 import 'package:wazafny/widgets/texts/sub_heading_text.dart';
@@ -198,6 +199,7 @@ class _EditInformationState extends State<EditInformation> {
                         controller: _firstNameController,
                         keyboardType: TextInputType.name,
                         labelText: "First Name*",
+                        validator: Validators().requiredFieldValidator,
                       ),
 
                       const SizedBox(height: 15),
@@ -207,6 +209,7 @@ class _EditInformationState extends State<EditInformation> {
                         controller: _lastNameController,
                         keyboardType: TextInputType.name,
                         labelText: "Last Name*",
+                        validator: Validators().requiredFieldValidator,
                       ),
 
                       const SizedBox(height: 15),
@@ -216,15 +219,16 @@ class _EditInformationState extends State<EditInformation> {
                         controller: _headlineController,
                         keyboardType: TextInputType.name,
                         labelText: "Headline*",
+                        validator: Validators().requiredFieldValidator,
                       ),
 
                       const SizedBox(height: 15),
 
                       //country textfield
-                      RoundedTextField(
+                      CountryPickerTextField(
                         controller: _countryController,
-                        keyboardType: TextInputType.name,
                         labelText: "Country*",
+                        validator: Validators().requiredFieldValidator,
                       ),
 
                       const SizedBox(height: 15),
@@ -234,6 +238,7 @@ class _EditInformationState extends State<EditInformation> {
                         controller: _cityController,
                         keyboardType: TextInputType.name,
                         labelText: "City*",
+                        validator: Validators().requiredFieldValidator,
                       ),
 
                       const SizedBox(height: 15),

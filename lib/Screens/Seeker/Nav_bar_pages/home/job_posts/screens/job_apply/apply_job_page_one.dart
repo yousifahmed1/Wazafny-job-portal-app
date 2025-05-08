@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/home/job_posts/model/job_apply_model.dart';
 import 'package:wazafny/core/constants/constants.dart';
 import 'package:wazafny/core/constants/textfields_validators.dart';
+import 'package:wazafny/widgets/text_fields/Country_picker_text_field.dart';
 import 'package:wazafny/widgets/text_fields/rounded_text_fields.dart';
 import 'package:wazafny/widgets/texts/heading_text.dart';
 
@@ -70,7 +71,7 @@ class _ApplyPageOneState extends State<ApplyPageOne> {
           validator: Validators().requiredFieldValidator,
           onChanged: (value) {
             widget.jobApplyModel.lastName = value;
-            ;
+            
           },
         ),
         const SizedBox(height: 15),
@@ -95,9 +96,8 @@ class _ApplyPageOneState extends State<ApplyPageOne> {
           },
         ),
         const SizedBox(height: 15),
-        RoundedTextField(
+        CountryPickerTextField(
           controller: _countryController,
-          keyboardType: TextInputType.text,
           labelText: "Country*",
           validator: Validators().requiredFieldValidator,
           onChanged: (value) {

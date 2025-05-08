@@ -1,7 +1,8 @@
-import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:wazafny/core/constants/constants.dart';
+import 'package:wazafny/core/constants/textfields_validators.dart';
 import 'package:wazafny/widgets/Navigators/slide_to.dart';
+import 'package:wazafny/widgets/text_fields/Country_picker_text_field.dart';
 import 'package:wazafny/widgets/text_fields/regular_text_field.dart';
 import '../../../widgets/button.dart';
 import '../../../widgets/custom_app_bar.dart';
@@ -63,46 +64,16 @@ class _FillLocationState extends State<FillLocation> {
               const HeadingText1(title: "What's your location ?"),
               const SizedBox(height: 20),
               const SizedBox(height: 20),
-              RegularTextField(
-                keyboardType: TextInputType.none,
-                labelText: "Country",
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Country is required';
-                  }
-                  return null;
-                },
+              CountryPickerTextField(
                 controller: _countryController,
-                ontap: () {
-                  showCountryPicker(
-                    countryListTheme: const CountryListThemeData(
-                      flagSize: 25,
-                      textStyle: TextStyle(
-                          fontSize: 20,
-                          color: darkPrimary,
-                          fontWeight: FontWeight.w500),
-                    ),
-                    context: context,
-                    showPhoneCode: false,
-                    onSelect: (Country country) {
-                      setState(() {
-                        _countryController.text = country.name;
-                        _validateForm();
-                      });
-                    },
-                  );
-                },
+                labelText: "Country*",
+                validator: Validators().requiredFieldValidator,
               ),
               const SizedBox(height: 20),
               RegularTextField(
                 keyboardType: TextInputType.name,
                 labelText: "City",
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'City is required';
-                  }
-                  return null;
-                },
+                validator: Validators().requiredFieldValidator,
                 controller: _cityController,
               ),
               const SizedBox(height: 20),
