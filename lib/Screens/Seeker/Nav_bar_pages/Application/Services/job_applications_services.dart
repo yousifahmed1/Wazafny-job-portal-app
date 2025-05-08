@@ -40,7 +40,6 @@ class JobApplicationServices {
       );
 
       if (response.statusCode == 200) {
-        // here we assume the API structure is { "companies": [ {...}, {...} ] }
         List applicationsJson = response.data['applications'];
 
         List<JobApplicationModel> applications = applicationsJson
