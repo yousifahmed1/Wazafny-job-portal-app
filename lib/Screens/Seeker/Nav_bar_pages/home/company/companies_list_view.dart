@@ -93,6 +93,9 @@ class _CompaniesListViewState extends State<CompaniesListView> {
               itemCount: filteredCompanies.length,
               itemBuilder: (context, index) {
                 final company = filteredCompanies[index];
+                if (company.about == null || company.about == "") {
+                  return const SizedBox();
+                }
                 return InkWell(
                   onTap: () => slideTo(
                       context,
