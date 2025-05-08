@@ -5,7 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wazafny/core/constants/api_constants.dart';
 
 class AuthRepository {
-  final Dio dio =Dio(
+  final Dio dio = Dio(
     BaseOptions(
       baseUrl: ApiConstants.baseUrl,
     ),
@@ -18,17 +18,19 @@ class AuthRepository {
     try {
       final response = await dio.post(
         '/login', // Replace with your actual endpoint
-        data: {
-          'email': email,
-          'password': password,
-          "role" : role
-        },
+        data: {'email': email, 'password': password, "role": role},
       );
 
       if (response.statusCode == 200) {
         final token = response.data['token'];
         final seekerId = response.data['user_id']; // adjust based on your API
 
+        final respnseTwo = await _getSeekerMainData(seekerId, token);
+
+        final firstName = respnseTwo['firstName'];
+        final lastName = respnseTwo['lastName'];
+
+        await _saveFirstNameAndLastName(firstName, lastName);
         await _saveTokenAndId(token, seekerId);
         return true;
       } else {
@@ -71,7 +73,6 @@ class AuthRepository {
   }
 
   Future<Map<String, dynamic>> signUpCompany({
-
     required String companyName,
     required String email,
     required String password,
@@ -99,6 +100,32 @@ class AuthRepository {
     }
   }
 
+  Future<Map<String, dynamic>> _getSeekerMainData(
+      int userID, String token) async {
+    try {
+      final response = await dio.get(
+        '/show-personal-info/$userID',
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+            'Content-Type': 'application/json',
+          },
+        ),
+      );
+
+      if (response.statusCode == 200) {
+        return {
+          "firstName": response.data['first_name'],
+          "lastName": response.data['last_name'],
+        };
+      } else {
+        throw Exception('Failed to load main data');
+      }
+    } catch (e) {
+      log('Error fetching main data: $e');
+      throw Exception('Something went wrong while fetching main data');
+    }
+  }
 
   Future<bool> logoutService() async {
     final userID = await getSeekerId();
@@ -120,8 +147,7 @@ class AuthRepository {
       log(response.toString());
 
       if (response.statusCode == 200) {
-
-         // adjust based on your API
+        // adjust based on your API
 
         await logout();
         return true;
@@ -141,11 +167,20 @@ class AuthRepository {
     await prefs.setInt('seeker_id', seekerId);
   }
 
+  Future<void> _saveFirstNameAndLastName(
+      String firstName, String lastName) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('first_name', firstName);
+    await prefs.setString('last_name', lastName);
+  }
+
   /// Clear stored login data
   Future<void> logout() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove('auth_token');
     await prefs.remove('seeker_id');
+    await prefs.remove('first_name');
+    await prefs.remove('last_name');
   }
 
   /// Check if token exists
@@ -164,5 +199,15 @@ class AuthRepository {
   Future<int?> getSeekerId() async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getInt('seeker_id');
+  }
+
+  Future<String?> getFirstName() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString('first_name');
+  }
+
+  Future<String?> getLastName() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString('last_name');
   }
 }
