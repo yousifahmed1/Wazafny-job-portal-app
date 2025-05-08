@@ -61,25 +61,22 @@ class _CompaniesListViewState extends State<CompaniesListView> {
                 context.read<CompanyViewCubit>().fetchCompany();
               },
               child: Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text(
-                      'No companies found matching your search',
-                      style: TextStyle(fontSize: 16),
-                    ),
-                    const SizedBox(height: 16),
-                    if (widget.searchQuery.isNotEmpty)
-                      ElevatedButton(
-                        onPressed: () {
-                          // Clear search - this would be handled by the parent widget
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: darkerPrimary,
+                child: ListView(
+                  padding: const EdgeInsets.only(
+                    bottom: 105,
+                  ),
+                  children: const [
+                    SizedBox(height: 60),
+                    Align(
+                      alignment: Alignment.center,
+                      child: Text(
+                        'No companies found ',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
                         ),
-                        child: const Text('Clear Search',
-                            style: TextStyle(color: Colors.white)),
                       ),
+                    ),
                   ],
                 ),
               ),
@@ -92,7 +89,7 @@ class _CompaniesListViewState extends State<CompaniesListView> {
             },
             child: ListView.builder(
               padding: const EdgeInsets.only(bottom: 105), // navbar height
-              physics: const BouncingScrollPhysics(),
+              physics: const AlwaysScrollableScrollPhysics(),
               itemCount: filteredCompanies.length,
               itemBuilder: (context, index) {
                 final company = filteredCompanies[index];

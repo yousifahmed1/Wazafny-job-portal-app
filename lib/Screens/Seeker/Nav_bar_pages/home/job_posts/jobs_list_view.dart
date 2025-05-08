@@ -74,16 +74,17 @@ class JobsListView extends StatelessWidget {
 
           return RefreshIndicator(
             onRefresh: () async {
-                context.read<JobCubit>().fetchJobs();
-              },
+              context.read<JobCubit>().fetchJobs();
+            },
             child: ListView.builder(
               padding: const EdgeInsets.only(bottom: 105), //navbar height
-              physics: const BouncingScrollPhysics(),
+              physics: const AlwaysScrollableScrollPhysics(),
               itemCount: filteredJobs.length,
               itemBuilder: (context, index) {
                 final job = filteredJobs[index];
                 return InkWell(
-                  onTap: () => slideTo(context, JobPostPreview(jobId: job.jobId)),
+                  onTap: () =>
+                      slideTo(context, JobPostPreview(jobId: job.jobId)),
                   overlayColor: WidgetStateColor.transparent,
                   child: Container(
                     decoration: BoxDecoration(

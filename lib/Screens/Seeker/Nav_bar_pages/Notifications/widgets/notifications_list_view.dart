@@ -17,6 +17,8 @@ class NotificationsListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.separated(
+      physics: const AlwaysScrollableScrollPhysics(),
+
       padding: const EdgeInsets.only(bottom: 105), //navbar height
       separatorBuilder: (context, index) => const SizedBox(height: 15),
       itemCount: notifications.length,
