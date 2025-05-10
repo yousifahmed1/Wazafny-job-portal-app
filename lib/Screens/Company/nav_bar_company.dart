@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:navigation_view/item_navigation_view.dart';
 import 'package:navigation_view/navigation_view.dart';
 import 'package:wazafny/Screens/Company/JobPosts/Screens/company_job_posts.dart';
+import 'package:wazafny/Screens/Company/Profile/screens/company_profile_page.dart';
 import 'package:wazafny/Screens/Company/home/Screens/company_home.dart';
 
 import 'package:wazafny/core/constants/constants.dart';
@@ -20,7 +21,7 @@ class _NavBarCompanyState extends State<NavBarCompany> {
   final List<Widget> _screens = [
     const CompanyDashboardPage(),
     const JobPostPage(),
-    const CompanyDashboardPage(),
+    const CompanyProfile(),
   ];
 
   @override

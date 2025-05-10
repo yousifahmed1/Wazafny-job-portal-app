@@ -5,7 +5,6 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:wazafny/Screens/Company/JobPosts/Screens/Applications/view_application_page.dart';
 import 'package:wazafny/Screens/Company/nav_bar_company.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Application/cubit/job_applications_cubit.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Notifications/cubit/notifications_cubit.dart';
@@ -15,7 +14,7 @@ import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/services/profile_se
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/home/company/cubit/cubit/company_view_cubit.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/home/job_posts/cubits/job_post_cubit/job_post_cubit.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/home/job_posts/cubits/recommended_jobs_cubit/recommended_jobs_cubit.dart';
-import 'package:wazafny/Screens/Seeker/Nav_bar_pages/nav_bar.dart';
+//import 'package:wazafny/Screens/Seeker/Nav_bar_pages/nav_bar.dart';
 import 'package:wazafny/Screens/login_and_signup/repo/auth_repository.dart';
 import 'package:wazafny/Screens/welcome.dart';
 import 'package:wazafny/core/constants/constants.dart';
@@ -84,7 +83,7 @@ class MyApp extends StatelessWidget {
             primary: primaryColor,
           ),
         ),
-        home: isLoggedIn ? ViewApplicationPage() : const WelcomePage(),
+        home: isLoggedIn ? const NavBarCompany() : const WelcomePage(),
       ),
     );
   }
