@@ -71,12 +71,12 @@ class _SignUpPageState extends State<SignUpPage> {
           password: _passwordController.text,
         );
 
-        if (result['statusCode'] == 201) {
+        if (result == "success") {
           // ignore: use_build_context_synchronously
           slideTo(context, const FillHeadline());
         } else {
           final errorMsg =
-              result['error'] ?? 'Registration failed. Please try again.';
+              result ;
           // ignore: use_build_context_synchronously
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text(errorMsg)),

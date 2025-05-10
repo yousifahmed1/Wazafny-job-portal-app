@@ -16,7 +16,7 @@ class AuthRepository {
   /// Login and save token + seekerId if successful
   Future<bool> login(String email, String password, String role) async {
     try {
-      final response = await dio.post(
+      final response =await dio.post(
         '/login', // Replace with your actual endpoint
         data: {'email': email, 'password': password, "role": role},
       );
@@ -25,13 +25,18 @@ class AuthRepository {
         final token = response.data['token'];
         final roleId = response.data['role_id']; // adjust based on your API
         final userId = response.data['user_id']; // adjust based on your API
+        log(token);
+        if (role == "Seeker") {
+          var responseTwo = await _getSeekerMainData(roleId, token);
+          final firstName = responseTwo['firstName'];
+          final lastName = responseTwo['lastName'];
+          await _saveFirstNameAndLastName(firstName, lastName);
+        } else {
+          var responseTwo = await _getCompanyMainData(roleId, token);
+          final companyName = responseTwo['company_name'];
+          _saveCompanyName(companyName);
+        }
 
-        final respnseTwo = await _getSeekerMainData(roleId, token);
-
-        final firstName = respnseTwo['firstName'];
-        final lastName = respnseTwo['lastName'];
-
-        await _saveFirstNameAndLastName(firstName, lastName);
         await _saveTokenAndId(token, roleId, userId);
         return true;
       } else {
@@ -43,7 +48,7 @@ class AuthRepository {
     }
   }
 
-  Future<Map<String, dynamic>> signUpSeeker({
+  Future<String> signUpSeeker({
     required String firstName,
     required String lastName,
     required String email,
@@ -60,16 +65,23 @@ class AuthRepository {
         },
       );
 
-      return {
-        'statusCode': response.statusCode,
-        'data': response.data,
-      };
+      if (response.statusCode == 201) {
+        final token = response.data['token'];
+        final roleId = response.data['role_id']; // adjust based on your API
+        final userId = response.data['user_id']; // adjust based on your API
+        await _saveTokenAndId(token, roleId, userId);
+        await _saveFirstNameAndLastName(firstName, lastName);
+
+        return "success";
+      } else {
+        return "Registration failed with status code ${response.statusCode}";
+      }
     } on DioException catch (e) {
       print('Registration failed: ${e.message}');
-      return {
-        'statusCode': e.response?.statusCode ?? 500,
-        'error': e.message,
-      };
+      return "Registration failed: ${e.message}";
+    } catch (e) {
+      print('Unexpected error: $e');
+      return "An unexpected error occurred.";
     }
   }
 
@@ -128,6 +140,32 @@ class AuthRepository {
     }
   }
 
+  Future<Map<String, dynamic>> _getCompanyMainData(
+      int userID, String token) async {
+    try {
+      final response = await dio.get(
+        '/show-company-personal-info/$userID',
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+            'Content-Type': 'application/json',
+          },
+        ),
+      );
+
+      if (response.statusCode == 200) {
+        return {
+          "company_name": response.data['company_name'],
+        };
+      } else {
+        throw Exception('Failed to load main data');
+      }
+    } catch (e) {
+      log('Error fetching main data: $e');
+      throw Exception('Something went wrong while fetching main data');
+    }
+  }
+
   Future<bool> logoutService() async {
     final userID = await getRoleId();
     final token = await getToken();
@@ -176,11 +214,20 @@ class AuthRepository {
     await prefs.setString('last_name', lastName);
   }
 
+  Future<void> _saveCompanyName(
+      String companyName) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('company_name', companyName);
+
+  }
+
+
   /// Clear stored login data
   Future<void> logout() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.remove('auth_token');
     await prefs.remove('role_id');
+    await prefs.remove('user_id');
     await prefs.remove('first_name');
     await prefs.remove('last_name');
   }
@@ -216,5 +263,9 @@ class AuthRepository {
   Future<String?> getLastName() async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getString('last_name');
+  }
+  Future<String?> getCompanyName() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString('company_name');
   }
 }

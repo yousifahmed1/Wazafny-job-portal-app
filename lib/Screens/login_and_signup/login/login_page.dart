@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wazafny/Screens/Company/nav_bar_company.dart';
 import 'package:wazafny/Screens/login_and_signup/repo/auth_repository.dart';
 import 'package:wazafny/core/constants/constants.dart';
 import 'package:wazafny/core/constants/textfields_validators.dart';
@@ -42,19 +43,23 @@ class _LoginPageState extends State<LoginPage> {
 
   void _login() async {
     if (_formKey.currentState!.validate()) {
-      bool loginSuccessful = await AuthRepository().login(
-        _emailController.text,
-        _passwordController.text,
-        widget.role,
-      );
-
-      if (loginSuccessful) {
-        slideTo(context, const NavBar());
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Login failed. Please try again.')),
+      
+        bool loginSuccessful = await AuthRepository().login(
+          _emailController.text,
+          _passwordController.text,
+          widget.role,
         );
-      }
+
+        if (loginSuccessful) {
+          widget.role == "Seeker"
+              ? slideTo(context, const NavBar())
+              : slideTo(context, const NavBarCompany());
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Login failed. Please try again.')),
+          );
+        }
+      
     }
   }
 
