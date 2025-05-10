@@ -5,6 +5,8 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wazafny/Screens/Company/JobPosts/Screens/Applications/view_application_page.dart';
+import 'package:wazafny/Screens/Company/nav_bar_company.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Application/cubit/job_applications_cubit.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Notifications/cubit/notifications_cubit.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/cubit/profile_cubit.dart';
@@ -34,9 +36,11 @@ class MyApp extends StatelessWidget {
 
     if (isLoggedIn) {
       final token = await authRepo.getToken();
-      final userID = await authRepo.getRoleId();
+      final userID = await authRepo.getUserId();
+      final roleID = await authRepo.getRoleId();
 
       log("Token : $token");
+      log("roleID : $roleID");
       log("UserID : $userID");
 
       // Set token if available
@@ -80,7 +84,7 @@ class MyApp extends StatelessWidget {
             primary: primaryColor,
           ),
         ),
-        home: isLoggedIn ? const NavBar() : const WelcomePage(),
+        home: isLoggedIn ? ViewApplicationPage() : const WelcomePage(),
       ),
     );
   }
