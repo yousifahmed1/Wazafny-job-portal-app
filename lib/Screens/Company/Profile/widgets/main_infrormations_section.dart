@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/home/company/model/company_model.dart';
 import 'package:wazafny/core/constants/constants.dart';
-import 'package:wazafny/widgets/custom_app_bar.dart';
 import 'package:wazafny/widgets/texts/heading_text.dart';
 import 'package:wazafny/widgets/texts/sub_heading_text.dart';
 
@@ -38,16 +37,13 @@ class MainInformaition extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              CustomAppBar(
-                buttonColor: Colors.white,
-                onBackPressed: () => Navigator.pop(context),
-              ),
               Padding(
                 padding: const EdgeInsets.only(left: 20, right: 20, top: 20),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     // Profile Picture
+                    const SizedBox(height: 125),
 
                     ClipRRect(
                       borderRadius: BorderRadius.circular(16),
