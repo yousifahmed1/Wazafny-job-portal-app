@@ -6,12 +6,16 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final VoidCallback onBackPressed;
   final String? title; // Make it nullable and optional
   final Color? buttonColor;
+  final double? txtSize;
+  final bool isTitleNotCentered;
 
   const CustomAppBar({
     super.key,
     required this.onBackPressed,
     this.title, // Optional parameter
-    this.buttonColor, // Optional parameter
+    this.buttonColor,
+    this.txtSize,
+    this.isTitleNotCentered = false, // Optional parameter
   });
 
   @override
@@ -22,14 +26,14 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
         backgroundColor: Colors.transparent,
         scrolledUnderElevation: 0,
 
-        centerTitle: true,
+        centerTitle: !isTitleNotCentered,
         elevation: 0,
         title: title != null
             ? Text(
                 title!,
-                style: const TextStyle(
+                style: TextStyle(
                   color: darkPrimary,
-                  fontSize: 25,
+                  fontSize: txtSize ?? 25,
                   fontWeight: FontWeight.w700,
                 ),
               )
