@@ -3,8 +3,9 @@ import 'package:wazafny/core/constants/constants.dart';
 
 class SaveButton extends StatelessWidget {
   final VoidCallback onTap;
+  final Color? color;
 
-  const SaveButton({super.key, required this.onTap});
+  const SaveButton({super.key, required this.onTap, this.color});
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +29,7 @@ class SaveButton extends StatelessWidget {
             child: Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
-                color: primaryColor,
+                color: color ?? primaryColor,
               ),
               child: const Center(
                 child: Padding(
