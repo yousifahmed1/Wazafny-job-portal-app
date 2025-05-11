@@ -230,6 +230,7 @@ class AuthRepository {
     await prefs.remove('user_id');
     await prefs.remove('first_name');
     await prefs.remove('last_name');
+    await prefs.remove('company_name');
   }
 
   /// Check if token exists
