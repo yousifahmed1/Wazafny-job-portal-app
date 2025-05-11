@@ -1,207 +1,201 @@
 import 'package:flutter/material.dart';
-import 'package:get/get_rx/src/rx_types/rx_types.dart';
-import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wazafny/Screens/Company/cubit/dashboard_cubit.dart';
+import 'package:wazafny/Screens/Company/cubit/dashboard_state.dart';
 import 'package:wazafny/Screens/Company/home/widgets/stat_card.dart';
-import 'package:wazafny/Screens/Seeker/Nav_bar_pages/home/job_posts/model/jobs_model.dart';
-import 'package:wazafny/Screens/Seeker/Nav_bar_pages/home/job_posts/widgets/jobs_card.dart';
-import 'package:wazafny/Screens/login_and_signup/repo/auth_repository.dart';
 import 'package:wazafny/core/constants/constants.dart';
 import 'package:wazafny/widgets/button.dart';
 import 'package:wazafny/widgets/settings.dart';
 import 'package:wazafny/widgets/texts/heading_text.dart';
 import 'package:wazafny/widgets/texts/sub_heading_text.dart';
 
-class CompanyDashboardPage extends StatefulWidget {
+class CompanyDashboardPage extends StatelessWidget {
   const CompanyDashboardPage({super.key});
 
   @override
-  State<CompanyDashboardPage> createState() => _CompanyDashboardPageState();
-}
-
-class _CompanyDashboardPageState extends State<CompanyDashboardPage> {
-  // Example statistics data (replace with database data later)
-  final List<Map<String, String>> statsData = [
-    {"title": "Total Job Posted", "value": "68"},
-    {"title": "Total Followers", "value": "1.2k"},
-    {"title": "Total Active Jobs", "value": "5"},
-    {"title": "Applications Received", "value": "103"},
-  ];
-
-  final List<JobModel> jobList = [
-    JobModel(
-      jobId: 1,
-      title: 'Flutter Developer',
-      jobAbout: 'Develop mobile apps using Flutter.',
-      jobType: 'Full-time',
-      jobCountry: 'Egypt',
-      jobCity: 'Cairo',
-      timeAgo: '2d',
-      score: 4.5,
-      company: Company(
-        companyId: 101,
-        companyName: 'Tech Solutions',
-        profileImg:
-            'https://yt3.googleusercontent.com/nOh0J8CqQ-GQS87JMx21dKd87Pf78dN6DX-C_PX6JxQF-pdj25_6TqVwOw_RtWEAI4wQ8USc=s900-c-k-c0x00ffffff-no-rj',
-      ),
-      skills: ['Flutter', 'Dart', 'Firebase'],
-    ),
-    JobModel(
-      jobId: 2,
-      title: 'Backend Developer',
-      jobAbout: 'Work with Laravel and MySQL databases.',
-      jobType: 'Remote',
-      jobCountry: 'Egypt',
-      jobCity: 'Alexandria',
-      timeAgo: '5d',
-      score: 4.0,
-      company: Company(
-        companyId: 102,
-        companyName: 'Code Masters',
-        profileImg:
-            'https://yt3.googleusercontent.com/nOh0J8CqQ-GQS87JMx21dKd87Pf78dN6DX-C_PX6JxQF-pdj25_6TqVwOw_RtWEAI4wQ8USc=s900-c-k-c0x00ffffff-no-rj',
-      ),
-      skills: ['Laravel', 'MySQL', 'API Development'],
-    ),
-  ];
-
-  // Example job post data (replace with database data later)
-
-  var companyName = "".obs;
-  Future<void> _getCompanyName() async {
-    companyName.value = await AuthRepository().getCompanyName() ?? "";
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _getCompanyName();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: ListView(
-          padding:
-              const EdgeInsets.only(left: 20, right: 20, top: 20, bottom: 105),
-          children: [
-            Row(
-              children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SubHeadingText(
-                      titleColor: darkerPrimary,
-                      title: "Welcome",
+    return BlocBuilder<DashboardCubit, DashboardState>(
+      builder: (context, state) {
+        if (state is DashboardInitial) {
+          // Automatically fetch companies when screen loads
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            context.read<DashboardCubit>().fetchStats();
+          });
+          return const Center(child: Text('Loading companies...'));
+        }
+        if (state is DashboardLoading) {
+          return const Center(child: CircularProgressIndicator());
+        }
+        if (state is DashboardError) {
+          return Center(child: Text(state.error));
+        }
+        if (state is DashboardLoaded) {
+          final dashboardData = state.dashboardData;
+          final stats = dashboardData.stats;
+          final latestJobs = dashboardData.latestJobs;
+          final companyName = dashboardData.companyName;
+          return Scaffold(
+            body: SafeArea(
+              child: ListView(
+                padding: const EdgeInsets.only(
+                    left: 20, right: 20, top: 20, bottom: 105),
+                children: [
+                  Row(
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const SubHeadingText(
+                            titleColor: darkerPrimary,
+                            title: "Welcome",
+                          ),
+                          Text(
+                            companyName,
+                            style: const TextStyle(
+                                fontWeight: FontWeight.w900,
+                                fontSize: 25,
+                                color: darkerPrimary),
+                          )
+                        ],
+                      ),
+                      const Spacer(),
+                      const SettingsIcon(),
+                    ],
+                  ),
+
+                  const SizedBox(height: 20),
+
+                  InkWell(
+                    onTap: () {},
+                    child: const Button1(
+                      text: "Create New Post",
+                      btnColor: primaryColor,
+                      height: 60,
                     ),
-                    Obx(() => Text(
-                          companyName.value,
-                          style: const TextStyle(
-                              fontWeight: FontWeight.w900,
-                              fontSize: 25,
-                              color: darkerPrimary),
-                        )),
-                  ],
-                ),
-                const Spacer(),
-                const SettingsIcon(),
-              ],
-            ),
+                  ),
+                  const SizedBox(height: 20),
 
-            const SizedBox(height: 20),
+                  // Statistics Section as Rows
 
-            // Padding(
-            //   padding: const EdgeInsets.all(8.0),
-            //   child: ElevatedButton(
-            //     onPressed: () {},
-            //     style: ElevatedButton.styleFrom(
-            //       backgroundColor: primaryColor,
-            //       minimumSize: Size(double.infinity, 50),
-            //       shape: RoundedRectangleBorder(
-            //         borderRadius: BorderRadius.circular(12),
-            //       ),
-            //     ),
-            //     child: Text(
-            //       "Create New Post",
-            //       style: TextStyle(
-            //         fontSize: 23.7,
-            //         color: whiteColor,
-            //       ),
-            //     ),
-            //   ),
-            // ),
-            InkWell(
-              onTap: () {},
-              child: const Button1(
-                text: "Create New Post",
-                btnColor: primaryColor,
-                height: 60,
+                  Column(
+                    children: [
+                      Row(
+                        children: [
+                          Expanded(
+                            child: StatCard(
+                              title: "Total Job Posted",
+                              value: stats.jobsCount.toString(),
+                            ),
+                          ),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: StatCard(
+                              title: "Total Followers",
+                              value: stats.followersCount.toString(),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 12),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: StatCard(
+                              title: "Total Active Jobs",
+                              value: stats.activeJobsCount.toString(),
+                            ),
+                          ),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: StatCard(
+                              title: "Applications Received",
+                              value: stats.applicationsCount.toString(),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+
+                  const HeadingText1(
+                    title: "Latest Job Post",
+                  ),
+                  const SizedBox(height: 12),
+
+                  // Job Posts with Company Logo
+                  ...latestJobs.map((post) => Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8),
+                      child: Container(
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: Colors.white),
+                        // margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 8),
+                        child: Padding(
+                          padding: const EdgeInsets.all(16),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const Spacer(),
+                                  //time ago
+                                  Text(
+                                    "${post.timeAgo} ago",
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      color: darkerPrimary,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              //job title
+                              Text(
+                                post.jobTitle,
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 18,
+                                  color: darkerPrimary,
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              // job location + job type
+                              Row(
+                                children: [
+                                  Text(
+                                    "${post.jobCity}, ${post.jobCountry} (${post.jobType})",
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.w500,
+                                      fontSize: 15,
+                                      color: darkerPrimary,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ))),
+                ],
               ),
             ),
-            const SizedBox(height: 20),
-
-            // Statistics Section as Rows
-            Column(
-              children: [
-                Row(
-                  children: [
-                    Expanded(
-                      child: StatCard(
-                        title: statsData[0]['title']!,
-                        value: statsData[0]['value']!,
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: StatCard(
-                        title: statsData[1]['title']!,
-                        value: statsData[1]['value']!,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 12),
-                Row(
-                  children: [
-                    Expanded(
-                      child: StatCard(
-                        title: statsData[2]['title']!,
-                        value: statsData[2]['value']!,
-                      ),
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: StatCard(
-                        title: statsData[3]['title']!,
-                        value: statsData[3]['value']!,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            const SizedBox(height: 20),
-
-            const HeadingText1(
-              title: "Latest Job Post",
-            ),
-            const SizedBox(height: 12),
-
-            // Job Posts with Company Logo
-            ...jobList.map((post) => Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8),
-                  child: JobsCard(
-                    job: post,
-                  ),
-                )),
-          ],
-        ),
-      ),
+          );
+        } else {
+          return const SizedBox();
+        }
+      },
     );
   }
 }
 
-  // Job Post Card Widget
+// Job Post Card Widget
   // class JobPostCard extends StatelessWidget {
   //   final String companyName;
   //   final String jobTitle;
