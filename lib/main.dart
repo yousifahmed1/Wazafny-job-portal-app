@@ -5,7 +5,7 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:wazafny/Screens/Company/cubit/dashboard_cubit.dart';
+import 'package:wazafny/Screens/Company/home/cubit/dashboard_cubit.dart';
 import 'package:wazafny/Screens/Company/nav_bar_company.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Application/cubit/job_applications_cubit.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Notifications/cubit/notifications_cubit.dart';

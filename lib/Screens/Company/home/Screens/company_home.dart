@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:wazafny/Screens/Company/cubit/dashboard_cubit.dart';
-import 'package:wazafny/Screens/Company/cubit/dashboard_state.dart';
+import 'package:wazafny/Screens/Company/home/cubit/dashboard_cubit.dart';
+import 'package:wazafny/Screens/Company/home/cubit/dashboard_state.dart';
 import 'package:wazafny/Screens/Company/home/widgets/stat_card.dart';
 import 'package:wazafny/core/constants/constants.dart';
 import 'package:wazafny/widgets/button.dart';
