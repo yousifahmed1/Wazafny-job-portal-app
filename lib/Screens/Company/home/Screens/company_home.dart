@@ -19,7 +19,6 @@ class CompanyDashboardPage extends StatefulWidget {
 class _CompanyDashboardPageState extends State<CompanyDashboardPage> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _getData();
   }
@@ -204,86 +203,3 @@ class _CompanyDashboardPageState extends State<CompanyDashboardPage> {
   }
 }
 
-// Job Post Card Widget
-  // class JobPostCard extends StatelessWidget {
-  //   final String companyName;
-  //   final String jobTitle;
-  //   final String location;
-  //   final String timeAgo;
-  //   final String logoUrl;
-
-  //   const JobPostCard({
-  //     super.key,
-  //     required this.companyName,
-  //     required this.jobTitle,
-  //     required this.location,
-  //     required this.timeAgo,
-  //     required this.logoUrl,
-  //   });
-
-  //   @override
-  //   Widget build(BuildContext context) {
-  //     return Container(
-  //       margin: const EdgeInsets.only(bottom: 12),
-  //       decoration: BoxDecoration(
-  //         color: Colors.white,
-  //         borderRadius: BorderRadius.circular(16),
-  //       ),
-  //       padding: const EdgeInsets.all(16),
-  //       child: Row(
-  //         children: [
-  //           ClipRRect(
-  //             borderRadius: BorderRadius.circular(8),
-  //             child: Image.network(
-  //               logoUrl,
-  //               width: 38,
-  //               height: 38,
-  //               fit: BoxFit.cover,
-  //             ),
-  //           ),
-  //           const SizedBox(width: 12),
-  //           Expanded(
-  //             child: Column(
-  //               crossAxisAlignment: CrossAxisAlignment.start,
-  //               children: [
-  //                 Text(
-  //                   companyName,
-  //                   style: TextStyle(
-  //                     fontWeight: FontWeight.bold,
-  //                     fontSize: 13,
-  //                   ),
-  //                 ),
-  //                 const SizedBox(height: 5),
-  //                 Text(
-  //                   jobTitle,
-  //                   style: TextStyle(
-  //                     fontSize: 15.5,
-  //                     fontWeight: FontWeight.w500,
-  //                   ),
-  //                 ),
-  //                 const SizedBox(height: 5),
-  //                 Row(
-  //                   children: [
-  //                     Icon(Icons.location_pin, size: 14, color: Colors.grey[600]),
-  //                     const SizedBox(width: 4),
-  //                     Text(
-  //                       location,
-  //                       style: TextStyle(
-  //                         fontSize: 11.5,
-  //                         color: Colors.grey[600],
-  //                       ),
-  //                     ),
-  //                   ],
-  //                 ),
-  //               ],
-  //             ),
-  //           ),
-  //           Text(
-  //             timeAgo,
-  //             style: TextStyle(fontSize: 11, color: Colors.grey[600]),
-  //           ),
-  //         ],
-  //       ),
-  //     );
-  //   }
-  // }

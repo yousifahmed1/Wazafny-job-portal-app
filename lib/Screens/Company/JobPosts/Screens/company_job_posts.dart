@@ -5,11 +5,8 @@ import 'package:wazafny/Screens/Company/JobPosts/models/company_job_posts_model.
 import 'package:wazafny/Screens/Company/JobPosts/widgets/Job_post_card.dart';
 import 'package:wazafny/core/constants/constants.dart';
 
-// Entry point of the app
 
-// Class to represent a Job object
 
-// Main screen widget for job posts
 class JobPostPage extends StatelessWidget {
   const JobPostPage({super.key});
 
@@ -29,14 +26,14 @@ class JobPostPage extends StatelessWidget {
         } else if (state is CompanyJobPostsError) {
           return Center(child: Text(state.message));
         } else if (state is CompanyJobPostsLoaded) {
-          List<CompanyJobPostsModel> jobs = state.posts; // Get the list of jobs
+          List<CompanyJobPostsModel> jobs = state.posts; 
           return Scaffold(
             body: SafeArea(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment
-                    .center, // Align content center horizontally
+                    .center, 
                 children: [
-                  const SizedBox(height: 20), // Add vertical space
+                  const SizedBox(height: 20), 
                   const Center(
                     child: Text(
                       "Job Post",
@@ -55,7 +52,7 @@ class JobPostPage extends StatelessWidget {
                           bottom: 105, left: 16, right: 16),
                       separatorBuilder: (context, index) =>
                           const SizedBox(height: 16),
-                      itemCount: jobs.length, // Number of job cards
+                      itemCount: jobs.length, 
                       itemBuilder: (context, index) {
                         final job = jobs[index];
                         return JobPostCard(

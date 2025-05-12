@@ -61,12 +61,7 @@ class _CompanyProfileState extends State<CompanyProfile> {
   );
 
   var future;
-  // Future<CompanyModel> _loadComapnyProfileData() async {
-  //   final data =
-  //       await CompanyServices().showComapnyProfile(companyId: widget.companyID);
-  //   isFollwed = data.followStatus ?? false;
-  //   return data;
-  // }
+
 
   @override
   Widget build(BuildContext context) {

@@ -12,16 +12,6 @@ import 'package:wazafny/widgets/texts/sub_heading_text.dart';
 
 class ViewApplicationsPage extends StatefulWidget {
   final int jobId;
-  //E7na Number oneeeeeeeeeeeee ;)
-  // final List<Application> applications = [
-  //   Application(name: 'Yousif Ahmed', status: 'Accepted', time: '2m'),
-  //   Application(name: 'yossef Badawy', status: 'Rejected', time: '2m'),
-  //   Application(name: 'Elham Mohsen', status: 'Rejected', time: '2m'),
-  //   Application(name: 'Menna Aldeib', status: 'Accepted', time: '2m'),
-  //   Application(name: 'Amira Gadallah', status: 'Rejected', time: '2m'),
-  //   Application(name: 'AbdelAziza Amira', status: 'Rejected', time: '2m'),
-  //   Application(name: 'ghonemy', status: 'Rejected', time: '2m'),
-  // ];
 
   const ViewApplicationsPage({super.key, required this.jobId});
 
@@ -32,7 +22,6 @@ class ViewApplicationsPage extends StatefulWidget {
 class _ViewApplicationsPageState extends State<ViewApplicationsPage> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _getData();
   }
@@ -115,13 +104,6 @@ class _ViewApplicationsPageState extends State<ViewApplicationsPage> {
                                         ),
                                 ),
                               ),
-
-                              // const CircleAvatar(
-                              //   radius: 24,
-                              //   backgroundColor: Colors.black12,
-                              //   child:
-                              //       Icon(Icons.person, size: 43, color: Colors.black),
-                              // ),
                               const SizedBox(width: 12),
                               Expanded(
                                 child: Column(
