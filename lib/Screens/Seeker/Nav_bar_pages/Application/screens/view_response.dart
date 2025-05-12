@@ -24,16 +24,16 @@ class _ViewApplicationResponseState extends State<ViewApplicationResponse> {
     super.initState();
     _initialize();
   }
-Future<void> _initialize() async {
-  final fName = await AuthRepository().getFirstName() ?? "";
-  final lName = await AuthRepository().getLastName() ?? "";
-  setState(() {
-    firstName = fName;
-    lastName = lName;
-    isInistialized = true;
-  });
-}
 
+  Future<void> _initialize() async {
+    final fName = await AuthRepository().getFirstName() ?? "";
+    final lName = await AuthRepository().getLastName() ?? "";
+    setState(() {
+      firstName = fName;
+      lastName = lName;
+      isInistialized = true;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

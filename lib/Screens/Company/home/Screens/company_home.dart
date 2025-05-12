@@ -9,20 +9,29 @@ import 'package:wazafny/widgets/settings.dart';
 import 'package:wazafny/widgets/texts/heading_text.dart';
 import 'package:wazafny/widgets/texts/sub_heading_text.dart';
 
-class CompanyDashboardPage extends StatelessWidget {
+class CompanyDashboardPage extends StatefulWidget {
   const CompanyDashboardPage({super.key});
+
+  @override
+  State<CompanyDashboardPage> createState() => _CompanyDashboardPageState();
+}
+
+class _CompanyDashboardPageState extends State<CompanyDashboardPage> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _getData();
+  }
+
+  Future<void> _getData() async {
+    await context.read<DashboardCubit>().fetchStats();
+  }
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<DashboardCubit, DashboardState>(
       builder: (context, state) {
-        if (state is DashboardInitial) {
-          // Automatically fetch companies when screen loads
-          WidgetsBinding.instance.addPostFrameCallback((_) {
-            context.read<DashboardCubit>().fetchStats();
-          });
-          return const Center(child: Text('Loading companies...'));
-        }
         if (state is DashboardLoading) {
           return const Center(child: CircularProgressIndicator());
         }

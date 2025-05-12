@@ -5,6 +5,9 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wazafny/Screens/Company/JobPosts/cubits/company_Job_posts_cubit/company_job_posts_cubit.dart';
+import 'package:wazafny/Screens/Company/JobPosts/cubits/company_view_application_cubit/company_view_application_cubit.dart';
+import 'package:wazafny/Screens/Company/JobPosts/cubits/job_application_view_model_cubit/job_application_view_model_cubit.dart';
 import 'package:wazafny/Screens/Company/home/cubit/dashboard_cubit.dart';
 import 'package:wazafny/Screens/Company/nav_bar_company.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Application/cubit/job_applications_cubit.dart';
@@ -75,6 +78,15 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (_) => DashboardCubit(),
+        ),
+        BlocProvider(
+          create: (_) => CompanyJobPostsCubit(),
+        ),
+        BlocProvider(
+          create: (_) => ApplicationCubit(),
+        ),
+        BlocProvider(
+          create: (_) => JobApplicationCubit(),
         ),
       ],
       child: MaterialApp(

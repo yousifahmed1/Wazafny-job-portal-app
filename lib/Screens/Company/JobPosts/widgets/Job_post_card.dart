@@ -8,6 +8,7 @@ import 'package:wazafny/widgets/texts/heading_text.dart';
 import 'package:wazafny/widgets/texts/sub_heading_text.dart';
 
 class JobPostCard extends StatelessWidget {
+  final int jobId;
   final String title;
   final String status;
   final String date;
@@ -18,7 +19,7 @@ class JobPostCard extends StatelessWidget {
     required this.title,
     required this.status,
     required this.date,
-    required this.statusColor,
+    required this.statusColor, required this.jobId,
   });
 
   @override
@@ -100,7 +101,8 @@ class JobPostCard extends StatelessWidget {
 
               InkWell(
                 onTap: () {
-                  slideTo(context, ViewApplicationsPage());
+                  //34
+                  slideTo(context, ViewApplicationsPage(jobId: jobId ,));
                 },
                 child: const RoundedButton(
                   text: "View Applications",
