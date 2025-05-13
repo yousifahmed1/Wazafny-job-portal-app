@@ -167,7 +167,7 @@ class AuthRepository {
   }
 
   Future<bool> logoutService() async {
-    final userID = await getRoleId();
+    final userID = await getUserId();
     final token = await getToken();
 
     try {
