@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:wazafny/Screens/Company/home/models/dashboard_model.dart';
-import 'package:wazafny/Screens/Company/home/services/dashboard_services.dart';
+import 'package:wazafny/Screens/Company/Dashboard/models/dashboard_model.dart';
+import 'package:wazafny/Screens/Company/Dashboard/services/dashboard_services.dart';
 import 'package:wazafny/Screens/login_and_signup/repo/auth_repository.dart';
 import 'dashboard_state.dart';
 

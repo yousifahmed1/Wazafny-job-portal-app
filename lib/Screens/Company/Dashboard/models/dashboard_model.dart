@@ -1,5 +1,5 @@
-import 'package:wazafny/Screens/Company/home/models/latests_jobs.dart';
-import 'package:wazafny/Screens/Company/home/models/stats_model.dart';
+import 'package:wazafny/Screens/Company/Dashboard/models/latests_jobs.dart';
+import 'package:wazafny/Screens/Company/Dashboard/models/stats_model.dart';
 
 class DashboardModel {
   final String companyName;

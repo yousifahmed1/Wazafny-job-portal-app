@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:wazafny/Screens/Company/home/models/latests_jobs.dart';
-import 'package:wazafny/Screens/Company/home/models/stats_model.dart';
+import 'package:wazafny/Screens/Company/Dashboard/models/latests_jobs.dart';
+import 'package:wazafny/Screens/Company/Dashboard/models/stats_model.dart';
 import 'package:wazafny/Screens/login_and_signup/repo/auth_repository.dart';
 import 'package:wazafny/core/constants/api_constants.dart';
 

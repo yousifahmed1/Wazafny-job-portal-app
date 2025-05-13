@@ -29,12 +29,17 @@ class _CompanyProfileState extends State<CompanyProfile> {
           } else if (state is CompanyProfileError) {
             return Center(child: Text('Error: ${state.message}'));
           } else if (state is CompanyProfileLoaded) {
-            return SingleChildScrollView(
-              child: Column(
-                children: [
-                  MainInformaition(company: state.company),
-                  ExrtraInformation(company: state.company)
-                ],
+            return RefreshIndicator(
+              onRefresh: () async {
+                context.read<CompanyProfileCubit>().fetchCompanyProfile();
+              },
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    MainInformaition(company: state.company),
+                    ExrtraInformation(company: state.company)
+                  ],
+                ),
               ),
             );
           }

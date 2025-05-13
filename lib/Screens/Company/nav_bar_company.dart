@@ -4,7 +4,7 @@ import 'package:navigation_view/item_navigation_view.dart';
 import 'package:navigation_view/navigation_view.dart';
 import 'package:wazafny/Screens/Company/JobPosts/Screens/company_job_posts.dart';
 import 'package:wazafny/Screens/Company/Profile/screens/company_profile_page.dart';
-import 'package:wazafny/Screens/Company/home/Screens/company_home.dart';
+import 'package:wazafny/Screens/Company/Dashboard/Screens/company_home.dart';
 
 import 'package:wazafny/core/constants/constants.dart';
 
@@ -20,7 +20,7 @@ class _NavBarCompanyState extends State<NavBarCompany> {
 
   final List<Widget> _screens = [
     const CompanyDashboardPage(),
-    const JobPostPage(),
+    const CompanyJobPostPage(),
     const CompanyProfile(),
   ];
 
@@ -75,9 +75,9 @@ class _NavBarCompanyState extends State<NavBarCompany> {
                   items: [
                     ItemNavigationView(
                       childAfter: const IconNav(
-                          title: "Home", iconPath: "HomeFill.svg"),
+                          title: "Dashboard", iconPath: "HomeFill.svg"),
                       childBefore: const IconNav(
-                          title: "Home", iconPath: "HomeStroke.svg"),
+                          title: "Dashboard", iconPath: "HomeStroke.svg"),
                     ),
                     ItemNavigationView(
                       childAfter: const IconNav(

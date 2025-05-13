@@ -9,7 +9,7 @@ import 'package:wazafny/Screens/Company/JobPosts/cubits/company_Job_posts_cubit/
 import 'package:wazafny/Screens/Company/JobPosts/cubits/company_view_application_cubit/company_view_application_cubit.dart';
 import 'package:wazafny/Screens/Company/JobPosts/cubits/job_application_view_model_cubit/job_application_view_model_cubit.dart';
 import 'package:wazafny/Screens/Company/Profile/cubits/company_profile_cubit.dart';
-import 'package:wazafny/Screens/Company/home/cubit/dashboard_cubit.dart';
+import 'package:wazafny/Screens/Company/Dashboard/cubit/dashboard_cubit.dart';
 import 'package:wazafny/Screens/Company/nav_bar_company.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Application/cubit/job_applications_cubit.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Notifications/cubit/notifications_cubit.dart';

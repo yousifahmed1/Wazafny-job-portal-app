@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:wazafny/Screens/Company/home/models/dashboard_model.dart';
+import 'package:wazafny/Screens/Company/Dashboard/models/dashboard_model.dart';
 
 abstract class DashboardState extends Equatable {
   const DashboardState();
