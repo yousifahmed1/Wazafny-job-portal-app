@@ -28,13 +28,13 @@ class _ViewApplicationsPageState extends State<ViewApplicationsPage> {
 
   Future<void> _getData() async {
     await context
-        .read<ApplicationCubit>()
+        .read<CompanyApplicationCubit>()
         .fetchApplications(jobId: widget.jobId);
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ApplicationCubit, ApplicationState>(
+    return BlocBuilder<CompanyApplicationCubit, ApplicationState>(
       builder: (context, state) {
         if (state is ApplicationLoading) {
           return const Scaffold(
@@ -175,8 +175,12 @@ class _ViewApplicationsPageState extends State<ViewApplicationsPage> {
                                               color: Colors.white,
                                             ),
                                             onPressed: () {
-                                              slideTo(context,
-                                                  ViewApplicationPage(applicationId:app.applicationId ,));
+                                              slideTo(
+                                                  context,
+                                                  ViewApplicationPage(
+                                                    applicationId:
+                                                        app.applicationId,
+                                                  ));
                                             },
                                           ),
                                         ),

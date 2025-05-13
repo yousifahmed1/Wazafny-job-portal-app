@@ -26,8 +26,10 @@ class _EditAllExperiencesState extends State<EditAllExperiences> {
   var experienceList = [];
 
   void handleDeleteExperience(BuildContext context, int experienceId) {
-    context.read<ProfileCubit>().deleteExperience(experienceId: experienceId);
-    context.read<ProfileCubit>().fetchProfile();
+    context
+        .read<SeekerProfileCubit>()
+        .deleteExperience(experienceId: experienceId);
+    context.read<SeekerProfileCubit>().fetchProfile();
     Navigator.of(context).pop(); // close the dialog
     ///
   }
@@ -49,7 +51,7 @@ class _EditAllExperiencesState extends State<EditAllExperiences> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ProfileCubit, ProfileState>(
+    return BlocBuilder<SeekerProfileCubit, ProfileState>(
       builder: (context, state) {
         if (state is ProfileLoaded) {
           // Initialize controllers with the profile data

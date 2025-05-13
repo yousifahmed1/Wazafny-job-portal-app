@@ -22,12 +22,12 @@ class CompaniesListView extends StatefulWidget {
 class _CompaniesListViewState extends State<CompaniesListView> {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<CompanyViewCubit, CompanyState>(
+    return BlocBuilder<SeekerCompanyViewCubit, CompanyState>(
       builder: (context, state) {
         if (state is CompanyInitial) {
           // Automatically fetch companies when screen loads
           WidgetsBinding.instance.addPostFrameCallback((_) {
-            context.read<CompanyViewCubit>().fetchCompany();
+            context.read<SeekerCompanyViewCubit>().fetchCompany();
           });
           return const Center(child: Text('Loading companies...'));
         }
@@ -58,7 +58,7 @@ class _CompaniesListViewState extends State<CompaniesListView> {
           if (filteredCompanies.isEmpty) {
             return RefreshIndicator(
               onRefresh: () async {
-                context.read<CompanyViewCubit>().fetchCompany();
+                context.read<SeekerCompanyViewCubit>().fetchCompany();
               },
               child: Center(
                 child: ListView(
@@ -85,7 +85,7 @@ class _CompaniesListViewState extends State<CompaniesListView> {
 
           return RefreshIndicator(
             onRefresh: () async {
-              context.read<CompanyViewCubit>().fetchCompany();
+              context.read<SeekerCompanyViewCubit>().fetchCompany();
             },
             child: ListView.builder(
               padding: const EdgeInsets.only(bottom: 105), // navbar height

@@ -20,17 +20,20 @@ class _CompanyDashboardPageState extends State<CompanyDashboardPage> {
   @override
   void initState() {
     super.initState();
-    _getData();
   }
 
-  Future<void> _getData() async {
-    await context.read<DashboardCubit>().fetchStats();
-  }
+  bool isInistialized = false;
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<DashboardCubit, DashboardState>(
+    return BlocBuilder<CompanyDashboardCubit, DashboardState>(
       builder: (context, state) {
+        if (state is DashboardInitial && !isInistialized) {
+          isInistialized = true;
+          context.read<CompanyDashboardCubit>().fetchStats();
+
+          return const Center(child: CircularProgressIndicator());
+        }
         if (state is DashboardLoading) {
           return const Center(child: CircularProgressIndicator());
         }
@@ -202,4 +205,3 @@ class _CompanyDashboardPageState extends State<CompanyDashboardPage> {
     );
   }
 }
-

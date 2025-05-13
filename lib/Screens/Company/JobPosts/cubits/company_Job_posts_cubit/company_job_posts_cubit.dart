@@ -18,4 +18,8 @@ class CompanyJobPostsCubit extends Cubit<CompanyJobPostsState> {
       emit(CompanyJobPostsError(e.toString()));
     }
   }
+
+  void reset() {
+    emit(CompanyJobPostsInitial());
+  }
 }

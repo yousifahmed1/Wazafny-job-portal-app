@@ -48,7 +48,7 @@ class _AddExperienceState extends State<AddExperience> {
   Future<void> _handleSave(BuildContext context, ProfileState state) async {
     if (_formKey.currentState!.validate()) {
       try {
-        final cubit = context.read<ProfileCubit>();
+        final cubit = context.read<SeekerProfileCubit>();
         final endDate =
             !_currentlyEmployed ? _endDateController.text : 'Present';
 
@@ -103,7 +103,7 @@ class _AddExperienceState extends State<AddExperience> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ProfileCubit, ProfileState>(
+    return BlocBuilder<SeekerProfileCubit, ProfileState>(
       builder: (context, state) {
         return Scaffold(
           resizeToAvoidBottomInset: false,

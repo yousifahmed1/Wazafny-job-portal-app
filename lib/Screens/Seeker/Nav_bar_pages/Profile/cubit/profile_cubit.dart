@@ -4,10 +4,10 @@ import '../repo/profile_repo.dart';
 import '../model/profile_model.dart';
 import 'profile_states.dart';
 
-class ProfileCubit extends Cubit<ProfileState> {
+class SeekerProfileCubit extends Cubit<ProfileState> {
   final ProfileRepository repository;
 
-  ProfileCubit(this.repository) : super(ProfileInitial());
+  SeekerProfileCubit(this.repository) : super(ProfileInitial());
 
   void fetchProfile() async {
     emit(ProfileLoading());
@@ -17,6 +17,10 @@ class ProfileCubit extends Cubit<ProfileState> {
     } catch (e) {
       emit(ProfileError('Failed to load profile: $e'));
     }
+  }
+
+  void reset() {
+    emit(ProfileInitial());
   }
 
   Future<String> updateProfile({
@@ -311,15 +315,13 @@ class ProfileCubit extends Cubit<ProfileState> {
     }
   }
 
- Future<String> updateSkills({
+  Future<String> updateSkills({
     required List<String> skills,
-
   }) async {
     emit(ProfileLoading());
     try {
       final message = await repository.updateSkills(
         skills: skills,
-
       );
 
       // Refetch the updated profile after success
@@ -332,5 +334,4 @@ class ProfileCubit extends Cubit<ProfileState> {
       rethrow;
     }
   }
-
 }

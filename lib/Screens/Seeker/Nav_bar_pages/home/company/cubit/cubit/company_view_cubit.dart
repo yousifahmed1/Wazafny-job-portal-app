@@ -2,9 +2,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/home/company/cubit/cubit/company_view_state.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/home/company/services/company_services.dart';
 
-
-class CompanyViewCubit extends Cubit<CompanyState> {
-  CompanyViewCubit() : super(CompanyInitial());
+class SeekerCompanyViewCubit extends Cubit<CompanyState> {
+  SeekerCompanyViewCubit() : super(CompanyInitial());
 
   Future<void> fetchCompany() async {
     emit(CompanyLoading());
@@ -14,5 +13,9 @@ class CompanyViewCubit extends Cubit<CompanyState> {
     } catch (e) {
       emit(CompanyError(e.toString()));
     }
+  }
+
+  void reset() {
+    emit(CompanyInitial());
   }
 }

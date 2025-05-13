@@ -121,7 +121,7 @@ class _EditInformationState extends State<EditInformation> {
         }
 
         // Call the cubit to update the profile
-        final message = await context.read<ProfileCubit>().updateProfile(
+        final message = await context.read<SeekerProfileCubit>().updateProfile(
               firstName: _firstNameController.text,
               lastName: _lastNameController.text,
               headline: _headlineController.text,
@@ -148,7 +148,7 @@ class _EditInformationState extends State<EditInformation> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ProfileCubit, ProfileState>(
+    return BlocBuilder<SeekerProfileCubit, ProfileState>(
       builder: (context, state) {
         if (!_initialized &&
             state is ProfileLoaded &&

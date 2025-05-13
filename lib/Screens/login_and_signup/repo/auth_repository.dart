@@ -16,7 +16,7 @@ class AuthRepository {
   /// Login and save token + seekerId if successful
   Future<bool> login(String email, String password, String role) async {
     try {
-      final response =await dio.post(
+      final response = await dio.post(
         '/login', // Replace with your actual endpoint
         data: {'email': email, 'password': password, "role": role},
       );
@@ -38,6 +38,7 @@ class AuthRepository {
         }
 
         await _saveTokenAndId(token, roleId, userId);
+        await _saveRole(role);
         return true;
       } else {
         return false;
@@ -71,6 +72,7 @@ class AuthRepository {
         final userId = response.data['user_id']; // adjust based on your API
         await _saveTokenAndId(token, roleId, userId);
         await _saveFirstNameAndLastName(firstName, lastName);
+        await _saveRole("Seeker");
 
         return "success";
       } else {
@@ -99,6 +101,15 @@ class AuthRepository {
           'password': password,
         },
       );
+
+      if (response.statusCode == 201) {
+        final token = response.data['token'];
+        final roleId = response.data['role_id'];
+        final userId = response.data['user_id'];
+        await _saveTokenAndId(token, roleId, userId);
+        await _saveCompanyName(companyName);
+        await _saveRole("Company");
+      }
 
       return {
         'statusCode': response.statusCode,
@@ -214,13 +225,10 @@ class AuthRepository {
     await prefs.setString('last_name', lastName);
   }
 
-  Future<void> _saveCompanyName(
-      String companyName) async {
+  Future<void> _saveCompanyName(String companyName) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('company_name', companyName);
-
   }
-
 
   /// Clear stored login data
   Future<void> logout() async {
@@ -231,6 +239,7 @@ class AuthRepository {
     await prefs.remove('first_name');
     await prefs.remove('last_name');
     await prefs.remove('company_name');
+    await prefs.remove('role');
   }
 
   /// Check if token exists
@@ -265,8 +274,19 @@ class AuthRepository {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getString('last_name');
   }
+
   Future<String?> getCompanyName() async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getString('company_name');
+  }
+
+  Future<String?> getRole() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString('role');
+  }
+
+  Future<void> _saveRole(String role) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('role', role);
   }
 }

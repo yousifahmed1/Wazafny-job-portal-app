@@ -133,12 +133,13 @@ class _ApplicationPageState extends State<ApplicationPage> {
 
             // Applications list
             Expanded(
-              child: BlocBuilder<JobApplicationsCubit, JobApplicationsState>(
+              child:
+                  BlocBuilder<SeekerJobApplicationsCubit, JobApplicationsState>(
                 builder: (context, state) {
                   if (state is JobApplicationsInitial) {
                     WidgetsBinding.instance.addPostFrameCallback((_) {
                       context
-                          .read<JobApplicationsCubit>()
+                          .read<SeekerJobApplicationsCubit>()
                           .fetchJobApplications();
                     });
                     return const Center(child: Text('Loading jobs...'));
@@ -154,7 +155,7 @@ class _ApplicationPageState extends State<ApplicationPage> {
                     return RefreshIndicator(
                       onRefresh: () async {
                         await context
-                            .read<JobApplicationsCubit>()
+                            .read<SeekerJobApplicationsCubit>()
                             .fetchJobApplications();
                       },
                       child: filteredJobPosts.isEmpty

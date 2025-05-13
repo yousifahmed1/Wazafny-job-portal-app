@@ -33,7 +33,7 @@ class _ViewApplicationPageState extends State<ViewApplicationPage> {
 
   Future<void> _getData() async {
     await context
-        .read<JobApplicationCubit>()
+        .read<CompanyJobApplicationCubit>()
         .fetchJobApplication(widget.applicationId);
   }
 
@@ -48,7 +48,7 @@ class _ViewApplicationPageState extends State<ViewApplicationPage> {
       ),
       body: SafeArea(
         bottom: false,
-        child: BlocBuilder<JobApplicationCubit, JobApplicationState>(
+        child: BlocBuilder<CompanyJobApplicationCubit, JobApplicationState>(
           builder: (context, state) {
             if (state is JobApplicationLoading) {
               return Center(child: CircularProgressIndicator());

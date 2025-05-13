@@ -279,7 +279,7 @@ class _ApplyJobPostState extends State<ApplyJobPost> {
 
               // ignore: use_build_context_synchronously
               Navigator.pop(context, true);
-              context.read<JobApplicationsCubit>().fetchJobApplications();
+              context.read<SeekerJobApplicationsCubit>().fetchJobApplications();
             } else {
               setState(() {
                 if (currentPage < totalPages) {

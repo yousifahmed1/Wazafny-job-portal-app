@@ -53,9 +53,10 @@ class _EditProfileImgState extends State<EditProfileImg> {
         builder: (_) => const Center(child: CircularProgressIndicator()),
       );
       if (_selectedImage != null || imagePath != null) {
-        final message = await context.read<ProfileCubit>().uploadProfileImage(
-              image: _selectedImage!,
-            );
+        final message =
+            await context.read<SeekerProfileCubit>().uploadProfileImage(
+                  image: _selectedImage!,
+                );
         log(message);
       }
       Navigator.pop(context); // Close loading dialog
@@ -74,7 +75,7 @@ class _EditProfileImgState extends State<EditProfileImg> {
 
   Future<void> _deleteImage() async {
     if (imagePath != null) {
-      context.read<ProfileCubit>().deleteProfileImage();
+      context.read<SeekerProfileCubit>().deleteProfileImage();
     }
 
     // Remove controllers
@@ -84,7 +85,7 @@ class _EditProfileImgState extends State<EditProfileImg> {
     // });
 
     // Refresh profile
-    context.read<ProfileCubit>().fetchProfile();
+    context.read<SeekerProfileCubit>().fetchProfile();
     setState(() {
       _selectedImage = null;
       imagePath = null;
@@ -94,7 +95,8 @@ class _EditProfileImgState extends State<EditProfileImg> {
   @override
   Widget build(BuildContext context) {
     SizeConfig.init(context);
-    return BlocBuilder<ProfileCubit, ProfileState>(builder: (context, state) {
+    return BlocBuilder<SeekerProfileCubit, ProfileState>(
+        builder: (context, state) {
       if (!_initialized &&
           state is ProfileLoaded &&
           _selectedImage == null &&

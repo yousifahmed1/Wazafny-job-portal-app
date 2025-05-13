@@ -2,8 +2,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Application/Services/job_applications_services.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Application/cubit/job_applications_state.dart';
 
-class JobApplicationsCubit extends Cubit<JobApplicationsState> {
-  JobApplicationsCubit() : super(JobApplicationsInitial());
+class SeekerJobApplicationsCubit extends Cubit<JobApplicationsState> {
+  SeekerJobApplicationsCubit() : super(JobApplicationsInitial());
 
   Future<void> fetchJobApplications() async {
     emit(JobApplicationsLoading());
@@ -14,5 +14,9 @@ class JobApplicationsCubit extends Cubit<JobApplicationsState> {
     } catch (e) {
       emit(JobApplicationsError(e.toString()));
     }
+  }
+
+  void reset() {
+    emit(JobApplicationsInitial());
   }
 }

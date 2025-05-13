@@ -5,8 +5,9 @@ import 'package:wazafny/Screens/Seeker/Nav_bar_pages/home/job_posts/model/job_po
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/home/job_posts/services/Job_services.dart';
 part 'job_post_state.dart';
 
-class JobPostCubit extends Cubit<JobPostState> {
-  JobPostCubit() : super(JobPostInitial());
+class SeekerJobPostCubit extends Cubit<JobPostState> {
+  SeekerJobPostCubit() : super(JobPostInitial());
+
   Future<void> fetchJobPostDetails({required int jobId}) async {
     emit(JobPostLoading());
     try {
@@ -20,6 +21,8 @@ class JobPostCubit extends Cubit<JobPostState> {
       emit(JobPostError(e.toString()));
     }
   }
+
+  void reset() {
+    emit(JobPostInitial());
+  }
 }
-
-

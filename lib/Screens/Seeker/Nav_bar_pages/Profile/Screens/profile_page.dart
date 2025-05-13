@@ -16,7 +16,7 @@ class ProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      body: BlocBuilder<ProfileCubit, ProfileState>(
+      body: BlocBuilder<SeekerProfileCubit, ProfileState>(
         builder: (context, state) {
           if (state is ProfileLoading) {
             // Show loading indicator while profile is loading
@@ -25,7 +25,7 @@ class ProfilePage extends StatelessWidget {
             // Display profile data when loaded
             return RefreshIndicator(
               onRefresh: () async {
-                context.read<ProfileCubit>().fetchProfile();
+                context.read<SeekerProfileCubit>().fetchProfile();
               },
               child: ListView(
                 padding: const EdgeInsets.only(bottom: 95), //navbar height

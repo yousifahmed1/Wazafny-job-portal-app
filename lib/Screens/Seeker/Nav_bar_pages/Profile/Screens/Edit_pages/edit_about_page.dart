@@ -25,7 +25,7 @@ class _EditAboutState extends State<EditAbout> {
 
   Future<void> _handleSave(BuildContext context, ProfileState state) async {
     try {
-      final message = await context.read<ProfileCubit>().updateAbout(
+      final message = await context.read<SeekerProfileCubit>().updateAbout(
             about: _aboutController.text,
           );
 
@@ -54,7 +54,8 @@ class _EditAboutState extends State<EditAbout> {
   Widget build(BuildContext context) {
     SizeConfig.init(context);
 
-    return BlocBuilder<ProfileCubit, ProfileState>(builder: (context, state) {
+    return BlocBuilder<SeekerProfileCubit, ProfileState>(
+        builder: (context, state) {
       if (!_initialized &&
           state is ProfileLoaded &&
           _aboutController.text.isEmpty) {

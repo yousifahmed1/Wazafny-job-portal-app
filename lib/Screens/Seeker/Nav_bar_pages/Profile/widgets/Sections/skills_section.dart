@@ -17,7 +17,7 @@ class SkillsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final seekerProfile = context.watch<ProfileCubit>().state;
+    final seekerProfile = context.watch<SeekerProfileCubit>().state;
 
     if (seekerProfile is ProfileLoaded) {
       return Container(

@@ -17,12 +17,12 @@ class JobsListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<JobCubit, JobState>(
+    return BlocBuilder<SeekerJobCubit, JobState>(
       builder: (context, state) {
         if (state is JobInitial) {
           // Automatically fetch jobs when screen loads
           WidgetsBinding.instance.addPostFrameCallback((_) {
-            context.read<JobCubit>().fetchJobs();
+            context.read<SeekerJobCubit>().fetchJobs();
           });
           return const Center(child: Text('Loading jobs...'));
         } else if (state is JobLoading) {
@@ -45,7 +45,7 @@ class JobsListView extends StatelessWidget {
           if (filteredJobs.isEmpty) {
             return RefreshIndicator(
               onRefresh: () async {
-                context.read<JobCubit>().fetchJobs();
+                context.read<SeekerJobCubit>().fetchJobs();
               },
               child: Center(
                 child: Column(
@@ -75,7 +75,7 @@ class JobsListView extends StatelessWidget {
 
           return RefreshIndicator(
             onRefresh: () async {
-              context.read<JobCubit>().fetchJobs();
+              context.read<SeekerJobCubit>().fetchJobs();
             },
             child: ListView.builder(
               padding: const EdgeInsets.only(bottom: 105), //navbar height
@@ -108,7 +108,7 @@ class JobsListView extends StatelessWidget {
                 ),
                 const SizedBox(height: 16),
                 ElevatedButton(
-                  onPressed: () => context.read<JobCubit>().fetchJobs(),
+                  onPressed: () => context.read<SeekerJobCubit>().fetchJobs(),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: darkerPrimary,
                   ),

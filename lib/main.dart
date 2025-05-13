@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wazafny/Screens/Company/JobPosts/cubits/company_Job_posts_cubit/company_job_posts_cubit.dart';
 import 'package:wazafny/Screens/Company/JobPosts/cubits/company_view_application_cubit/company_view_application_cubit.dart';
 import 'package:wazafny/Screens/Company/JobPosts/cubits/job_application_view_model_cubit/job_application_view_model_cubit.dart';
+import 'package:wazafny/Screens/Company/Profile/cubits/company_profile_cubit.dart';
 import 'package:wazafny/Screens/Company/home/cubit/dashboard_cubit.dart';
 import 'package:wazafny/Screens/Company/nav_bar_company.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Application/cubit/job_applications_cubit.dart';
@@ -59,34 +60,37 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (_) => ProfileCubit(profileRepo)..fetchProfile(),
+          create: (_) => SeekerProfileCubit(profileRepo)..fetchProfile(),
         ),
         BlocProvider(
-          create: (_) => JobCubit(),
+          create: (_) => SeekerJobCubit(),
         ),
         BlocProvider(
-          create: (_) => CompanyViewCubit(),
+          create: (_) => SeekerCompanyViewCubit(),
         ),
         BlocProvider(
-          create: (_) => JobPostCubit(),
+          create: (_) => SeekerJobPostCubit(),
         ),
         BlocProvider(
-          create: (_) => JobApplicationsCubit(),
+          create: (_) => SeekerJobApplicationsCubit(),
         ),
         BlocProvider(
-          create: (_) => NotificationsCubit(),
+          create: (_) => SeekerNotificationsCubit(),
         ),
         BlocProvider(
-          create: (_) => DashboardCubit(),
+          create: (_) => CompanyDashboardCubit(),
         ),
         BlocProvider(
           create: (_) => CompanyJobPostsCubit(),
         ),
         BlocProvider(
-          create: (_) => ApplicationCubit(),
+          create: (_) => CompanyApplicationCubit(),
         ),
         BlocProvider(
-          create: (_) => JobApplicationCubit(),
+          create: (_) => CompanyJobApplicationCubit(),
+        ),
+        BlocProvider(
+          create: (_) => CompanyProfileCubit(),
         ),
       ],
       child: MaterialApp(

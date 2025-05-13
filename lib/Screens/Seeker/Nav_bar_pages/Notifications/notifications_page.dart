@@ -70,7 +70,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
 
   // Refresh notifications from server
   Future<void> _refreshNotifications() async {
-    await context.read<NotificationsCubit>().fetchNotifications();
+    await context.read<SeekerNotificationsCubit>().fetchNotifications();
     // Note: We don't update state here as BlocBuilder will handle that
   }
 
@@ -127,11 +127,13 @@ class _NotificationsPageState extends State<NotificationsPage> {
 
             // Notifications List
             Expanded(
-              child: BlocBuilder<NotificationsCubit, NotificationsState>(
+              child: BlocBuilder<SeekerNotificationsCubit, NotificationsState>(
                 builder: (context, state) {
                   if (state is NotificationsInitial) {
                     WidgetsBinding.instance.addPostFrameCallback((_) {
-                      context.read<NotificationsCubit>().fetchNotifications();
+                      context
+                          .read<SeekerNotificationsCubit>()
+                          .fetchNotifications();
                     });
                     return const Center(
                         child: Text('Loading notifications...'));

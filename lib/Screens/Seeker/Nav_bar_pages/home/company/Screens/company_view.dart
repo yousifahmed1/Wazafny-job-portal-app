@@ -34,7 +34,7 @@ class _CompanyViewState extends State<CompanyView> {
     setState(() {
       isFollwed = true;
     });
-    context.read<ProfileCubit>().fetchProfile();
+    context.read<SeekerProfileCubit>().fetchProfile();
   }
 
   Future<void> _unfollowCompany() async {
@@ -42,7 +42,7 @@ class _CompanyViewState extends State<CompanyView> {
     setState(() {
       isFollwed = false;
     });
-    context.read<ProfileCubit>().fetchProfile();
+    context.read<SeekerProfileCubit>().fetchProfile();
   }
 
   var future;

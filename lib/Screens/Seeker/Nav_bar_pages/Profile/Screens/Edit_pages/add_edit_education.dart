@@ -46,7 +46,7 @@ class _AddEditEducationState extends State<AddEditEducation> {
   Future<void> _handleSave(BuildContext context, ProfileState state) async {
     if (_formKey.currentState!.validate()) {
       try {
-        final cubit = context.read<ProfileCubit>();
+        final cubit = context.read<SeekerProfileCubit>();
         final endDate =
             !_currentlyStudent ? _endDateController.text : 'Present';
 
@@ -70,14 +70,14 @@ class _AddEditEducationState extends State<AddEditEducation> {
   }
 
   Future<void> _deleteEdution() async {
-    context.read<ProfileCubit>().deleteEducation();
+    context.read<SeekerProfileCubit>().deleteEducation();
 
     // Remove controllers
 
     Navigator.pop(context);
 
     // Refresh profile
-    context.read<ProfileCubit>().fetchProfile();
+    context.read<SeekerProfileCubit>().fetchProfile();
   }
 
   // @override
@@ -97,7 +97,7 @@ class _AddEditEducationState extends State<AddEditEducation> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ProfileCubit, ProfileState>(
+    return BlocBuilder<SeekerProfileCubit, ProfileState>(
       builder: (context, state) {
         if (!_initialized &&
             state is ProfileLoaded &&

@@ -55,7 +55,7 @@ class _EditResumeState extends State<EditResume> {
 
   Future<void> _deleteResume() async {
     if (resumePath != null) {
-      context.read<ProfileCubit>().deleteResume();
+      context.read<SeekerProfileCubit>().deleteResume();
     }
 
     // Remove controllers
@@ -65,7 +65,7 @@ class _EditResumeState extends State<EditResume> {
     });
 
     // Refresh profile
-    context.read<ProfileCubit>().fetchProfile();
+    context.read<SeekerProfileCubit>().fetchProfile();
   }
 
   Future<void> _handleSave(BuildContext context, ProfileState state) async {
@@ -80,7 +80,7 @@ class _EditResumeState extends State<EditResume> {
           resumePath != null &&
               _selectedFile is! String &&
               resumePath is! String) {
-        final message = await context.read<ProfileCubit>().uploadResume(
+        final message = await context.read<SeekerProfileCubit>().uploadResume(
               resume: _selectedFile!,
             );
         log(message);
@@ -103,7 +103,8 @@ class _EditResumeState extends State<EditResume> {
   Widget build(BuildContext context) {
     SizeConfig.init(context);
 
-    return BlocBuilder<ProfileCubit, ProfileState>(builder: (context, state) {
+    return BlocBuilder<SeekerProfileCubit, ProfileState>(
+        builder: (context, state) {
       if (!_initialized &&
           state is ProfileLoaded &&
           _selectedFile == null &&

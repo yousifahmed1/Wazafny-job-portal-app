@@ -66,7 +66,7 @@ class _FollowingsPageState extends State<FollowingsPage> {
           title: "Followings",
           onBackPressed: () {
             Navigator.pop(context);
-            context.read<ProfileCubit>().fetchProfile();
+            context.read<SeekerProfileCubit>().fetchProfile();
           }),
       body: followingsList.isEmpty
           ? const Center(child: SubHeadingText(title: 'No followings'))

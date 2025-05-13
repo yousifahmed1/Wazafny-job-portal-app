@@ -52,7 +52,7 @@ class _EditAddSkillsState extends State<EditAddSkills> {
   Future<void> _handleSave(BuildContext context, ProfileState state) async {
     if (_formKey.currentState!.validate()) {
       try {
-        final cubit = context.read<ProfileCubit>();
+        final cubit = context.read<SeekerProfileCubit>();
 
         await cubit.updateSkills(skills: _selectedSkills);
 
@@ -72,7 +72,7 @@ class _EditAddSkillsState extends State<EditAddSkills> {
   Widget build(BuildContext context) {
     SizeConfig.init(context);
 
-    return BlocBuilder<ProfileCubit, ProfileState>(
+    return BlocBuilder<SeekerProfileCubit, ProfileState>(
       builder: (context, state) {
         if (!_initialized && state is ProfileLoaded) {
           _selectedSkills = List<String>.from(

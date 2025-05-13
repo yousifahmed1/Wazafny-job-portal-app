@@ -54,9 +54,10 @@ class _EditCoverState extends State<EditCover> {
       );
 
       if (_selectedImage != null || imagePath != null) {
-        final message = await context.read<ProfileCubit>().uploadCoverImage(
-              cover: _selectedImage!,
-            );
+        final message =
+            await context.read<SeekerProfileCubit>().uploadCoverImage(
+                  cover: _selectedImage!,
+                );
         log(message);
       }
 
@@ -75,7 +76,7 @@ class _EditCoverState extends State<EditCover> {
 
   Future<void> _deleteImage() async {
     if (imagePath != null) {
-      context.read<ProfileCubit>().deleteCover();
+      context.read<SeekerProfileCubit>().deleteCover();
     }
 
     // Remove controllers
@@ -85,13 +86,14 @@ class _EditCoverState extends State<EditCover> {
     });
 
     // Refresh profile
-    context.read<ProfileCubit>().fetchProfile();
+    context.read<SeekerProfileCubit>().fetchProfile();
   }
 
   @override
   Widget build(BuildContext context) {
     SizeConfig.init(context);
-    return BlocBuilder<ProfileCubit, ProfileState>(builder: (context, state) {
+    return BlocBuilder<SeekerProfileCubit, ProfileState>(
+        builder: (context, state) {
       if (!_initialized &&
           state is ProfileLoaded &&
           _selectedImage == null &&

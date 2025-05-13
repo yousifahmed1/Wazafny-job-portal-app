@@ -4,8 +4,8 @@ import 'package:wazafny/Screens/Company/home/services/dashboard_services.dart';
 import 'package:wazafny/Screens/login_and_signup/repo/auth_repository.dart';
 import 'dashboard_state.dart';
 
-class DashboardCubit extends Cubit<DashboardState> {
-  DashboardCubit() : super(DashboardInitial());
+class CompanyDashboardCubit extends Cubit<DashboardState> {
+  CompanyDashboardCubit() : super(DashboardInitial());
 
   Future<void> fetchStats() async {
     final DashboardServices dashboardServices = DashboardServices();
@@ -31,5 +31,9 @@ class DashboardCubit extends Cubit<DashboardState> {
     } catch (e) {
       emit(DashboardError('Failed to load stats: $e'));
     }
+  }
+
+  void reset() {
+    emit(DashboardInitial());
   }
 }

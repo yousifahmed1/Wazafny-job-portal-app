@@ -22,13 +22,13 @@ class _JobPostPreviewState extends State<JobPostPreview> {
   @override
   void initState() {
     super.initState();
-    context.read<JobPostCubit>().fetchJobPostDetails(jobId: widget.jobId);
+    context.read<SeekerJobPostCubit>().fetchJobPostDetails(jobId: widget.jobId);
     ();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<JobPostCubit, JobPostState>(
+    return BlocBuilder<SeekerJobPostCubit, JobPostState>(
       builder: (context, state) {
         if (state is JobPostLoading) {
           return const Scaffold(
@@ -179,7 +179,7 @@ class _JobPostPreviewState extends State<JobPostPreview> {
                             if (result == true) {
                               // Re-fetch job post details to update applyStatus
                               context
-                                  .read<JobPostCubit>()
+                                  .read<SeekerJobPostCubit>()
                                   .fetchJobPostDetails(jobId: widget.jobId);
                             }
                           },
