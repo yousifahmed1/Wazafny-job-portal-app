@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wazafny/Screens/Company/Profile/cubits/company_profile_cubit.dart';
 import 'package:wazafny/Screens/Company/Profile/widgets/extra_informations_section.dart';
 import 'package:wazafny/Screens/Company/Profile/widgets/main_infrormations_section.dart';
-import 'package:wazafny/Screens/Seeker/Nav_bar_pages/home/company/model/company_model.dart';
-
 
 class CompanyProfile extends StatefulWidget {
   const CompanyProfile({
@@ -14,65 +14,32 @@ class CompanyProfile extends StatefulWidget {
 
 class _CompanyProfileState extends State<CompanyProfile> {
   late bool isFollwed;
-  @override
-  void initState() {
-    super.initState();
-    // future = _loadComapnyProfileData();
-  }
-
-  final company = CompanyModel(
-    companyId: 1,
-    companyName: "Tech Innovators Ltd",
-    companyEmail: "info@techinnovators.com",
-    companyWebsiteLink: "https://www.techinnovators.com",
-    companyIndustry: "Information Technology",
-    companySize: "200-500 employees",
-    companyHeads: "John Doe, Jane Smith",
-    companyCountry: "USA",
-    companyCity: "San Francisco",
-    companyFounded: "2010",
-    about: "We innovate the future of technology.",
-    headline: "Leading the way in tech innovation.",
-    profileImg: "",
-    coverImg: "",
-    jobsCount: 5,
-    followersCount: 1200,
-    followStatus: true,
-    jobPosts: [
-      JobPost(
-        jobId: 101,
-        jobTitle: "Flutter Mobile Developer",
-        jobStatus: "Open",
-        jobType: "Full-time",
-        jobCountry: "USA",
-        jobCity: "San Francisco",
-        timeAgo: "2 days ago",
-      ),
-      JobPost(
-        jobId: 102,
-        jobTitle: "Backend Engineer (Laravel)",
-        jobStatus: "Open",
-        jobType: "Full-time",
-        jobCountry: "USA",
-        jobCity: "San Francisco",
-        timeAgo: "1 week ago",
-      ),
-    ],
-  );
-
-  var future;
-
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            MainInformaition(company: company),
-            ExrtraInformation(company: company)
-          ],
-        ),
+      body: BlocBuilder<CompanyProfileCubit, CompanyProfileState>(
+        builder: (context, state) {
+          if (state is CompanyProfileInitial) {
+            context.read<CompanyProfileCubit>().fetchCompanyProfile();
+
+            return const Center(child: CircularProgressIndicator());
+          } else if (state is CompanyProfileLoading) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (state is CompanyProfileError) {
+            return Center(child: Text('Error: ${state.message}'));
+          } else if (state is CompanyProfileLoaded) {
+            return SingleChildScrollView(
+              child: Column(
+                children: [
+                  MainInformaition(company: state.company),
+                  ExrtraInformation(company: state.company)
+                ],
+              ),
+            );
+          }
+          return const Center(child: Text('Something went wrong'));
+        },
       ),
     );
   }
