@@ -143,6 +143,9 @@ class _EditAllExperiencesState extends State<EditAllExperiences> {
                                                     barrierDismissible: false,
                                                     builder: (context) {
                                                       return DeleteExperienceDialog(
+                                                        title: "Delete Experience?",
+                                                        description:
+                                                            "You will not be able to recover it once it's deleted",
                                                         onConfirm: () =>
                                                             handleDeleteExperience(
                                                                 context,
