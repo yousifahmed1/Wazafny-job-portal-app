@@ -4,10 +4,16 @@ import 'package:wazafny/core/constants/constants.dart';
 import 'package:wazafny/widgets/texts/heading_text.dart';
 import 'package:wazafny/widgets/texts/sub_heading_text.dart';
 
-class DeleteExperienceDialog extends StatelessWidget {
+class DeleteDialog extends StatelessWidget {
   final VoidCallback onConfirm;
+  final String title;
+  final String description;
 
-  const DeleteExperienceDialog({super.key, required this.onConfirm});
+  const DeleteDialog(
+      {super.key,
+      required this.onConfirm,
+      required this.title,
+      required this.description});
 
   @override
   Widget build(BuildContext context) {
@@ -47,13 +53,13 @@ class DeleteExperienceDialog extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 10),
-            const Text(
-              "Delete Experience?",
+            Text(
+              title,
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 10),
-            const SubHeadingText1(
-              title: "You will not be able to recover it once it's deleted",
+            SubHeadingText1(
+              title: description,
               textAlignment: TextAlign.center,
             ),
             const SizedBox(height: 20),
