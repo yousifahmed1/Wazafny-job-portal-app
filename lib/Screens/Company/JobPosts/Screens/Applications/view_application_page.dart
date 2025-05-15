@@ -6,8 +6,10 @@ import 'package:flutter_file_downloader/flutter_file_downloader.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:open_file/open_file.dart';
 import 'package:wazafny/Screens/Company/JobPosts/Screens/Applications/send_response_page.dart';
+import 'package:wazafny/Screens/Company/JobPosts/cubits/company_view_application_cubit/company_view_application_cubit.dart';
 import 'package:wazafny/Screens/Company/JobPosts/cubits/job_application_view_model_cubit/job_application_view_model_cubit.dart';
 import 'package:wazafny/Screens/Company/JobPosts/cubits/job_application_view_model_cubit/job_application_view_model_state.dart';
+import 'package:wazafny/Screens/Company/JobPosts/widgets/reject_confirm_dialog.dart';
 import 'package:wazafny/core/constants/constants.dart';
 import 'package:wazafny/widgets/Navigators/slide_to.dart';
 import 'package:wazafny/widgets/custom_app_bar.dart';
@@ -17,8 +19,10 @@ import 'package:wazafny/widgets/texts/sub_heading_text.dart';
 
 class ViewApplicationPage extends StatefulWidget {
   final int applicationId;
+  final int jobId;
 
-  const ViewApplicationPage({super.key, required this.applicationId});
+  const ViewApplicationPage(
+      {super.key, required this.applicationId, required this.jobId});
 
   @override
   State<ViewApplicationPage> createState() => _ViewApplicationPageState();
@@ -225,73 +229,91 @@ class _ViewApplicationPageState extends State<ViewApplicationPage> {
                   ),
 
                   // Bottom Buttons
-                  Positioned(
-                    left: 0,
-                    right: 0,
-                    bottom: 0,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.05),
-                            spreadRadius: 10,
-                            blurRadius: 50,
-                            offset: const Offset(0, 0),
-                          ),
-                        ],
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 30, horizontal: 15),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: ElevatedButton(
-                                onPressed: () {},
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: lightRedColor,
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 10),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10),
+                  app.status == "Pending"
+                      ? Positioned(
+                          left: 0,
+                          right: 0,
+                          bottom: 0,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.05),
+                                  spreadRadius: 10,
+                                  blurRadius: 50,
+                                  offset: const Offset(0, 0),
+                                ),
+                              ],
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 30, horizontal: 15),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: InkWell(
+                                      onTap: () {
+                                        showDialog(
+                                          context: context,
+                                          builder: (context) => ConfirmDialog(
+                                            onConfirm: _onReject,
+                                            title: "Reject Application",
+                                            description:
+                                                "Are you sure you want to reject this application?",
+                                          ),
+                                        );
+                                      },
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          color: lightRedColor,
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                        ),
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 10),
+                                        child: const Center(
+                                          child: HeadingText(
+                                            title: "Reject",
+                                            titleColor: redColor,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
                                   ),
-                                  elevation: 0,
-                                  overlayColor: offwhiteColor,
-                                ),
-                                child: const HeadingText(
-                                  title: "Reject",
-                                  titleColor: redColor,
-                                ),
+                                  const SizedBox(width: 12),
+                                  Expanded(
+                                    child: InkWell(
+                                      onTap: () {
+                                        slideTo(
+                                            context,
+                                            SendResponsePage(
+                                                applicationId:
+                                                    widget.applicationId,
+                                                jobId: widget.jobId));
+                                      },
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          color: lightGreenColor,
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                        ),
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 10),
+                                        child: const Center(
+                                          child: HeadingText(
+                                            title: "Accept",
+                                            titleColor: greenColor,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                            const SizedBox(width: 12),
-                            Expanded(
-                              child: ElevatedButton(
-                                onPressed: () {
-                                  slideTo(context, SendResponsePage());
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: lightGreenColor,
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 10),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  elevation: 0,
-                                  overlayColor: offwhiteColor,
-                                ),
-                                child: const HeadingText(
-                                  title: "Accept",
-                                  titleColor: greenColor,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
+                          ))
+                      : const SizedBox(),
                 ],
               );
             } else {
@@ -301,5 +323,23 @@ class _ViewApplicationPageState extends State<ViewApplicationPage> {
         ),
       ),
     );
+  }
+
+  void _onReject() {
+    Navigator.pop(context);
+
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (_) => const Center(child: CircularProgressIndicator()),
+    );
+
+    context.read<CompanyApplicationCubit>().sendResponse(
+        applicationId: widget.applicationId,
+        status: "Rejected",
+        jobId: widget.jobId);
+
+    Navigator.pop(context);
+    Navigator.pop(context);
   }
 }

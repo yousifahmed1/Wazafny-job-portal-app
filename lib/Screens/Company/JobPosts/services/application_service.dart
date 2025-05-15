@@ -36,19 +36,21 @@ class ApplicationService {
       if (response.statusCode == 200) {
         return CompanyJobApplicationModel.fromJson(response.data);
       } else if (response.statusCode == 204) {
-      // Return an empty model if no content
-      return CompanyJobApplicationModel(
-        jobTitle: "",
-        applications: [],
-      );
-    } else {
+        // Return an empty model if no content
+        return CompanyJobApplicationModel(
+          jobTitle: "",
+          applications: [],
+        );
+      } else {
         throw Exception('Failed to load job applications');
       }
     } catch (e) {
       throw Exception('Error occurred: $e');
     }
   }
-  Future<JobApplicationViewModel> showJobApplication({required int applicationId}) async {
+
+  Future<JobApplicationViewModel> showJobApplication(
+      {required int applicationId}) async {
     await _initialize();
     try {
       final response = await dio.get(
@@ -70,5 +72,37 @@ class ApplicationService {
     }
   }
 
+  Future<void> sendResponse(
+      {required int applicationId,
+      String? responseMessage,
+      required String status}) async {
+    await _initialize();
+    try {
+      final data = {
+        'status': status,
+      };
 
+      if (responseMessage != null) {
+        data['response'] = responseMessage;
+      }
+
+      final response = await dio.put(
+        '/update-application-status/$applicationId',
+        data: data,
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+            'Content-Type': 'application/json',
+          },
+        ),
+      );
+      if (response.statusCode == 200) {
+        return response.data;
+      } else {
+        throw Exception('Failed to send response');
+      }
+    } catch (e) {
+      throw Exception('Error occurred: $e');
+    }
+  }
 }

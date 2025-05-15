@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wazafny/Screens/Company/JobPosts/Screens/Applications/view_applications_page.dart';
-import 'package:wazafny/Screens/Company/JobPosts/Screens/view_job_post.dart';
+import 'package:wazafny/Screens/Company/JobPosts/Screens/Jobposts/view_job_post.dart';
 import 'package:wazafny/core/constants/constants.dart';
 import 'package:wazafny/widgets/Navigators/slide_to.dart';
 import 'package:wazafny/widgets/button.dart';

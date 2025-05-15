@@ -6,9 +6,9 @@ import 'package:wazafny/Screens/Company/JobPosts/services/application_service.da
 
 class CompanyApplicationCubit extends Cubit<ApplicationState> {
   CompanyApplicationCubit() : super(ApplicationInitial());
+    final ApplicationService applicationService = ApplicationService();
 
   Future<void> fetchApplications({required int jobId}) async {
-    final ApplicationService applicationService = ApplicationService();
 
     emit(ApplicationLoading());
     try {
@@ -19,6 +19,17 @@ class CompanyApplicationCubit extends Cubit<ApplicationState> {
       } else {
         emit(ApplicationLoaded(result));
       }
+    } catch (e) {
+      emit(ApplicationError(e.toString()));
+    }
+  }
+
+  Future<void> sendResponse({required int applicationId, String? responseMessage, required String status, required int jobId}) async {
+    emit(ApplicationLoading());
+    try {
+      await applicationService.sendResponse(applicationId: applicationId, responseMessage: responseMessage, status: status);
+      final result = await applicationService.getJobApplication(jobId: jobId);
+      emit(ApplicationLoaded(result));
     } catch (e) {
       emit(ApplicationError(e.toString()));
     }

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:navigation_view/item_navigation_view.dart';
 import 'package:navigation_view/navigation_view.dart';
-import 'package:wazafny/Screens/Company/JobPosts/Screens/company_job_posts.dart';
+import 'package:wazafny/Screens/Company/JobPosts/Screens/Jobposts/company_job_posts.dart';
 import 'package:wazafny/Screens/Company/Profile/screens/company_profile_page.dart';
 import 'package:wazafny/Screens/Company/Dashboard/Screens/company_home.dart';
 

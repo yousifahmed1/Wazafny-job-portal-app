@@ -66,6 +66,7 @@ class _ViewApplicationsPageState extends State<ViewApplicationsPage> {
                   const SizedBox(height: 16),
                   Expanded(
                     child: ListView.builder(
+                      padding: const EdgeInsets.only(bottom: 105),
                       itemCount: applications.length,
                       itemBuilder: (context, index) {
                         final app = applications[index];
@@ -180,6 +181,7 @@ class _ViewApplicationsPageState extends State<ViewApplicationsPage> {
                                                   ViewApplicationPage(
                                                     applicationId:
                                                         app.applicationId,
+                                                    jobId: widget.jobId,
                                                   ));
                                             },
                                           ),
@@ -206,40 +208,3 @@ class _ViewApplicationsPageState extends State<ViewApplicationsPage> {
     );
   }
 }
-// Row(
-                //   children: [
-                //     Column(
-                //       children: [
-                //         IconButton(
-                //           icon: const Icon(
-                //             Icons.arrow_back_ios_new,
-                //             size: 30,
-                //             color: Colors.black,
-                //           ),
-                //           onPressed: () {
-                //             Navigator.pop(context);
-                //           },
-                //         ),
-                //       ],
-                //     ),
-                //     const Column(
-                //       children: [
-                //         Text(
-                //           'Applications Received',
-                //           style: TextStyle(
-                //             fontWeight: FontWeight.bold,
-                //             fontSize: 20.29,
-                //           ),
-                //         ),
-                //         SizedBox(height: 4),
-                //         Text(
-                //           'Flutter Mobile App Developer',
-                //           style: TextStyle(
-                //             fontSize: 16.29,
-                //             fontWeight: FontWeight.w600,
-                //           ),
-                //         ),
-                //       ],
-                //     )
-                //   ],
-                // ),
