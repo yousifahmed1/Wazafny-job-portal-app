@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/Screens/Edit_pages/experience/add_edit_experience.dart';
-import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/widgets/delete_experience_dialog.dart';
+import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/widgets/delete_dialog.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/widgets/save_button.dart';
 import 'package:wazafny/core/constants/constants.dart';
 import 'package:wazafny/widgets/Navigators/slide_to.dart';
@@ -142,8 +142,9 @@ class _EditAllExperiencesState extends State<EditAllExperiences> {
                                                     context: context,
                                                     barrierDismissible: false,
                                                     builder: (context) {
-                                                      return DeleteExperienceDialog(
-                                                        title: "Delete Experience?",
+                                                      return DeleteDialog(
+                                                        title:
+                                                            "Delete Experience?",
                                                         description:
                                                             "You will not be able to recover it once it's deleted",
                                                         onConfirm: () =>
