@@ -38,7 +38,7 @@ class AuthRepository {
         }
 
         await _saveTokenAndId(token, roleId, userId);
-        await _saveRole(role);
+        //await _saveRole(role);
         return true;
       } else {
         return false;
@@ -72,7 +72,7 @@ class AuthRepository {
         final userId = response.data['user_id']; // adjust based on your API
         await _saveTokenAndId(token, roleId, userId);
         await _saveFirstNameAndLastName(firstName, lastName);
-        await _saveRole("Seeker");
+        //await _saveRole("Seeker");
 
         return "success";
       } else {
@@ -108,7 +108,7 @@ class AuthRepository {
         final userId = response.data['user_id'];
         await _saveTokenAndId(token, roleId, userId);
         await _saveCompanyName(companyName);
-        await _saveRole("Company");
+        //await _saveRole("Company");
       }
 
       return {
@@ -280,13 +280,4 @@ class AuthRepository {
     return prefs.getString('company_name');
   }
 
-  Future<String?> getRole() async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getString('role');
-  }
-
-  Future<void> _saveRole(String role) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('role', role);
-  }
 }

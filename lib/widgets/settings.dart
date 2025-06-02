@@ -45,7 +45,8 @@ class SettingsIcon extends StatelessWidget {
                               await AuthRepository().logoutService();
                           log(response.toString());
                           if (response) {
-                            final role = await AuthRepository().getRole();
+                             final String role = "";
+                            // role = await AuthRepository().getRole();
                             if (role == "Company") {
                               context.read<CompanyDashboardCubit>().reset();
                               context.read<CompanyProfileCubit>().reset();
