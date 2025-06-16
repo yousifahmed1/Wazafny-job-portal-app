@@ -68,11 +68,12 @@ class AuthRepository {
 
       if (response.statusCode == 201) {
         final token = response.data['token'];
-        final roleId = response.data['role_id']; // adjust based on your API
-        final userId = response.data['user_id']; // adjust based on your API
+        final roleId = response.data['role_id'];
+        final userId = response.data['user_id'];
         await _saveTokenAndId(token, roleId, userId);
         await _saveFirstNameAndLastName(firstName, lastName);
-        //await _saveRole("Seeker");
+        await _saveRole("Seeker");
+        log(token);
 
         return "success";
       } else {
@@ -80,6 +81,9 @@ class AuthRepository {
       }
     } on DioException catch (e) {
       print('Registration failed: ${e.message}');
+      if (e.response?.statusCode == 400) {
+        return "Email address is already in use";
+      }
       return "Registration failed: ${e.message}";
     } catch (e) {
       print('Unexpected error: $e');
@@ -108,7 +112,7 @@ class AuthRepository {
         final userId = response.data['user_id'];
         await _saveTokenAndId(token, roleId, userId);
         await _saveCompanyName(companyName);
-        //await _saveRole("Company");
+        await _saveRole("Company");
       }
 
       return {
@@ -117,6 +121,12 @@ class AuthRepository {
       };
     } on DioException catch (e) {
       print('Registration failed: ${e.message}');
+      if (e.response?.statusCode == 400) {
+        return {
+          'statusCode': 400,
+          'error': 'Email address is already in use',
+        };
+      }
       return {
         'statusCode': e.response?.statusCode ?? 500,
         'error': e.message,
@@ -288,5 +298,38 @@ class AuthRepository {
   Future<String?> getRole() async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getString('role');
+  }
+
+  Future<int> checkEmailVerification() async {
+    try {
+      final userId = await getUserId();
+      final token = await getToken();
+
+      if (userId == null) {
+        throw Exception('User ID not found');
+      }
+      if (token == null) {
+        throw Exception('Token not found');
+      }
+
+      final response = await dio.get(
+        '/check/$userId',
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+            'Content-Type': 'application/json',
+          },
+        ),
+      );
+
+      if (response.statusCode == 200) {
+        return response.data['verified'];
+      } else {
+        throw Exception('Failed to check email verification');
+      }
+    } catch (e) {
+      print('Error checking email verification: $e');
+      throw Exception('Failed to check email verification status');
+    }
   }
 }

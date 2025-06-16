@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:wazafny/Screens/Seeker/Nav_bar_pages/nav_bar.dart';
 import 'package:wazafny/core/constants/constants.dart';
 import 'package:wazafny/core/constants/textfields_validators.dart';
 import 'package:wazafny/widgets/Navigators/slide_to.dart';
@@ -7,7 +8,7 @@ import 'package:wazafny/widgets/text_fields/regular_text_field.dart';
 import '../../../widgets/button.dart';
 import '../../../widgets/custom_app_bar.dart';
 import '../../../widgets/texts/heading_text.dart';
-import 'fill_headline.dart';
+import 'services/signup_service.dart';
 
 class FillLocation extends StatefulWidget {
   const FillLocation({super.key});
@@ -18,8 +19,9 @@ class FillLocation extends StatefulWidget {
 
 class _FillLocationState extends State<FillLocation> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-
+  final SignupService _signupService = SignupService();
   bool _isButtonEnabled = false;
+  bool _isLoading = false;
 
   final TextEditingController _countryController = TextEditingController();
   final TextEditingController _cityController = TextEditingController();
@@ -36,6 +38,37 @@ class _FillLocationState extends State<FillLocation> {
       _isButtonEnabled =
           _countryController.text.isNotEmpty && _cityController.text.isNotEmpty;
     });
+  }
+
+  Future<void> _updateLocation() async {
+    if (!_formKey.currentState!.validate()) return;
+
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      await _signupService.updateLocation(
+        country: _countryController.text,
+        city: _cityController.text,
+      );
+
+      if (mounted) {
+        slideTo(context, const NavBarSeeker());
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Failed to update location: $e')),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
   }
 
   @override
@@ -78,14 +111,13 @@ class _FillLocationState extends State<FillLocation> {
               ),
               const SizedBox(height: 20),
               GestureDetector(
-                onTap: () {
-                  if (_formKey.currentState!.validate()) {
-                    slideTo(context, const FillHeadline());
-                  }
-                },
+                onTap: _isButtonEnabled && !_isLoading ? _updateLocation : null,
                 child: Opacity(
-                    opacity: _isButtonEnabled ? 1.0 : 0.5,
-                    child: const Button(text: "Next")),
+                  opacity: _isButtonEnabled ? 1.0 : 0.5,
+                  child: _isLoading
+                      ? const CircularProgressIndicator()
+                      : const Button(text: "Next"),
+                ),
               ),
             ],
           ),

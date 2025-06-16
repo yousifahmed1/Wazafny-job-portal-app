@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:wazafny/Screens/login_and_signup/signup/fill_headline.dart';
-import 'package:wazafny/Screens/login_and_signup/signup/fill_location.dart';
+import 'package:wazafny/Screens/login_and_signup/signup/email_verification.dart';
 import 'package:wazafny/core/constants/constants.dart';
 import 'package:wazafny/widgets/Navigators/slide_to.dart';
 import 'package:wazafny/widgets/button.dart';
@@ -73,33 +72,42 @@ class _SignUpPageState extends State<SignUpPage> {
 
         if (result == "success") {
           // ignore: use_build_context_synchronously
-          slideTo(context, const FillHeadline());
+          slideTo(
+              context,
+              EmailVerificationPage(
+                email: _emailController.text.trim(),
+                role: widget.role,
+              ));
         } else {
-          final errorMsg =
-              result ;
+          final errorMsg = result;
           // ignore: use_build_context_synchronously
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text(errorMsg)),
           );
         }
-      }
-    } else if (widget.role == "Company") {
-      final result = await AuthRepository().signUpCompany(
-        companyName: _companyNameController.text,
-        email: _emailController.text.trim(),
-        password: _passwordController.text,
-      );
-
-      if (result['statusCode'] == 201) {
-        // ignore: use_build_context_synchronously
-        slideTo(context, const FillHeadline());
-      } else {
-        final errorMsg =
-            result['error'] ?? 'Registration failed. Please try again.';
-        // ignore: use_build_context_synchronously
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(errorMsg)),
+      } else if (widget.role == "Company") {
+        final result = await AuthRepository().signUpCompany(
+          companyName: _companyNameController.text,
+          email: _emailController.text.trim(),
+          password: _passwordController.text,
         );
+
+        if (result['statusCode'] == 201) {
+          // ignore: use_build_context_synchronously
+          slideTo(
+              context,
+              EmailVerificationPage(
+                email: _emailController.text.trim(),
+                role: widget.role,
+              ));
+        } else {
+          final errorMsg =
+              result['error'] ?? 'Registration failed. Please try again.';
+          // ignore: use_build_context_synchronously
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(errorMsg)),
+          );
+        }
       }
     }
   }
@@ -233,11 +241,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   GestureDetector(
                     onTap: () {
                       if (_formKey.currentState!.validate()) {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const FillLocation()),
-                        );
+                        onTapSignUp();
                       }
                     },
                     child: Opacity(
