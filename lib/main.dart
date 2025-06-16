@@ -5,7 +5,6 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:wazafny/Screens/Company/JobPosts/Screens/CreateJobPost/create_job_post.dart';
 import 'package:wazafny/Screens/Company/JobPosts/cubits/company_Job_posts_cubit/company_job_posts_cubit.dart';
 import 'package:wazafny/Screens/Company/JobPosts/cubits/company_view_application_cubit/company_view_application_cubit.dart';
 import 'package:wazafny/Screens/Company/JobPosts/cubits/company_view_job_post_cubit/company_view_job_post_cubit.dart';
@@ -21,7 +20,7 @@ import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/services/profile_se
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/home/company/cubit/cubit/company_view_cubit.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/home/job_posts/cubits/job_post_cubit/job_post_cubit.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/home/job_posts/cubits/recommended_jobs_cubit/recommended_jobs_cubit.dart';
-//import 'package:wazafny/Screens/Seeker/Nav_bar_pages/nav_bar.dart';
+import 'package:wazafny/Screens/Seeker/Nav_bar_pages/nav_bar.dart';
 import 'package:wazafny/Screens/login_and_signup/repo/auth_repository.dart';
 import 'package:wazafny/Screens/welcome.dart';
 import 'package:wazafny/core/constants/constants.dart';
@@ -44,11 +43,12 @@ class MyApp extends StatelessWidget {
       final token = await authRepo.getToken();
       final userID = await authRepo.getUserId();
       final roleID = await authRepo.getRoleId();
+      final role = await authRepo.getRole();
 
       log("Token : $token");
-      log("roleID : $roleID");
+      log("Role : $role");
       log("UserID : $userID");
-
+      log("RoleID : $roleID");
       // Set token if available
       dio.options.headers['Authorization'] = 'Bearer $token';
     }
@@ -108,7 +108,25 @@ class MyApp extends StatelessWidget {
             primary: primaryColor,
           ),
         ),
-        home: isLoggedIn ? const NavBarCompany() : const WelcomePage(),
+        home: FutureBuilder<String?>(
+          future: authRepo.getRole(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Scaffold(
+                body: Center(child: CircularProgressIndicator()),
+              );
+            }
+
+            final role = snapshot.data;
+            if (!isLoggedIn) {
+              return const WelcomePage();
+            }
+
+            return role == "Seeker"
+                ? const NavBarSeeker()
+                : const NavBarCompany();
+          },
+        ),
       ),
     );
   }

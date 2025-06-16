@@ -43,23 +43,21 @@ class _LoginPageState extends State<LoginPage> {
 
   void _login() async {
     if (_formKey.currentState!.validate()) {
-      
-        bool loginSuccessful = await AuthRepository().login(
-          _emailController.text,
-          _passwordController.text,
-          widget.role,
-        );
+      bool loginSuccessful = await AuthRepository().login(
+        _emailController.text,
+        _passwordController.text,
+        widget.role,
+      );
 
-        if (loginSuccessful) {
-          widget.role == "Seeker"
-              ? slideTo(context, const NavBar())
-              : slideTo(context, const NavBarCompany());
-        } else {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Login failed. Please try again.')),
-          );
-        }
-      
+      if (loginSuccessful) {
+        widget.role == "Seeker"
+            ? slideTo(context, const NavBarSeeker())
+            : slideTo(context, const NavBarCompany());
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Login failed. Please try again.')),
+        );
+      }
     }
   }
 

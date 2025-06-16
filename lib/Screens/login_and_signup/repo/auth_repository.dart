@@ -38,7 +38,7 @@ class AuthRepository {
         }
 
         await _saveTokenAndId(token, roleId, userId);
-        //await _saveRole(role);
+        await _saveRole(role);
         return true;
       } else {
         return false;
@@ -230,6 +230,11 @@ class AuthRepository {
     await prefs.setString('company_name', companyName);
   }
 
+  Future<void> _saveRole(String role) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('role', role);
+  }
+
   /// Clear stored login data
   Future<void> logout() async {
     final prefs = await SharedPreferences.getInstance();
@@ -280,4 +285,8 @@ class AuthRepository {
     return prefs.getString('company_name');
   }
 
+  Future<String?> getRole() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString('role');
+  }
 }
