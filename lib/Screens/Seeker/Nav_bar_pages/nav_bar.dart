@@ -8,14 +8,14 @@ import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/Screens/profile_pag
 import 'package:wazafny/core/constants/constants.dart';
 import 'home/home_page.dart';
 
-class NavBar extends StatefulWidget {
-  const NavBar({super.key});
+class NavBarSeeker extends StatefulWidget {
+  const NavBarSeeker({super.key});
 
   @override
-  State<NavBar> createState() => _NavBarState();
+  State<NavBarSeeker> createState() => _NavBarSeekerState();
 }
 
-class _NavBarState extends State<NavBar> {
+class _NavBarSeekerState extends State<NavBarSeeker> {
   int _selectedIndex = 0;
 
   final List<Widget> _screens = [

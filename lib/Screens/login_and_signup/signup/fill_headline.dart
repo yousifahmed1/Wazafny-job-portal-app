@@ -72,7 +72,7 @@ class _FillHeadlineState extends State<FillHeadline> {
               GestureDetector(
                 onTap: () {
                   if (_formKey.currentState!.validate()) {
-                    slideTo(context, const NavBar());
+                    slideTo(context, const NavBarSeeker());
                   }
                 },
                 child: Opacity(
