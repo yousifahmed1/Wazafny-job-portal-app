@@ -46,11 +46,16 @@ class JobService {
       if (response.statusCode == 200) {
         final jobResponse = JobResponse.fromJson(response.data);
         return jobResponse.jobs;
+      } else if (response.statusCode == 500) {
+        throw Exception('Problem in server come back later');
       } else {
         log('Failed to load jobs: ${response.statusCode}');
         throw Exception('Failed to load jobs: ${response.statusCode}');
       }
     } on DioException catch (e) {
+      if (e.response?.statusCode == 500) {
+        throw Exception('Problem in server come back later');
+      }
       log('Dio error fetching jobs: ${e.message}');
       throw Exception('Network error: ${e.message}');
     } catch (e) {

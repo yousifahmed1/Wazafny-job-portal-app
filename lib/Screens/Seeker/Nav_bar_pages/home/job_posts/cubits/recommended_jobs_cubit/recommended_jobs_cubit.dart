@@ -15,7 +15,11 @@ class SeekerJobCubit extends Cubit<JobState> {
       emit(JobLoaded(jobs));
     } catch (e) {
       log('JobCubit error: $e');
-      emit(JobError(e.toString()));
+      if (e.toString().contains('Problem in server come back later')) {
+        emit(JobError('Problem in server come back later'));
+      } else {
+        emit(JobError(e.toString()));
+      }
     }
   }
 
