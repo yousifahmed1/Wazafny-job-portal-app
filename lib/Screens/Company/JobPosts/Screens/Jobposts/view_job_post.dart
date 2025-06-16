@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:wazafny/Screens/Seeker/Nav_bar_pages/home/job_posts/model/job_post_model.dart';
+import 'package:wazafny/Screens/Company/JobPosts/cubits/company_Job_posts_cubit/company_job_posts_cubit.dart';
+import 'package:wazafny/Screens/Company/JobPosts/cubits/company_view_job_post_cubit/company_view_job_post_cubit.dart';
 import 'package:wazafny/core/constants/constants.dart';
 import 'package:wazafny/widgets/custom_line.dart';
 import 'package:wazafny/widgets/texts/heading_text.dart';
 import 'package:wazafny/widgets/texts/paragraph.dart';
+import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/widgets/delete_dialog.dart';
 
 class ConpanyViewJobPost extends StatefulWidget {
   const ConpanyViewJobPost({super.key, required this.jobId});
@@ -15,53 +18,13 @@ class ConpanyViewJobPost extends StatefulWidget {
 }
 
 class _ConpanyViewJobPostState extends State<ConpanyViewJobPost> {
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   context.read<JobPostCubit>().fetchJobPostDetails(jobId: widget.jobId);
-  //   ();
-  // }
-
-  final jobPost = JobPostModel(
-    profileImg: 'https://example.com/profile1.png',
-    jobpost: JobPost(
-      jobId: 1,
-      jobTitle: 'Flutter Developer',
-      jobAbout: 'Develop mobile apps using Flutter framework.',
-      jobTime: 'Full-time',
-      jobType: 'On-Site',
-      jobCountry: 'Egypt',
-      jobCity: 'Cairo',
-      companyId: 101,
-      createdAt: '2025-05-01',
-    ),
-    company: Company(
-      companyName: 'Tech Solutions',
-      userId: 201,
-    ),
-    skills: [
-      Skill(skillId: 1, skill: 'Flutter'),
-      Skill(skillId: 2, skill: 'Dart'),
-      Skill(skillId: 3, skill: 'Firebase'),
-    ],
-    sections: [
-      Section(
-          sectionId: 1,
-          sectionName: 'Requirements',
-          sectionDescription: '3+ years of Flutter experience.'),
-      Section(
-          sectionId: 2,
-          sectionName: 'Benefits',
-          sectionDescription: 'Flexible hours and health insurance.'),
-    ],
-    questions: [
-      Question(questionId: 1, question: 'Why do you want this job?'),
-      Question(
-          questionId: 2, question: 'Do you have experience with Firebase?'),
-    ],
-    timeAgo: '2d',
-    applyStatus: false,
-  );
+  @override
+  void initState() {
+    super.initState();
+    context
+        .read<CompanyViewJobPostCubit>()
+        .fetchJobPostDetails(jobId: widget.jobId);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -69,90 +32,116 @@ class _ConpanyViewJobPostState extends State<ConpanyViewJobPost> {
       backgroundColor: Colors.white,
       appBar: CompanyJobpostAppBar(
         onBackPressed: () => Navigator.pop(context),
-        onDeletePressed: () {},
+        onDeletePressed: () {
+          showDialog(
+            context: context,
+            builder: (context) => DeleteDialog(
+              onConfirm: () {
+                Navigator.pop(context); // Close dialog
+                context
+                    .read<CompanyViewJobPostCubit>()
+                    .deleteJobPost(jobId: widget.jobId);
+
+                context.read<CompanyJobPostsCubit>().fetchCompanyJobPosts();
+              },
+              title: "Delete Job Post",
+              description: "Are you sure you want to delete this job post?",
+            ),
+          );
+        },
         onEditPressed: () {},
         title: "Job Post Details",
         buttonColor: darkerPrimary,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(20),
-        child: ListView(
-          children: [
-            //job title
-            HeadingText(title: jobPost.jobpost.jobTitle),
-            Row(
-              children: [
-                Text("${jobPost.jobpost.jobCity}, "),
-                Text("${jobPost.jobpost.jobCountry} , "),
-                Text("${jobPost.jobpost.jobTime} ago")
-              ],
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            const HeadingText(title: "Skills"),
-            const SizedBox(
-              height: 10,
-            ),
-            //skills
-            Wrap(
-              spacing: 15, // Space between items
-              runSpacing: 10, // Space between lines
-              children: List.generate(jobPost.skills.length, (index) {
-                return Container(
-                  decoration: BoxDecoration(
-                      color: lightPrimary,
-                      borderRadius: BorderRadius.circular(12)),
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
-                    child: Text(
-                      jobPost.skills[index].skill,
-                      style: const TextStyle(
-                        color: darkerPrimary,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
+      body: BlocConsumer<CompanyViewJobPostCubit, CompanyViewJobPostState>(
+        listener: (context, state) {
+          if (state is CompanyViewJobPostDeleted) {
+            Navigator.pop(context); // Return to previous screen after deletion
+          }
+        },
+        builder: (context, state) {
+          if (state is CompanyViewJobPostLoading) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (state is CompanyViewJobPostError) {
+            return Center(child: Text(state.message));
+          } else if (state is CompanyViewJobPostLoaded) {
+            final jobPost = state.jobPost;
+            return Padding(
+              padding: const EdgeInsets.all(20),
+              child: ListView(
+                children: [
+                  //job title
+                  HeadingText(title: jobPost.jobpost.jobTitle),
+                  Row(
+                    children: [
+                      Text("${jobPost.jobpost.jobCity}, "),
+                      Text("${jobPost.jobpost.jobCountry} , "),
+                      Text("${jobPost.jobpost.jobTime}")
+                    ],
                   ),
-                );
-              }),
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            const CustomLine(),
-            const SizedBox(height: 20),
-            //about
-            const HeadingText(title: "About the job"),
-            const SizedBox(height: 8),
-            Paragraph(
-              paragraph: jobPost.jobpost.jobAbout,
-            ),
-            const SizedBox(height: 8),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: List.generate(jobPost.sections.length, (index) {
-                return Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(height: 15),
-                    HeadingText(title: jobPost.sections[index].sectionName),
-                    const SizedBox(height: 10),
-                    Paragraph(
-                      paragraph: jobPost.sections[index].sectionDescription,
-                    ),
-                    const SizedBox(height: 15), // Separator between items
-                  ],
-                );
-              }),
-            ),
-            const SizedBox(height: 80),
-          ],
-        ),
+                  const SizedBox(height: 20),
+                  const HeadingText(title: "Skills"),
+                  const SizedBox(height: 10),
+                  //skills
+                  Wrap(
+                    spacing: 15,
+                    runSpacing: 10,
+                    children: List.generate(jobPost.skills.length, (index) {
+                      return Container(
+                        decoration: BoxDecoration(
+                          color: lightPrimary,
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 15, vertical: 8),
+                          child: Text(
+                            jobPost.skills[index].skill,
+                            style: const TextStyle(
+                              color: darkerPrimary,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                      );
+                    }),
+                  ),
+                  const SizedBox(height: 20),
+                  const CustomLine(),
+                  const SizedBox(height: 20),
+                  //about
+                  const HeadingText(title: "About the job"),
+                  const SizedBox(height: 8),
+                  Paragraph(paragraph: jobPost.jobpost.jobAbout),
+                  const SizedBox(height: 8),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: List.generate(jobPost.sections.length, (index) {
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const SizedBox(height: 15),
+                          HeadingText(
+                              title: jobPost.sections[index].sectionName),
+                          const SizedBox(height: 10),
+                          Paragraph(
+                              paragraph:
+                                  jobPost.sections[index].sectionDescription),
+                          const SizedBox(height: 15),
+                        ],
+                      );
+                    }),
+                  ),
+                  const SizedBox(height: 80),
+                ],
+              ),
+            );
+          }
+          return const SizedBox();
+        },
       ),
     );
   }
-
 }
 
 class CompanyJobpostAppBar extends StatelessWidget

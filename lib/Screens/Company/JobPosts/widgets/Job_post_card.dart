@@ -19,7 +19,8 @@ class JobPostCard extends StatelessWidget {
     required this.title,
     required this.status,
     required this.date,
-    required this.statusColor, required this.jobId,
+    required this.statusColor,
+    required this.jobId,
   });
 
   @override
@@ -102,7 +103,11 @@ class JobPostCard extends StatelessWidget {
               InkWell(
                 onTap: () {
                   //34
-                  slideTo(context, ViewApplicationsPage(jobId: jobId ,));
+                  slideTo(
+                      context,
+                      ViewApplicationsPage(
+                        jobId: jobId,
+                      ));
                 },
                 child: const RoundedButton(
                   text: "View Applications",
@@ -155,8 +160,8 @@ class JobPostCard extends StatelessWidget {
                     onPressed: () {
                       slideTo(
                           context,
-                          const ConpanyViewJobPost(
-                            jobId: 31,
+                          ConpanyViewJobPost(
+                            jobId: jobId,
                           ));
                     },
                   ),

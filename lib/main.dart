@@ -5,8 +5,10 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wazafny/Screens/Company/JobPosts/Screens/CreateJobPost/create_job_post.dart';
 import 'package:wazafny/Screens/Company/JobPosts/cubits/company_Job_posts_cubit/company_job_posts_cubit.dart';
 import 'package:wazafny/Screens/Company/JobPosts/cubits/company_view_application_cubit/company_view_application_cubit.dart';
+import 'package:wazafny/Screens/Company/JobPosts/cubits/company_view_job_post_cubit/company_view_job_post_cubit.dart';
 import 'package:wazafny/Screens/Company/JobPosts/cubits/job_application_view_model_cubit/job_application_view_model_cubit.dart';
 import 'package:wazafny/Screens/Company/Profile/cubits/company_profile_cubit.dart';
 import 'package:wazafny/Screens/Company/Dashboard/cubit/dashboard_cubit.dart';
@@ -91,6 +93,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (_) => CompanyProfileCubit(),
+        ),
+        BlocProvider(
+          create: (_) => CompanyViewJobPostCubit(),
         ),
       ],
       child: MaterialApp(

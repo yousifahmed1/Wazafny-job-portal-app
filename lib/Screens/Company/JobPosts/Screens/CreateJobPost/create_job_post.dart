@@ -1,9 +1,16 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:timelines_plus/timelines_plus.dart';
+import 'package:wazafny/Screens/Company/JobPosts/widgets/Process_bar.dart';
+import 'package:wazafny/Screens/Company/Profile/screens/company_profile_page.dart';
+import 'package:wazafny/Screens/Company/nav_bar_company.dart';
 import 'package:wazafny/core/constants/constants.dart';
 import 'package:wazafny/widgets/custom_app_bar.dart';
+import 'package:wazafny/Screens/Company/JobPosts/models/create_job_post_model.dart';
+import 'package:wazafny/Screens/Company/JobPosts/services/create_job_post_service.dart';
+import 'pages/basic_info_page.dart';
+import 'pages/skills_page.dart';
+import 'pages/extra_sections_page.dart';
+import 'pages/questions_page.dart';
+import 'pages/preview_page.dart';
 
 const kTileHeight = 50.0;
 final _processes = [
@@ -14,10 +21,6 @@ final _processes = [
   'Preview',
 ];
 
-const completeColor = primaryColor;
-const inProgressColor = lightPrimary;
-const todoColor = lightPrimary;
-
 class CreateJobPost extends StatefulWidget {
   const CreateJobPost({super.key});
 
@@ -26,8 +29,101 @@ class CreateJobPost extends StatefulWidget {
 }
 
 class _CreateJobPostState extends State<CreateJobPost> {
-  int _processIndex = 2;
+  int _processIndex = 1;
   final TextEditingController _controller = TextEditingController();
+  final CreateJobPostModel _jobPostData = CreateJobPostModel();
+  final GlobalKey<FormState> _basicInfoFormKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _skillsFormKey = GlobalKey<FormState>();
+  final CreateJobPostService _jobPostService = CreateJobPostService();
+  bool _isSubmitting = false;
+
+  bool _isBasicInfoValid() {
+    if (_basicInfoFormKey.currentState == null) return false;
+    return _basicInfoFormKey.currentState!.validate() &&
+        _jobPostData.jobTitle != null &&
+        _jobPostData.jobTitle!.isNotEmpty &&
+        _jobPostData.about != null &&
+        _jobPostData.about!.isNotEmpty &&
+        _jobPostData.country != null &&
+        _jobPostData.country!.isNotEmpty &&
+        _jobPostData.city != null &&
+        _jobPostData.city!.isNotEmpty &&
+        _jobPostData.jobType != null &&
+        _jobPostData.jobType!.isNotEmpty &&
+        _jobPostData.employmentType != null &&
+        _jobPostData.employmentType!.isNotEmpty;
+  }
+
+  bool _isSkillsValid() {
+    if (_skillsFormKey.currentState == null) return false;
+    return _skillsFormKey.currentState!.validate() &&
+        _jobPostData.skills.isNotEmpty;
+  }
+
+  Widget _getPage() {
+    switch (_processIndex) {
+      case 1:
+        return BasicInfoPage(
+          formKey: _basicInfoFormKey,
+          jobPostData: _jobPostData,
+          onDataChanged: (data) {
+            setState(() {
+              _jobPostData.jobTitle = data['jobTitle'];
+              _jobPostData.about = data['about'];
+              _jobPostData.country = data['country'];
+              _jobPostData.city = data['city'];
+              _jobPostData.jobType = data['jobType'];
+              _jobPostData.employmentType = data['employmentType'];
+            });
+          },
+        );
+      case 2:
+        return SkillsPage(
+          formKey: _skillsFormKey,
+          jobPostData: _jobPostData,
+          onSkillsChanged: (skills) {
+            setState(() {
+              _jobPostData.skills = skills;
+            });
+          },
+        );
+      case 3:
+        return ExtraSectionsPage(
+          jobPostData: _jobPostData,
+          onSectionsChanged: (sections) {
+            setState(() {
+              _jobPostData.extraSections = sections;
+            });
+          },
+        );
+      case 4:
+        return QuestionsPage(
+          jobPostData: _jobPostData,
+          onQuestionsChanged: (questions) {
+            setState(() {
+              _jobPostData.questions = questions;
+            });
+          },
+        );
+      case 5:
+        return PreviewPage(jobPostData: _jobPostData);
+      default:
+        return BasicInfoPage(
+          formKey: _basicInfoFormKey,
+          jobPostData: _jobPostData,
+          onDataChanged: (data) {
+            setState(() {
+              _jobPostData.jobTitle = data['jobTitle'];
+              _jobPostData.about = data['about'];
+              _jobPostData.country = data['country'];
+              _jobPostData.city = data['city'];
+              _jobPostData.jobType = data['jobType'];
+              _jobPostData.employmentType = data['employmentType'];
+            });
+          },
+        );
+    }
+  }
 
   void updateIndex() {
     final value = int.tryParse(_controller.text);
@@ -38,244 +134,267 @@ class _CreateJobPostState extends State<CreateJobPost> {
     }
   }
 
+  Future<void> _submitJobPost() async {
+    if (_isSubmitting) return;
+
+    setState(() {
+      _isSubmitting = true;
+    });
+
+    try {
+      final message = await _jobPostService.createJobPost(_jobPostData);
+      if (mounted) {
+        if (message == 'Complete your profile first') {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: const Text('Profile Incomplete'),
+                content: const Text(
+                    'Please complete your company profile before creating a job post.'),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => const CompanyProfile(),
+                        ),
+                      );
+                    },
+                    child: const Text('Go to Profile'),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: const Text('Cancel'),
+                  ),
+                ],
+              );
+            },
+          );
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(message),
+              backgroundColor: Colors.green,
+              margin: const EdgeInsets.only(
+                bottom: 100,
+                left: 10,
+                right: 10,
+              ),
+              behavior: SnackBarBehavior.floating,
+            ),
+          );
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const NavBarCompany(),
+            ),
+          );
+        }
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Failed to create job post: ${e.toString()}'),
+            backgroundColor: Colors.red,
+            margin: const EdgeInsets.only(
+              bottom: 100,
+              left: 10,
+              right: 10,
+            ),
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
+      }
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isSubmitting = false;
+        });
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
+      backgroundColor: whiteColor,
       appBar: CustomAppBar(
-        onBackPressed: () {},
+        onBackPressed: () => Navigator.pop(context),
         title: 'Create Job Post',
       ),
       body: Column(
         children: [
+          const SizedBox(
+            height: 25,
+          ),
           SizedBox(
             height: 100,
-            child: Row(
+            child: ProcessTimelineBar(
+              processIndex: _processIndex,
+              processes: _processes,
+            ),
+          ),
+          Expanded(
+            child: ListView(
               children: [
-                ProcessTimelineBar(
-                  processIndex: _processIndex,
-                  processes: _processes,
-                ),
+                _getPage(),
               ],
             ),
           ),
-        ],
-      ),
-    );
-  }
-}
-
-class ProcessTimelineBar extends StatelessWidget {
-  final int processIndex;
-  final List<String> processes;
-
-  const ProcessTimelineBar({
-    super.key,
-    required this.processIndex,
-    required this.processes,
-  });
-
-  Color getColor(int index) {
-    if (index == processIndex) {
-      return inProgressColor;
-    } else if (index < processIndex) {
-      return completeColor;
-    } else {
-      return todoColor;
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Timeline.tileBuilder(
-      shrinkWrap: true,
-      theme: TimelineThemeData(
-        direction: Axis.horizontal,
-        connectorTheme: const ConnectorThemeData(
-          space: 30.0,
-          thickness: 5.0,
-        ),
-      ),
-      builder: TimelineTileBuilder.connected(
-        connectionDirection: ConnectionDirection.before,
-        itemExtentBuilder: (_, __) =>
-            MediaQuery.of(context).size.width / processes.length,
-        contentsBuilder: (context, index) {
-          return Padding(
-            padding: const EdgeInsets.only(top: 15.0),
-            child: Text(
-              processes[index],
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                color: primaryColor,
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.05),
+                  spreadRadius: 10,
+                  blurRadius: 50,
+                  offset: const Offset(0, 0),
+                ),
+              ],
+            ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 15),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      if (_processIndex > 1) {
+                        setState(() {
+                          _processIndex--;
+                        });
+                      }
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: Colors.white,
+                        border: Border.all(
+                          color:
+                              _processIndex != 1 ? darkerPrimary : whiteColor,
+                          width: 2,
+                        ),
+                      ),
+                      child: Center(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 35,
+                            vertical: 8,
+                          ),
+                          child: Text(
+                            "Back",
+                            style: TextStyle(
+                              color: _processIndex != 1
+                                  ? darkerPrimary
+                                  : whiteColor,
+                              fontWeight: FontWeight.w700,
+                              fontSize: 20,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const Spacer(),
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: darkerPrimary,
+                    ),
+                    child: TextButton(
+                      onPressed: _isSubmitting
+                          ? null
+                          : () async {
+                              if (_processIndex == 1) {
+                                if (_isBasicInfoValid()) {
+                                  setState(() {
+                                    _processIndex++;
+                                  });
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text(
+                                          'Please fill in all required fields in Basic Info'),
+                                      backgroundColor: Colors.red,
+                                      margin: EdgeInsets.only(
+                                        bottom: 100,
+                                        left: 10,
+                                        right: 10,
+                                      ),
+                                      behavior: SnackBarBehavior.floating,
+                                    ),
+                                  );
+                                }
+                              } else if (_processIndex == 2) {
+                                if (_isSkillsValid()) {
+                                  setState(() {
+                                    _processIndex++;
+                                  });
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content:
+                                          Text('Please add at least one skill'),
+                                      backgroundColor: Colors.red,
+                                      margin: EdgeInsets.only(
+                                        bottom: 100,
+                                        left: 10,
+                                        right: 10,
+                                      ),
+                                      behavior: SnackBarBehavior.floating,
+                                    ),
+                                  );
+                                }
+                              } else if (_processIndex == _processes.length) {
+                                await _submitJobPost();
+                              } else {
+                                setState(() {
+                                  _processIndex++;
+                                });
+                              }
+                            },
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 30,
+                          vertical: 3,
+                        ),
+                        child: _isSubmitting
+                            ? const SizedBox(
+                                width: 20,
+                                height: 20,
+                                child: CircularProgressIndicator(
+                                  color: Colors.white,
+                                  strokeWidth: 2,
+                                ),
+                              )
+                            : Text(
+                                _processIndex == _processes.length - 1
+                                    ? "Preview"
+                                    : _processIndex == _processes.length
+                                        ? "Submit"
+                                        : "Next",
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 20,
+                                ),
+                              ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
-          );
-        },
-        indicatorBuilder: (_, index) {
-          return _buildIndicator(index);
-        },
-        connectorBuilder: (_, index, type) {
-          return _buildConnector(index, type);
-        },
-        itemCount: processes.length,
+          ),
+        ],
       ),
     );
-  }
-
-  Widget _buildIndicator(int index) {
-    Color color;
-    Widget? child;
-
-    if (index == processIndex) {
-      color = inProgressColor;
-      child = const Padding(
-        padding: EdgeInsets.all(8.0),
-      );
-    } else if (index < processIndex) {
-      color = completeColor;
-      child = const Icon(
-        Icons.check,
-        color: Colors.white,
-        size: 15.0,
-      );
-    } else {
-      color = todoColor;
-    }
-
-    if (index <= processIndex) {
-      return Stack(
-        children: [
-          CustomPaint(
-            size: const Size(30.0, 30.0),
-            painter: _BezierPainter(
-              color: color,
-              drawStart: index > 0,
-              drawEnd: index < processIndex,
-            ),
-          ),
-          DotIndicator(
-            size: 30.0,
-            color: color,
-            child: child,
-          ),
-        ],
-      );
-    } else {
-      return Stack(
-        children: [
-          CustomPaint(
-            size: const Size(15.0, 15.0),
-            painter: _BezierPainter(
-              color: color,
-              drawEnd: index < processes.length - 1,
-            ),
-          ),
-          OutlinedDotIndicator(
-            borderWidth: 4.0,
-            color: color,
-          ),
-        ],
-      );
-    }
-  }
-
-  Widget? _buildConnector(int index, ConnectorType type) {
-    if (index > 0) {
-      if (index == processIndex) {
-        final prevColor = getColor(index - 1);
-        final color = getColor(index);
-        List<Color> gradientColors;
-        if (type == ConnectorType.start) {
-          gradientColors = [Color.lerp(prevColor, color, 0.5)!, color];
-        } else {
-          gradientColors = [prevColor, Color.lerp(prevColor, color, 0.5)!];
-        }
-        return DecoratedLineConnector(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: gradientColors,
-            ),
-          ),
-        );
-      } else {
-        return SolidLineConnector(
-          color: getColor(index),
-        );
-      }
-    } else {
-      return null;
-    }
-  }
-}
-
-/// hardcoded bezier painter
-/// TODO: Bezier curve into package component
-class _BezierPainter extends CustomPainter {
-  const _BezierPainter({
-    required this.color,
-    this.drawStart = true,
-    this.drawEnd = true,
-  });
-
-  final Color color;
-  final bool drawStart;
-  final bool drawEnd;
-
-  Offset _offset(double radius, double angle) {
-    return Offset(
-      radius * cos(angle) + radius,
-      radius * sin(angle) + radius,
-    );
-  }
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..style = PaintingStyle.fill
-      ..color = color;
-
-    final radius = size.width / 2;
-
-    double angle;
-    Offset offset1;
-    Offset offset2;
-
-    Path path;
-
-    if (drawStart) {
-      angle = 3 * pi / 4;
-      offset1 = _offset(radius, angle);
-      offset2 = _offset(radius, -angle);
-      path = Path()
-        ..moveTo(offset1.dx, offset1.dy)
-        ..quadraticBezierTo(0.0, size.height / 2, -radius,
-            radius) // TODO connector start & gradient
-        ..quadraticBezierTo(0.0, size.height / 2, offset2.dx, offset2.dy)
-        ..close();
-
-      canvas.drawPath(path, paint);
-    }
-    if (drawEnd) {
-      angle = -pi / 4;
-      offset1 = _offset(radius, angle);
-      offset2 = _offset(radius, -angle);
-
-      path = Path()
-        ..moveTo(offset1.dx, offset1.dy)
-        ..quadraticBezierTo(size.width, size.height / 2, size.width + radius,
-            radius) // TODO connector end & gradient
-        ..quadraticBezierTo(size.width, size.height / 2, offset2.dx, offset2.dy)
-        ..close();
-
-      canvas.drawPath(path, paint);
-    }
-  }
-
-  @override
-  bool shouldRepaint(_BezierPainter oldDelegate) {
-    return oldDelegate.color != color ||
-        oldDelegate.drawStart != drawStart ||
-        oldDelegate.drawEnd != drawEnd;
   }
 }

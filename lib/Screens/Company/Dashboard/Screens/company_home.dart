@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wazafny/Screens/Company/Dashboard/cubit/dashboard_cubit.dart';
 import 'package:wazafny/Screens/Company/Dashboard/cubit/dashboard_state.dart';
 import 'package:wazafny/Screens/Company/Dashboard/widgets/stat_card.dart';
+import 'package:wazafny/Screens/Company/JobPosts/Screens/CreateJobPost/create_job_post.dart';
 import 'package:wazafny/core/constants/constants.dart';
 import 'package:wazafny/widgets/button.dart';
 import 'package:wazafny/widgets/settings.dart';
@@ -81,7 +82,14 @@ class _CompanyDashboardPageState extends State<CompanyDashboardPage> {
                     const SizedBox(height: 20),
 
                     InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const CreateJobPost(),
+                          ),
+                        );
+                      },
                       child: const Button1(
                         text: "Create New Post",
                         btnColor: primaryColor,
