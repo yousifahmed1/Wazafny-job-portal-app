@@ -118,7 +118,10 @@ class _ViewApplicationsPageState extends State<ViewApplicationsPage> {
                                           title:
                                               "${app.seeker.firstName} ${app.seeker.lastName}",
                                           titleColor: darkerPrimary,
-                                          fontSize: 20,
+                                          fontSize: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.04, // 5% of screen width
                                         ),
                                         const Spacer(),
                                         Text(

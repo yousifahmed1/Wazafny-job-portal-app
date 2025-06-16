@@ -9,6 +9,7 @@ class SelectableTextField extends StatefulWidget {
   final String labelText;
   final List<String> optionsToSelect;
   final String? Function(String?)? validator;
+  final void Function(String)? onChanged;
 
   const SelectableTextField({
     super.key,
@@ -16,6 +17,7 @@ class SelectableTextField extends StatefulWidget {
     required this.labelText,
     required this.optionsToSelect,
     this.validator,
+    this.onChanged,
   });
 
   @override
@@ -26,7 +28,6 @@ class _SelectableTextFieldState extends State<SelectableTextField> {
   @override
   void initState() {
     widget.controller.text = widget.optionsToSelect[0];
-
     super.initState();
   }
 
@@ -50,6 +51,7 @@ class _SelectableTextFieldState extends State<SelectableTextField> {
               ),
               onPressed: () {
                 widget.controller.text = options[selectedIndex];
+                widget.onChanged?.call(options[selectedIndex]);
                 Navigator.of(context).pop();
               },
             ),
@@ -77,6 +79,7 @@ class _SelectableTextFieldState extends State<SelectableTextField> {
     ).then((_) {
       // After selection, update the controller text
       widget.controller.text = options[selectedIndex];
+      widget.onChanged?.call(options[selectedIndex]);
     });
   }
 
