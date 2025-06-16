@@ -9,14 +9,21 @@ import 'package:wazafny/Screens/Company/Dashboard/Screens/company_home.dart';
 import 'package:wazafny/core/constants/constants.dart';
 
 class NavBarCompany extends StatefulWidget {
-  const NavBarCompany({super.key});
+  const NavBarCompany({super.key, this.index = 0});
+  final int index;
 
   @override
   State<NavBarCompany> createState() => _NavBarCompanyState();
 }
 
 class _NavBarCompanyState extends State<NavBarCompany> {
-  int _selectedIndex = 0;
+  late int _selectedIndex;
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedIndex = widget.index;
+  }
 
   final List<Widget> _screens = [
     const CompanyDashboardPage(),
@@ -74,23 +81,34 @@ class _NavBarCompanyState extends State<NavBarCompany> {
                       tileMode: TileMode.mirror),
                   items: [
                     ItemNavigationView(
-                      childAfter: const IconNav(
-                          title: "Dashboard", iconPath: "HomeFill.svg"),
-                      childBefore: const IconNav(
-                          title: "Dashboard", iconPath: "HomeStroke.svg"),
+                      childAfter: IconNav(
+                          isSelected: _selectedIndex == 0,
+                          title: "Dashboard",
+                          iconPath: "HomeFill.svg"),
+                      childBefore: IconNav(
+                          isSelected: _selectedIndex == 0,
+                          title: "Dashboard",
+                          iconPath: "HomeStroke.svg"),
                     ),
                     ItemNavigationView(
-                      childAfter: const IconNav(
+                      childAfter: IconNav(
+                          isSelected: _selectedIndex == 1,
                           title: "Job Posts",
                           iconPath: "applicationStroke.svg"),
-                      childBefore: const IconNav(
-                          title: "Job Posts", iconPath: "applicationFill.svg"),
+                      childBefore: IconNav(
+                          isSelected: _selectedIndex == 1,
+                          title: "Job Posts",
+                          iconPath: "applicationFill.svg"),
                     ),
                     ItemNavigationView(
-                      childAfter: const IconNav(
-                          title: "Profile", iconPath: "ProfileFill.svg"),
-                      childBefore: const IconNav(
-                          title: "Profile", iconPath: "ProfileStroke.svg"),
+                      childAfter: IconNav(
+                          isSelected: _selectedIndex == 2,
+                          title: "Profile",
+                          iconPath: "ProfileFill.svg"),
+                      childBefore: IconNav(
+                          isSelected: _selectedIndex == 2,
+                          title: "Profile",
+                          iconPath: "ProfileStroke.svg"),
                     ),
                   ],
                 ),
@@ -108,10 +126,12 @@ class IconNav extends StatelessWidget {
     super.key,
     required this.title,
     required this.iconPath,
+    this.isSelected = false,
   });
 
   final String title;
   final String iconPath;
+  final bool isSelected;
 
   @override
   Widget build(BuildContext context) {
@@ -124,14 +144,16 @@ class IconNav extends StatelessWidget {
           "assets/Icons/$iconPath",
           width: 30,
           height: 30,
+          color: isSelected ? darkerPrimary : Colors.grey,
         ),
         const SizedBox(
           height: 8,
         ),
         Text(
           title,
-          style: const TextStyle(
-              color: darkerPrimary, fontWeight: FontWeight.w600),
+          style: TextStyle(
+              color: isSelected ? darkerPrimary : Colors.grey,
+              fontWeight: FontWeight.w600),
         ),
       ],
     );

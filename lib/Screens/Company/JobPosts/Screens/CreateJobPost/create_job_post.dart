@@ -158,7 +158,9 @@ class _CreateJobPostState extends State<CreateJobPost> {
                       Navigator.of(context).pop();
                       Navigator.of(context).push(
                         MaterialPageRoute(
-                          builder: (context) => const CompanyProfile(),
+                          builder: (context) => const NavBarCompany(
+                            index: 2,
+                          ),
                         ),
                       );
                     },

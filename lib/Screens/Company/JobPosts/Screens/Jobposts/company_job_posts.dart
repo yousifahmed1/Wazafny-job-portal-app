@@ -46,34 +46,49 @@ class CompanyJobPostPage extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 20),
-                      Expanded(
-                        child: RefreshIndicator(
-                          onRefresh: () async {
-                            context
-                                .read<CompanyJobPostsCubit>()
-                                .fetchCompanyJobPosts();
-                          },
-                          child: ListView.separated(
-                            padding: const EdgeInsets.only(
-                                bottom: 95, left: 16, right: 16),
-                            separatorBuilder: (context, index) =>
-                                const SizedBox(height: 15),
-                            itemCount: jobs.length,
-                            itemBuilder: (context, index) {
-                              final job = jobs[index];
-                              return JobPostCard(
-                                jobId: job.jobId,
-                                title: job.jobTitle,
-                                status: job.jobStatus,
-                                statusColor: job.jobStatus == "Active"
-                                    ? greenColor
-                                    : redColor,
-                                date: job.createdAt,
-                              );
-                            },
-                          ),
-                        ),
-                      ),
+                      jobs.isEmpty
+                          ? const Expanded(
+                              child: Center(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      "No job posts available",
+                                      style: TextStyle(
+                                          fontSize: 18, color: Colors.grey),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            )
+                          : Expanded(
+                              child: RefreshIndicator(
+                                onRefresh: () async {
+                                  context
+                                      .read<CompanyJobPostsCubit>()
+                                      .fetchCompanyJobPosts();
+                                },
+                                child: ListView.separated(
+                                  padding: const EdgeInsets.only(
+                                      bottom: 95, left: 16, right: 16),
+                                  separatorBuilder: (context, index) =>
+                                      const SizedBox(height: 15),
+                                  itemCount: jobs.length,
+                                  itemBuilder: (context, index) {
+                                    final job = jobs[index];
+                                    return JobPostCard(
+                                      jobId: job.jobId,
+                                      title: job.jobTitle,
+                                      status: job.jobStatus,
+                                      statusColor: job.jobStatus == "Active"
+                                          ? greenColor
+                                          : redColor,
+                                      date: job.createdAt,
+                                    );
+                                  },
+                                ),
+                              ),
+                            ),
                     ],
                   ),
                 ),

@@ -32,18 +32,17 @@ class CreateJobPostService {
         ),
       );
 
-      if (response.statusCode == 200) {
-        final data = response.data;
-        if (data is Map<String, dynamic> && data['message'] is String) {
-          return data['message'];
-        } else {
-          throw Exception('Unexpected response format: ${response.data}');
-        }
-      } else if (response.statusCode == 400) {
-        return 'Complete your profile first';
+      final data = response.data;
+      if (data is Map<String, dynamic> && data['message'] is String) {
+        return data['message'];
       } else {
-        throw Exception('Failed to create job post');
+        throw Exception('Unexpected response format: ${response.data}');
       }
+    } on DioException catch (e) {
+      if (e.response?.statusCode == 400) {
+        return 'Complete your profile first';
+      }
+      throw Exception('Error creating job post: ${e.message}');
     } catch (e) {
       throw Exception('Error creating job post: $e');
     }
