@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wazafny/Screens/Company/JobPosts/cubits/company_view_application_cubit/company_view_application_cubit.dart';
 import 'package:wazafny/Screens/Company/JobPosts/widgets/accept_confirm_dialog.dart';
-import 'package:wazafny/Screens/Company/JobPosts/widgets/reject_confirm_dialog.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/Profile/widgets/save_button.dart';
 import 'package:wazafny/core/constants/constants.dart';
 import 'package:wazafny/core/constants/textfields_validators.dart';
