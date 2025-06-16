@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:wazafny/Screens/Seeker/Nav_bar_pages/home/company/model/company_model.dart';
 import 'package:wazafny/core/constants/constants.dart';
@@ -115,19 +116,25 @@ class MainInformaition extends StatelessWidget {
                         : const SizedBox(),
                     const SizedBox(height: 10),
                     company.companyWebsiteLink != null
-                        ? Row(
-                            children: [
-                              SubHeadingText(
-                                title: company.companyWebsiteLink ?? "",
-                                titleColor: primaryColor,
-                              ),
-                              const SizedBox(width: 10),
-                              SvgPicture.asset(
-                                "assets/Icons/Link.svg",
-                                width: 20,
-                                height: 20,
-                              ),
-                            ],
+                        ? GestureDetector(
+                            onTap: () {
+                              launchUrl(Uri.parse(company.companyWebsiteLink!));
+                            },
+                            child: Row(
+                              children: [
+                                SvgPicture.asset(
+                                  "assets/Icons/Link.svg",
+                                  width: 20,
+                                  height: 20,
+                                ),
+                                const SizedBox(width: 10),
+                                const SubHeadingText(
+                                  title: "Website",
+                                  titleColor: primaryColor,
+                                ),
+                                const SizedBox(width: 10),
+                              ],
+                            ),
                           )
                         : const SizedBox(),
                     const SizedBox(height: 20),
