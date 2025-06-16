@@ -101,9 +101,26 @@ class JobsListView extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                Icon(
+                  state.message.contains('Problem in server come back later')
+                      ? Icons.error_outline
+                      : Icons.warning_amber_rounded,
+                  size: 48,
+                  color: state.message
+                          .contains('Problem in server come back later')
+                      ? Colors.red
+                      : Colors.orange,
+                ),
+                const SizedBox(height: 16),
                 Text(
-                  'Error: ${state.message}',
-                  style: const TextStyle(color: Colors.red),
+                  state.message,
+                  style: TextStyle(
+                    color: state.message
+                            .contains('Problem in server come back later')
+                        ? Colors.red
+                        : Colors.black87,
+                    fontSize: 16,
+                  ),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 16),
@@ -111,9 +128,16 @@ class JobsListView extends StatelessWidget {
                   onPressed: () => context.read<SeekerJobCubit>().fetchJobs(),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: darkerPrimary,
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 24, vertical: 12),
                   ),
-                  child: const Text('Try Again',
-                      style: TextStyle(color: Colors.white)),
+                  child: const Text(
+                    'Try Again',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                    ),
+                  ),
                 ),
               ],
             ),
