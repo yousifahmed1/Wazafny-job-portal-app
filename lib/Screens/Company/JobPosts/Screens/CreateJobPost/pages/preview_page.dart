@@ -51,7 +51,7 @@ class PreviewPage extends StatelessWidget {
                     ),
                   ),
                 ),
-              );
+              ); // <-- add this closing parenthesis for the Container
             }).toList(),
           ),
           const SizedBox(height: 20),
@@ -65,12 +65,15 @@ class PreviewPage extends StatelessWidget {
             ...jobPostData.extraSections.map((section) => Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    HeadingText(title: section['title']?.toString() ?? ''),
+                    HeadingText(title: section['name']?.toString() ?? ''),
                     const SizedBox(height: 10),
-                    Paragraph(paragraph: section['desc']?.toString() ?? ''),
+                    Paragraph(
+                        paragraph: section['description']?.toString() ?? ''),
                     const SizedBox(height: 15),
                   ],
                 )),
+          ] else ...[
+            const SizedBox(height: 14),
           ],
           if (jobPostData.questions.isNotEmpty) ...[
             const SizedBox(height: 20),

@@ -47,4 +47,30 @@ class CreateJobPostService {
       throw Exception('Error creating job post: $e');
     }
   }
+
+  Future<String> updateJobPost(int jobId, CreateJobPostModel jobPost) async {
+    await _initialize();
+    try {
+      final response = await dio.put(
+        '/update-job-post-info/$jobId',
+        data: jobPost.toJson(),
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+            'Content-Type': 'application/json',
+          },
+        ),
+      );
+      final data = response.data;
+      if (data is Map<String, dynamic> && data['message'] is String) {
+        return data['message'];
+      } else {
+        throw Exception('Unexpected response format: \\${response.data}');
+      }
+    } on DioException catch (e) {
+      throw Exception('Error updating job post: \\${e.message}');
+    } catch (e) {
+      throw Exception('Error updating job post: $e');
+    }
+  }
 }

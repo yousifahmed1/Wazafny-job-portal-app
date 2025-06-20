@@ -89,6 +89,7 @@ class CompanyJobPostPage extends StatelessWidget {
                                 ),
                               ),
                             ),
+                      const SizedBox(height: 63),
                     ],
                   ),
                 ),

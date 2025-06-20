@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:wazafny/Screens/Company/JobPosts/widgets/Process_bar.dart';
-import 'package:wazafny/Screens/Company/Profile/screens/company_profile_page.dart';
 import 'package:wazafny/Screens/Company/nav_bar_company.dart';
 import 'package:wazafny/core/constants/constants.dart';
 import 'package:wazafny/widgets/custom_app_bar.dart';
 import 'package:wazafny/Screens/Company/JobPosts/models/create_job_post_model.dart';
+import 'package:wazafny/Screens/Company/JobPosts/models/company_job_post_model.dart';
 import 'package:wazafny/Screens/Company/JobPosts/services/create_job_post_service.dart';
 import 'pages/basic_info_page.dart';
 import 'pages/skills_page.dart';
@@ -22,7 +22,10 @@ final _processes = [
 ];
 
 class CreateJobPost extends StatefulWidget {
-  const CreateJobPost({super.key});
+  final CompanyJobPostModel? jobPostToEdit;
+  final bool editMode;
+  const CreateJobPost({Key? key, this.jobPostToEdit, this.editMode = false})
+      : super(key: key);
 
   @override
   State<CreateJobPost> createState() => _CreateJobPostState();
@@ -142,7 +145,14 @@ class _CreateJobPostState extends State<CreateJobPost> {
     });
 
     try {
-      final message = await _jobPostService.createJobPost(_jobPostData);
+      String message;
+      if (widget.editMode && widget.jobPostToEdit != null) {
+        // Call update API (PUT)
+        message = await _jobPostService.updateJobPost(
+            widget.jobPostToEdit!.jobpost.jobId, _jobPostData);
+      } else {
+        message = await _jobPostService.createJobPost(_jobPostData);
+      }
       if (mounted) {
         if (message == 'Complete your profile first') {
           showDialog(
@@ -222,181 +232,217 @@ class _CreateJobPostState extends State<CreateJobPost> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    if (widget.editMode && widget.jobPostToEdit != null) {
+      // Pre-fill form fields from jobPostToEdit
+      final job = widget.jobPostToEdit!;
+      _jobPostData.jobTitle = job.jobpost.jobTitle;
+      _jobPostData.about = job.jobpost.jobAbout;
+      _jobPostData.country = job.jobpost.jobCountry;
+      _jobPostData.city = job.jobpost.jobCity;
+      _jobPostData.jobType = job.jobpost.jobType;
+      _jobPostData.employmentType = job.jobpost.jobTime;
+      _jobPostData.companyID = job.jobpost.companyId;
+      _jobPostData.skills = job.skills.map((s) => s.skill).toList();
+      _jobPostData.questions = job.questions
+          .map((q) =>
+              JobQuestion(questionId: q.questionId, question: q.question))
+          .toList();
+      _jobPostData.extraSections = job.sections
+          .map((s) => {
+                'name': s.sectionName,
+                'description': s.sectionDescription,
+              })
+          .toList();
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: whiteColor,
       appBar: CustomAppBar(
         onBackPressed: () => Navigator.pop(context),
-        title: 'Create Job Post',
+        title: widget.editMode ? 'Edit Job Post' : 'Create Job Post',
       ),
-      body: Column(
-        children: [
-          const SizedBox(
-            height: 25,
-          ),
-          SizedBox(
-            height: 100,
-            child: ProcessTimelineBar(
-              processIndex: _processIndex,
-              processes: _processes,
-            ),
-          ),
-          Expanded(
-            child: ListView(
+      body: _isSubmitting
+          ? const Center(child: CircularProgressIndicator())
+          : Column(
               children: [
-                _getPage(),
-              ],
-            ),
-          ),
-          Container(
-            decoration: BoxDecoration(
-              color: Colors.white,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.05),
-                  spreadRadius: 10,
-                  blurRadius: 50,
-                  offset: const Offset(0, 0),
+                const SizedBox(
+                  height: 25,
                 ),
-              ],
-            ),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 15),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      if (_processIndex > 1) {
-                        setState(() {
-                          _processIndex--;
-                        });
-                      }
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        color: Colors.white,
-                        border: Border.all(
-                          color:
-                              _processIndex != 1 ? darkerPrimary : whiteColor,
-                          width: 2,
-                        ),
+                SizedBox(
+                  height: 100,
+                  child: ProcessTimelineBar(
+                    processIndex: _processIndex,
+                    processes: _processes,
+                  ),
+                ),
+                Expanded(
+                  child: ListView(
+                    children: [
+                      _getPage(),
+                    ],
+                  ),
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.05),
+                        spreadRadius: 10,
+                        blurRadius: 50,
+                        offset: const Offset(0, 0),
                       ),
-                      child: Center(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 35,
-                            vertical: 8,
-                          ),
-                          child: Text(
-                            "Back",
-                            style: TextStyle(
-                              color: _processIndex != 1
-                                  ? darkerPrimary
-                                  : whiteColor,
-                              fontWeight: FontWeight.w700,
-                              fontSize: 20,
+                    ],
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 30, horizontal: 15),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            if (_processIndex > 1) {
+                              setState(() {
+                                _processIndex--;
+                              });
+                            }
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: Colors.white,
+                              border: Border.all(
+                                color: _processIndex != 1
+                                    ? darkerPrimary
+                                    : whiteColor,
+                                width: 2,
+                              ),
+                            ),
+                            child: Center(
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 35,
+                                  vertical: 8,
+                                ),
+                                child: Text(
+                                  "Back",
+                                  style: TextStyle(
+                                    color: _processIndex != 1
+                                        ? darkerPrimary
+                                        : whiteColor,
+                                    fontWeight: FontWeight.w700,
+                                    fontSize: 20,
+                                  ),
+                                ),
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    ),
-                  ),
-                  const Spacer(),
-                  Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: darkerPrimary,
-                    ),
-                    child: TextButton(
-                      onPressed: _isSubmitting
-                          ? null
-                          : () async {
-                              if (_processIndex == 1) {
-                                if (_isBasicInfoValid()) {
-                                  setState(() {
-                                    _processIndex++;
-                                  });
-                                } else {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text(
-                                          'Please fill in all required fields in Basic Info'),
-                                      backgroundColor: Colors.red,
-                                      margin: EdgeInsets.only(
-                                        bottom: 100,
-                                        left: 10,
-                                        right: 10,
-                                      ),
-                                      behavior: SnackBarBehavior.floating,
-                                    ),
-                                  );
-                                }
-                              } else if (_processIndex == 2) {
-                                if (_isSkillsValid()) {
-                                  setState(() {
-                                    _processIndex++;
-                                  });
-                                } else {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content:
-                                          Text('Please add at least one skill'),
-                                      backgroundColor: Colors.red,
-                                      margin: EdgeInsets.only(
-                                        bottom: 100,
-                                        left: 10,
-                                        right: 10,
-                                      ),
-                                      behavior: SnackBarBehavior.floating,
-                                    ),
-                                  );
-                                }
-                              } else if (_processIndex == _processes.length) {
-                                await _submitJobPost();
-                              } else {
-                                setState(() {
-                                  _processIndex++;
-                                });
-                              }
-                            },
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 30,
-                          vertical: 3,
-                        ),
-                        child: _isSubmitting
-                            ? const SizedBox(
-                                width: 20,
-                                height: 20,
-                                child: CircularProgressIndicator(
-                                  color: Colors.white,
-                                  strokeWidth: 2,
-                                ),
-                              )
-                            : Text(
-                                _processIndex == _processes.length - 1
-                                    ? "Preview"
-                                    : _processIndex == _processes.length
-                                        ? "Submit"
-                                        : "Next",
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 20,
-                                ),
+                        const Spacer(),
+                        Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            color: darkerPrimary,
+                          ),
+                          child: TextButton(
+                            onPressed: _isSubmitting
+                                ? null
+                                : () async {
+                                    if (_processIndex == 1) {
+                                      if (_isBasicInfoValid()) {
+                                        setState(() {
+                                          _processIndex++;
+                                        });
+                                      } else {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          const SnackBar(
+                                            content: Text(
+                                                'Please fill in all required fields in Basic Info'),
+                                            backgroundColor: Colors.red,
+                                            margin: EdgeInsets.only(
+                                              bottom: 100,
+                                              left: 10,
+                                              right: 10,
+                                            ),
+                                            behavior: SnackBarBehavior.floating,
+                                          ),
+                                        );
+                                      }
+                                    } else if (_processIndex == 2) {
+                                      if (_isSkillsValid()) {
+                                        setState(() {
+                                          _processIndex++;
+                                        });
+                                      } else {
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
+                                          const SnackBar(
+                                            content: Text(
+                                                'Please add at least one skill'),
+                                            backgroundColor: Colors.red,
+                                            margin: EdgeInsets.only(
+                                              bottom: 100,
+                                              left: 10,
+                                              right: 10,
+                                            ),
+                                            behavior: SnackBarBehavior.floating,
+                                          ),
+                                        );
+                                      }
+                                    } else if (_processIndex ==
+                                        _processes.length) {
+                                      await _submitJobPost();
+                                    } else {
+                                      setState(() {
+                                        _processIndex++;
+                                      });
+                                    }
+                                  },
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 30,
+                                vertical: 3,
                               ),
-                      ),
+                              child: _isSubmitting
+                                  ? const SizedBox(
+                                      width: 20,
+                                      height: 20,
+                                      child: CircularProgressIndicator(
+                                        color: Colors.white,
+                                        strokeWidth: 2,
+                                      ),
+                                    )
+                                  : Text(
+                                      _processIndex == _processes.length - 1
+                                          ? "Preview"
+                                          : _processIndex == _processes.length
+                                              ? (widget.editMode
+                                                  ? "Update"
+                                                  : "Submit")
+                                              : "Next",
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 20,
+                                      ),
+                                    ),
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ),
-        ],
-      ),
     );
   }
 }

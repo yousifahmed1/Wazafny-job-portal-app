@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:wazafny/widgets/text_fields/rounded_text_fields.dart';
 import 'package:wazafny/core/constants/constants.dart';
 import 'package:wazafny/widgets/texts/heading_text.dart';
 import 'package:wazafny/widgets/texts/sub_heading_text.dart';
 import 'package:wazafny/Screens/Company/JobPosts/models/create_job_post_model.dart';
+import 'package:wazafny/widgets/text_fields/rounded_text_fields.dart';
 
 class QuestionsPage extends StatefulWidget {
   final CreateJobPostModel jobPostData;
-  final Function(List<String>) onQuestionsChanged;
+  final Function(List<JobQuestion>) onQuestionsChanged;
 
   const QuestionsPage({
     super.key,
@@ -21,28 +21,33 @@ class QuestionsPage extends StatefulWidget {
 }
 
 class _QuestionsPageState extends State<QuestionsPage> {
-  final List<TextEditingController> _newQuestions = [];
+  final List<TextEditingController> _questionControllers = [];
+  final List<int?> _questionIds = [];
 
   @override
   void initState() {
     super.initState();
-    // Initialize controllers from existing data
+    // Initialize controllers and ids from existing data
     for (var question in widget.jobPostData.questions) {
-      _newQuestions.add(TextEditingController(text: question));
+      _questionControllers.add(TextEditingController(text: question.question));
+      _questionIds.add(question.questionId);
     }
   }
 
   @override
   void dispose() {
-    for (var controller in _newQuestions) {
+    for (var controller in _questionControllers) {
       controller.dispose();
     }
     super.dispose();
   }
 
   void _updateParentData() {
-    final questions =
-        _newQuestions.map((controller) => controller.text).toList();
+    final questions = List.generate(
+        _questionControllers.length,
+        (i) => JobQuestion(
+            questionId: _questionIds[i],
+            question: _questionControllers[i].text));
     widget.onQuestionsChanged(questions);
   }
 
@@ -54,12 +59,18 @@ class _QuestionsPageState extends State<QuestionsPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ..._newQuestions.asMap().entries.map((entry) {
+            ..._questionControllers.asMap().entries.map((entry) {
               final index = entry.key;
               final controller = entry.value;
               return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  RoundedTextField(
+                    controller: controller,
+                    labelText: 'Question',
+                    keyboardType: TextInputType.text,
+                    onChanged: (_) => _updateParentData(),
+                  ),
+                  const SizedBox(height: 10),
                   Row(
                     children: [
                       SubHeadingText1(
@@ -69,7 +80,8 @@ class _QuestionsPageState extends State<QuestionsPage> {
                       InkWell(
                         onTap: () {
                           setState(() {
-                            _newQuestions.removeAt(index);
+                            _questionControllers.removeAt(index);
+                            _questionIds.removeAt(index);
                             _updateParentData();
                           });
                         },
@@ -83,19 +95,6 @@ class _QuestionsPageState extends State<QuestionsPage> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 10),
-                  RoundedTextField(
-                    controller: controller,
-                    keyboardType: TextInputType.text,
-                    labelText: "Question*",
-                    validator: (value) {
-                      if (value == null || value.trim().isEmpty) {
-                        return 'Question is required';
-                      }
-                      return null;
-                    },
-                    onChanged: (_) => _updateParentData(),
-                  ),
                   const SizedBox(height: 20),
                 ],
               );
@@ -103,7 +102,8 @@ class _QuestionsPageState extends State<QuestionsPage> {
             GestureDetector(
               onTap: () {
                 setState(() {
-                  _newQuestions.add(TextEditingController());
+                  _questionControllers.add(TextEditingController());
+                  _questionIds.add(null);
                   _updateParentData();
                 });
               },

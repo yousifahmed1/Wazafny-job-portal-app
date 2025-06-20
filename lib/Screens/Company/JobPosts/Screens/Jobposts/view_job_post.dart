@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:wazafny/Screens/Company/JobPosts/Screens/CreateJobPost/create_job_post.dart';
 import 'package:wazafny/Screens/Company/JobPosts/cubits/company_Job_posts_cubit/company_job_posts_cubit.dart';
 import 'package:wazafny/Screens/Company/JobPosts/cubits/company_view_job_post_cubit/company_view_job_post_cubit.dart';
 import 'package:wazafny/core/constants/constants.dart';
@@ -49,7 +50,21 @@ class _ConpanyViewJobPostState extends State<ConpanyViewJobPost> {
             ),
           );
         },
-        onEditPressed: () {},
+        onEditPressed: () {
+          final state = context.read<CompanyViewJobPostCubit>().state;
+          if (state is CompanyViewJobPostLoaded) {
+            final jobPost = state.jobPost;
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => CreateJobPost(
+                  editMode: true,
+                  jobPostToEdit: jobPost,
+                ),
+              ),
+            );
+          }
+        },
         title: "Job Post Details",
         buttonColor: darkerPrimary,
       ),

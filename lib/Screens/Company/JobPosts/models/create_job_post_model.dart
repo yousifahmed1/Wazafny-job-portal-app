@@ -1,5 +1,32 @@
 import 'package:wazafny/Screens/login_and_signup/repo/auth_repository.dart';
 
+class JobQuestion {
+  int? questionId;
+  String question;
+
+  JobQuestion({this.questionId, required this.question});
+
+  factory JobQuestion.fromJson(Map<String, dynamic> json) {
+    return JobQuestion(
+      questionId: json['question_id'],
+      question: json['question'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    if (questionId != null) {
+      return {
+        'question_id': questionId,
+        'question': question,
+      };
+    } else {
+      return {
+        'question': question,
+      };
+    }
+  }
+}
+
 class CreateJobPostModel {
   // Basic Info
   String? jobTitle;
@@ -16,8 +43,8 @@ class CreateJobPostModel {
   // Extra Sections
   List<Map<String, String>> extraSections = [];
 
-  // Questions
-  List<String> questions = [];
+  // Questions (now as List<Map<String, dynamic>>)
+  List<JobQuestion> questions = [];
 
   CreateJobPostModel() {
     _initializeCompanyID();
@@ -37,7 +64,7 @@ class CreateJobPostModel {
       'job_city': city,
       'company_id': companyID,
       'skills': skills,
-      'questions': questions,
+      'questions': questions.map((q) => q.toJson()).toList(),
       'sections': extraSections,
     };
   }
