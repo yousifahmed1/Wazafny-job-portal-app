@@ -6,6 +6,7 @@ import 'package:wazafny/widgets/text_fields/regular_text_field.dart';
 import 'package:wazafny/widgets/texts/heading_text.dart';
 import 'package:wazafny/widgets/texts/sub_heading_text.dart';
 import 'otp_screen.dart';
+import 'package:wazafny/Screens/login_and_signup/repo/password_reset_service.dart';
 
 class ForgetEnterEmail extends StatefulWidget {
   const ForgetEnterEmail({super.key, required this.role});
@@ -23,7 +24,6 @@ class _ForgetEnterEmailState extends State<ForgetEnterEmail> {
 
   final TextEditingController _emailController = TextEditingController();
 
-
   @override
   void initState() {
     super.initState();
@@ -32,8 +32,7 @@ class _ForgetEnterEmailState extends State<ForgetEnterEmail> {
 
   void _validateForm() {
     setState(() {
-      _isButtonEnabled =
-          _emailController.text.isNotEmpty;
+      _isButtonEnabled = _emailController.text.isNotEmpty;
     });
   }
 
@@ -41,6 +40,30 @@ class _ForgetEnterEmailState extends State<ForgetEnterEmail> {
   void dispose() {
     _emailController.dispose();
     super.dispose();
+  }
+
+  Future<void> _sendOtp() async {
+    final result = await PasswordResetService()
+        .sendPasswordResetOtp(email: _emailController.text.trim());
+    if (result['statusCode'] == 200) {
+      // ignore: use_build_context_synchronously
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => OtpScreen(
+            role: widget.role,
+            email: _emailController.text.trim(),
+          ),
+        ),
+      );
+    } else {
+      final errorMsg =
+          result['error'] ?? 'Failed to send OTP. Please try again.';
+      // ignore: use_build_context_synchronously
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(errorMsg)),
+      );
+    }
   }
 
   @override
@@ -60,7 +83,9 @@ class _ForgetEnterEmailState extends State<ForgetEnterEmail> {
               SizedBox(height: SizeConfig.screenHeight * 0.05),
               const HeadingText1(title: "Forgot Password ?"),
               const SizedBox(height: 20),
-              const SubHeadingText(title: "Enter the email address you used when you joined and we’ll send you instructions to reset your password."),
+              const SubHeadingText(
+                  title:
+                      "Enter the email address you used when you joined and we’ll send you instructions to reset your password."),
               const SizedBox(height: 20),
               RegularTextField(
                 keyboardType: TextInputType.emailAddress,
@@ -74,25 +99,19 @@ class _ForgetEnterEmailState extends State<ForgetEnterEmail> {
                   }
                   return null;
                 },
-                controller: _emailController ,
+                controller: _emailController,
               ),
               const SizedBox(height: 20),
-
               GestureDetector(
                 onTap: () {
                   if (_formKey.currentState!.validate()) {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => OtpScreen(role: widget.role,)),
-                    );
+                    _sendOtp();
                   }
                 },
                 child: Opacity(
                     opacity: _isButtonEnabled ? 1.0 : 0.5,
                     child: const Button(text: "Send OTP")),
               ),
-
-
             ],
           ),
         ),
@@ -100,5 +119,3 @@ class _ForgetEnterEmailState extends State<ForgetEnterEmail> {
     );
   }
 }
-
-

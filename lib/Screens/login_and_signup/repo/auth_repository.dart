@@ -332,4 +332,6 @@ class AuthRepository {
       throw Exception('Failed to check email verification status');
     }
   }
+
+  // Password reset methods moved to password_reset_service.dart
 }

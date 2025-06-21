@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
 import 'package:wazafny/core/constants/constants.dart';
+import 'package:wazafny/core/constants/textfields_validators.dart';
 import 'package:wazafny/widgets/button.dart';
 import 'package:wazafny/widgets/custom_app_bar.dart';
 import 'package:wazafny/widgets/texts/heading_text.dart';
 import 'package:wazafny/widgets/texts/sub_heading_text.dart';
 
+import 'package:wazafny/Screens/login_and_signup/repo/password_reset_service.dart';
 import 'reset_password.dart';
 
 class OtpScreen extends StatefulWidget {
-  const OtpScreen({super.key, required this.role});
-
+  final String email;
+  const OtpScreen({super.key, required this.role, required this.email});
   final String role;
 
   @override
@@ -41,6 +43,44 @@ class _OtpScreenState extends State<OtpScreen> {
   void dispose() {
     otbController.dispose();
     super.dispose();
+  }
+
+  String? get email => widget.email;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // No need for extra logic, email is now always available from widget
+  }
+
+  Future<void> _verifyOtp() async {
+    if (email == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Email not found. Please try again.')),
+      );
+      return;
+    }
+    final result = await PasswordResetService().verifyPasswordResetOtp(
+      email: email!,
+      otp: otbController.text.trim(),
+    );
+    if (result['statusCode'] == 200) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ResetPassword(
+            role: widget.role,
+            email: email!,
+            otp: otbController.text.trim(),
+          ),
+        ),
+      );
+    } else {
+      final errorMsg = result['error'] ?? 'Invalid OTP. Please try again.';
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(errorMsg)),
+      );
+    }
   }
 
   @override
@@ -92,7 +132,10 @@ class _OtpScreenState extends State<OtpScreen> {
                     defaultPinTheme: defaultPinTheme,
                     separatorBuilder: (index) => const SizedBox(width: 8),
                     validator: (value) {
-                      return value == '222222' ? null : 'Pin is incorrect';
+                      if (value == null || value.isEmpty) {
+                        return 'OTP is required';
+                      }
+                      return null;
                     },
                     hapticFeedbackType: HapticFeedbackType.lightImpact,
                     onCompleted: (pin) {
@@ -134,13 +177,9 @@ class _OtpScreenState extends State<OtpScreen> {
 
                 GestureDetector(
                   onTap: () {
-                    print(otbController);
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              ResetPassword(role: widget.role)),
-                    );
+                    if (_formKey.currentState!.validate()) {
+                      _verifyOtp();
+                    }
                   },
                   child: Opacity(
                       opacity: _isButtonEnabled ? 1.0 : 0.5,
