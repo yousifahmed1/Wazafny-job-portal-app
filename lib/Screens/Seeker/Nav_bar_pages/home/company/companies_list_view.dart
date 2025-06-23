@@ -140,28 +140,30 @@ class _CompaniesListViewState extends State<CompaniesListView> {
                                       ),
                               ),
                               const SizedBox(width: 10),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    company.companyName,
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.w800,
-                                      fontSize: 16,
-                                      color: darkerPrimary,
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      company.companyName,
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.w800,
+                                        fontSize: 16,
+                                        color: darkerPrimary,
+                                      ),
                                     ),
-                                  ),
-                                  Text(
-                                    "${company.companyCity ?? ""}, ${company.companyCountry ?? ""}",
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 14,
-                                      color: darkerPrimary,
+                                    Text(
+                                      "${company.companyCity ?? ""}, ${company.companyCountry ?? ""}",
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 14,
+                                        color: darkerPrimary,
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
-                              const Spacer(),
+                              const SizedBox(width: 10),
                               Column(
                                 children: [
                                   Text(
@@ -180,7 +182,7 @@ class _CompaniesListViewState extends State<CompaniesListView> {
                                   ),
                                 ],
                               ),
-                              const Spacer(),
+                              const SizedBox(width: 10),
                               Column(
                                 children: [
                                   Text(
