@@ -30,20 +30,31 @@ class WelcomePage extends StatelessWidget {
                 child: Column(
                   children: [
                     SizedBox(
-                      height: SizeConfig.screenHeight * 0.1,
+                      height: SizeConfig.screenHeight * 0.05,
+                    ),
+                    Text(
+                      "Wazafny",
+                      style: TextStyle(
+                        color: whiteColor,
+                        fontWeight: FontWeight.w800,
+                        fontSize: SizeConfig.screenHeight * 0.035,
+                      ),
+                    ),
+                    SizedBox(
+                      height: SizeConfig.screenHeight * 0.01,
                     ),
                     Image.asset(
                       "assets/Logo/logo2.png",
-                      height: 400,
+                      height: SizeConfig.screenHeight * 0.4,
                       color: whiteColor,
                     ),
-                    const Text(
+                    Text(
                       "Find Your Dream Job or Hire the Best Talent",
                       textAlign: TextAlign.center,
                       softWrap: true,
                       style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 33,
+                        color: whiteColor,
+                        fontSize: SizeConfig.screenHeight * 0.035,
                         fontWeight: FontWeight.w800,
                       ),
                     ),
