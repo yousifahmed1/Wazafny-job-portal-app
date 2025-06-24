@@ -9,8 +9,7 @@ class CountryPickerTextField extends StatelessWidget {
   final String? labelText;
   final bool isEnabled;
   final String? Function(String?)? validator;
-    final void Function(String)? onChanged;
-
+  final void Function(String)? onChanged;
 
   static final List<String> countries = [
     "Afghanistan",
@@ -215,7 +214,8 @@ class CountryPickerTextField extends StatelessWidget {
     required this.controller,
     this.labelText,
     this.isEnabled = true,
-    this.validator, this.onChanged,
+    this.validator,
+    this.onChanged,
   });
 
   void _showCountryPicker(BuildContext context) {
@@ -237,14 +237,18 @@ class CountryPickerTextField extends StatelessWidget {
                 titleColor: primaryColor,
               ),
               onPressed: () {
-                controller!.text = countries[selectedIndex];
+                if (selectedIndex >= 0) {
+                  controller!.text = countries[selectedIndex];
+                  // Call onChanged callback when country is selected
+                  onChanged?.call(countries[selectedIndex]);
+                }
                 Navigator.of(context).pop();
               },
             ),
             Expanded(
               child: CupertinoPicker(
-                scrollController:
-                    FixedExtentScrollController(initialItem: selectedIndex),
+                scrollController: FixedExtentScrollController(
+                    initialItem: selectedIndex >= 0 ? selectedIndex : 0),
                 itemExtent: 32.0,
                 onSelectedItemChanged: (index) {
                   selectedIndex = index;

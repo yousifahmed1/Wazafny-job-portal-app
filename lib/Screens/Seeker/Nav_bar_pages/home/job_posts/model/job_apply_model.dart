@@ -21,6 +21,12 @@ class JobApplyModel {
   });
 
   factory JobApplyModel.fromJson(Map<String, dynamic> json) {
+    // Debug logging
+    print("Parsing JobApplyModel from JSON:");
+    print("Country from JSON: ${json['country']}");
+    print("City from JSON: ${json['city']}");
+    print("First name from JSON: ${json['first_name']}");
+
     return JobApplyModel(
       firstName: json['first_name'],
       lastName: json['last_name'],

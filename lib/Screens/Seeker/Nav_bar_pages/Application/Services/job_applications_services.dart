@@ -69,6 +69,10 @@ class JobApplicationServices {
         ),
       );
       if (response.statusCode == 200) {
+        // Log the response data for debugging
+        log("API Response: ${response.data}");
+        log("Country from API: ${response.data['country']}");
+
         // here we assume the API structure is { "companies": [ {...}, {...} ] }
         return JobApplyModel.fromJson(response.data);
       } else {
@@ -92,6 +96,11 @@ class JobApplicationServices {
   }) async {
     await _initialize();
 
+    // Debug logging
+    log("Updating application with country: $country");
+    log("Updating application with city: $city");
+    log("Updating application with firstName: $firstName");
+
     // Start building fields
     Map<String, dynamic> fields = {
       "first_name": firstName,
@@ -101,6 +110,8 @@ class JobApplicationServices {
       "city": city,
       "phone": phone,
     };
+
+    log("Fields being sent: $fields");
 
     // Add answers
     if (questionsAnswers.isNotEmpty) {

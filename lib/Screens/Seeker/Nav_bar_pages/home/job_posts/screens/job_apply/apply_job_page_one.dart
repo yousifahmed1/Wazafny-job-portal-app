@@ -28,6 +28,45 @@ class _ApplyPageOneState extends State<ApplyPageOne> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _countryController = TextEditingController();
   final TextEditingController _cityController = TextEditingController();
+  bool _isInitialized = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _initializeControllers();
+  }
+
+  void _initializeControllers() {
+    if (widget.isEditMode && !_isInitialized) {
+      print("Initializing controllers in edit mode");
+      print("Country from model: ${widget.jobApplyModel.country}");
+      print("City from model: ${widget.jobApplyModel.city}");
+      print("First name from model: ${widget.jobApplyModel.firstName}");
+
+      _firstNameController.text = widget.jobApplyModel.firstName ?? '';
+      _lastNameController.text = widget.jobApplyModel.lastName ?? '';
+      _phoneNumberController.text = widget.jobApplyModel.phone ?? '';
+      _emailController.text = widget.jobApplyModel.emailAddress ?? '';
+      _countryController.text = widget.jobApplyModel.country ?? '';
+      _cityController.text = widget.jobApplyModel.city ?? '';
+
+      print("Country controller text set to: ${_countryController.text}");
+
+      // Ensure the model is updated with the initial values
+      widget.jobApplyModel.firstName = widget.jobApplyModel.firstName ?? '';
+      widget.jobApplyModel.lastName = widget.jobApplyModel.lastName ?? '';
+      widget.jobApplyModel.phone = widget.jobApplyModel.phone ?? '';
+      widget.jobApplyModel.emailAddress =
+          widget.jobApplyModel.emailAddress ?? '';
+      widget.jobApplyModel.country = widget.jobApplyModel.country ?? '';
+      widget.jobApplyModel.city = widget.jobApplyModel.city ?? '';
+
+      print(
+          "Model country after initialization: ${widget.jobApplyModel.country}");
+
+      _isInitialized = true;
+    }
+  }
 
   @override
   void dispose() {
@@ -42,14 +81,14 @@ class _ApplyPageOneState extends State<ApplyPageOne> {
 
   @override
   Widget build(BuildContext context) {
-    if (widget.isEditMode) {
-      _firstNameController.text = widget.jobApplyModel.firstName!;
-      _lastNameController.text = widget.jobApplyModel.lastName!;
-      _phoneNumberController.text = widget.jobApplyModel.phone!;
-      _emailController.text = widget.jobApplyModel.emailAddress!;
-      _countryController.text = widget.jobApplyModel.country!;
-      _cityController.text = widget.jobApplyModel.city!;
+    // Initialize controllers if not done yet
+    if (widget.isEditMode && !_isInitialized) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _initializeControllers();
+        setState(() {});
+      });
     }
+
     SizeConfig.init(context);
     return Column(
       children: [
@@ -71,7 +110,6 @@ class _ApplyPageOneState extends State<ApplyPageOne> {
           validator: Validators().requiredFieldValidator,
           onChanged: (value) {
             widget.jobApplyModel.lastName = value;
-            
           },
         ),
         const SizedBox(height: 15),
@@ -102,6 +140,7 @@ class _ApplyPageOneState extends State<ApplyPageOne> {
           validator: Validators().requiredFieldValidator,
           onChanged: (value) {
             widget.jobApplyModel.country = value;
+            log("country : ${widget.jobApplyModel.country}");
           },
         ),
         const SizedBox(height: 15),

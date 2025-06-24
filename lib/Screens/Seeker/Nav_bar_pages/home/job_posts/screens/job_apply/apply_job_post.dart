@@ -98,6 +98,9 @@ class _ApplyJobPostState extends State<ApplyJobPost> {
                                 totalPages: totalPages),
                             if (currentPage == 1) ...[
                               ApplyPageOne(
+                                key: ValueKey(widget.editMode
+                                    ? 'edit_${widget.applicationID}'
+                                    : 'new'),
                                 jobApplyModel: jobApplyModel,
                                 isEditMode: widget.editMode,
                               ),
@@ -246,6 +249,11 @@ class _ApplyJobPostState extends State<ApplyJobPost> {
                     const Center(child: CircularProgressIndicator()),
               );
               if (widget.editMode) {
+                log("Updating application in edit mode");
+                log("Country from jobApplyModel: ${jobApplyModel.country}");
+                log("City from jobApplyModel: ${jobApplyModel.city}");
+                log("First name from jobApplyModel: ${jobApplyModel.firstName}");
+
                 await JobApplicationServices().updateApplication(
                   applicationId: widget.applicationID!,
                   firstName: jobApplyModel.firstName ?? '',
