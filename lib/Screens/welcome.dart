@@ -18,46 +18,38 @@ class WelcomePage extends StatelessWidget {
       body: Center(
         child: Column(
           children: [
-            const Spacer(),
-            Image.asset(
-              "assets/Images/welcome.png",
-              width: SizeConfig.screenWidth,
-              fit: BoxFit.fill,
-            ),
-
-            // Expanded(
-            //   child: Padding(
-            //     padding: const EdgeInsets.all(8.0),
-            //     child:
-            //     Column(
-            //       children: [
-            //         SizedBox(
-            //           height: SizeConfig.screenHeight * 0.2,
-            //         ),
-            //         // Image.asset(
-            //         //   "assets/logo_white.png",
-            //         // ),
-            //         SvgPicture.asset(
-            //           "assets/Images/logo_white.svg",
-            //           height: 50,
-            //         ),
-            //         SizedBox(
-            //           height: SizeConfig.screenHeight * 0.05,
-            //         ),
-            //         Text(
-            //           "Find Your Dream Job or Hire the Best Talent",
-            //           textAlign: TextAlign.center,
-            //           softWrap: true,
-            //           style: TextStyle(
-            //             color: Colors.white,
-            //             fontSize: 30,
-            //             fontWeight: FontWeight.w700,
-            //           ),
-            //         ),
-            //       ],
-            //     ),
-            //   ),
+            // const Spacer(),
+            // Image.asset(
+            //   "assets/Images/welcome.png",
+            //   width: SizeConfig.screenWidth,
+            //   fit: BoxFit.fill,
             // ),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: SizeConfig.screenHeight * 0.1,
+                    ),
+                    Image.asset(
+                      "assets/Logo/logo2.png",
+                      height: 400,
+                    ),
+                    const Text(
+                      "Find Your Dream Job or Hire the Best Talent",
+                      textAlign: TextAlign.center,
+                      softWrap: true,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 33,
+                        fontWeight: FontWeight.w800,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
             Container(
               height: SizeConfig.screenHeight * (1 / 3),
               width: double.infinity,
@@ -66,7 +58,7 @@ class WelcomePage extends StatelessWidget {
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(25),
                     topRight: Radius.circular(25)),
-                color: Colors.white,
+                color: whiteColor,
               ),
               child: Column(
                 children: [
@@ -76,29 +68,40 @@ class WelcomePage extends StatelessWidget {
                   const Text(
                     "YOU ARE A",
                     style: TextStyle(
-                      color: darkPrimary,
+                      color: primaryColor,
                       fontSize: 40,
                       fontWeight: FontWeight.w900,
                     ),
                   ),
+                  SizedBox(
+                    height: SizeConfig.screenHeight * 0.02,
+                  ),
                   Padding(
-                    padding: const EdgeInsets.all(8.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 15.0),
                     child: Column(
                       children: [
                         GestureDetector(
                           onTap: () {
                             slideTo(context, const LoginPage(role: "Seeker"));
                           },
-                          child: const Button(text: "JOB SEEKER"),
+                          child: const Button(
+                            text: "JOB SEEKER",
+                          ),
                         ),
                         SizedBox(
-                          height: SizeConfig.screenHeight * 0.03,
+                          height: SizeConfig.screenHeight * 0.02,
                         ),
                         GestureDetector(
                           onTap: () {
-                            slideTo(context, const LoginPage(role: "Company"));
+                            slideTo(
+                                context,
+                                const LoginPage(
+                                  role: "Company",
+                                ));
                           },
-                          child: const Button(text: "COMPANY"),
+                          child: const Button(
+                            text: "COMPANY",
+                          ),
                         ),
                       ],
                     ),
