@@ -53,7 +53,17 @@ class ProfilePage extends StatelessWidget {
             );
           } else if (state is ProfileError) {
             // Show error message if something went wrong
-            return Center(child: Text('Error: ${state.message}'));
+            return RefreshIndicator(
+              onRefresh: () async {
+                context.read<SeekerProfileCubit>().fetchProfile();
+              },
+              child: Center(
+                child: Text(
+                  'Error: ${state.message}',
+                  style: const TextStyle(color: Colors.red),
+                ),
+              ),
+            );
           }
           return const SizedBox(); // Empty fallback
         },
