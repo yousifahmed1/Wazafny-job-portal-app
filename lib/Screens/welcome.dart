@@ -35,6 +35,7 @@ class WelcomePage extends StatelessWidget {
                     Image.asset(
                       "assets/Logo/logo2.png",
                       height: 400,
+                      color: whiteColor,
                     ),
                     const Text(
                       "Find Your Dream Job or Hire the Best Talent",
