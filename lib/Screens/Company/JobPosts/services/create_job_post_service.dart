@@ -21,9 +21,25 @@ class CreateJobPostService {
     await _initialize();
 
     try {
+      // Create a custom JSON structure for create operation
+      final createData = {
+        'job_title': jobPost.jobTitle,
+        'job_about': jobPost.about,
+        'job_time': jobPost.employmentType,
+        'job_type': jobPost.jobType,
+        'job_country': jobPost.country,
+        'job_city': jobPost.city,
+        'company_id': jobPost.companyID,
+        'skills': jobPost.skills,
+        'questions': jobPost.questions
+            .map((q) => q.question)
+            .toList(), // Just the question strings
+        'sections': jobPost.extraSections,
+      };
+
       final response = await dio.post(
         '/create-job-post',
-        data: jobPost.toJson(),
+        data: createData,
         options: Options(
           headers: {
             'Authorization': 'Bearer $token',
@@ -53,7 +69,7 @@ class CreateJobPostService {
     try {
       final response = await dio.put(
         '/update-job-post-info/$jobId',
-        data: jobPost.toJson(),
+        data: jobPost.toJson(), // Use the original toJson() method for update
         options: Options(
           headers: {
             'Authorization': 'Bearer $token',
