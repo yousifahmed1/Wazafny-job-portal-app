@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:wazafny/Screens/Company/Dashboard/cubit/dashboard_cubit.dart';
 import 'package:wazafny/Screens/Company/JobPosts/Screens/CreateJobPost/create_job_post.dart';
 import 'package:wazafny/Screens/Company/JobPosts/cubits/company_Job_posts_cubit/company_job_posts_cubit.dart';
 import 'package:wazafny/Screens/Company/JobPosts/cubits/company_view_job_post_cubit/company_view_job_post_cubit.dart';
@@ -44,6 +45,8 @@ class _ConpanyViewJobPostState extends State<ConpanyViewJobPost> {
                     .deleteJobPost(jobId: widget.jobId);
 
                 context.read<CompanyJobPostsCubit>().fetchCompanyJobPosts();
+                context.read<CompanyDashboardCubit>().fetchStats();
+
               },
               title: "Delete Job Post",
               description: "Are you sure you want to delete this job post?",
