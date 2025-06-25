@@ -77,7 +77,7 @@ class DeleteDialog extends StatelessWidget {
                     ),
                     child: const HeadingText(
                       fontSize: 20,
-                      title: "Delete",
+                      title: "Cancel",
                       titleColor: darkerPrimary,
                     ),
                   ),
