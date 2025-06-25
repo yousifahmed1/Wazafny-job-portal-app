@@ -180,7 +180,7 @@ class _AddEditEducationState extends State<AddEditEducation> {
                       const SizedBox(height: 15),
 
                       DatePickerField(
-                        validator: Validators().requiredFieldValidator,
+                        validator: !_currentlyStudent ? Validators().requiredFieldValidator : null,
                         isEnabled: !_currentlyStudent,
                         controller: _endDateController,
                         labelText: "End date*",

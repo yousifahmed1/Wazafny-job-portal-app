@@ -177,11 +177,12 @@ class _AddExperienceState extends State<AddExperience> {
                       const SizedBox(height: 15),
 
                       DatePickerField(
-                        validator: Validators().requiredFieldValidator,
+                        validator: !_currentlyEmployed ? Validators().requiredFieldValidator : null,
                         isEnabled: !_currentlyEmployed,
                         controller: _endDateController,
                         labelText: "End date*",
                       ),
+
 
                       //Year end date textfield
 
