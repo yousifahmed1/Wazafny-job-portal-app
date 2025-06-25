@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wazafny/Screens/Company/JobPosts/widgets/Process_bar.dart';
 import 'package:wazafny/Screens/Company/nav_bar_company.dart';
 import 'package:wazafny/core/constants/constants.dart';
@@ -6,6 +7,8 @@ import 'package:wazafny/widgets/custom_app_bar.dart';
 import 'package:wazafny/Screens/Company/JobPosts/models/create_job_post_model.dart';
 import 'package:wazafny/Screens/Company/JobPosts/models/company_job_post_model.dart';
 import 'package:wazafny/Screens/Company/JobPosts/services/create_job_post_service.dart';
+import '../../../Dashboard/cubit/dashboard_cubit.dart';
+import '../../cubits/company_Job_posts_cubit/company_job_posts_cubit.dart';
 import 'pages/basic_info_page.dart';
 import 'pages/skills_page.dart';
 import 'pages/extra_sections_page.dart';
@@ -150,6 +153,7 @@ class _CreateJobPostState extends State<CreateJobPost> {
         // Call update API (PUT)
         message = await _jobPostService.updateJobPost(
             widget.jobPostToEdit!.jobpost.jobId, _jobPostData);
+
       } else {
         message = await _jobPostService.createJobPost(_jobPostData);
       }
@@ -199,6 +203,8 @@ class _CreateJobPostState extends State<CreateJobPost> {
               behavior: SnackBarBehavior.floating,
             ),
           );
+          context.read<CompanyJobPostsCubit>().fetchCompanyJobPosts();
+          context.read<CompanyDashboardCubit>().fetchStats();
           Navigator.push(
             context,
             MaterialPageRoute(
