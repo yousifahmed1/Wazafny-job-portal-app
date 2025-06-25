@@ -82,7 +82,7 @@ class PreviewPage extends StatelessWidget {
             ...jobPostData.questions.map((question) => Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SubHeadingText1(title: 'Q: $question'),
+                    SubHeadingText1(title: 'Q: ${question.question}'),
                     const SizedBox(height: 10),
                   ],
                 )),
