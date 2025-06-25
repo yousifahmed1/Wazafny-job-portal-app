@@ -57,11 +57,13 @@ class ProfilePage extends StatelessWidget {
               onRefresh: () async {
                 context.read<SeekerProfileCubit>().fetchProfile();
               },
-              child: Center(
-                child: Text(
-                  'Error: ${state.message}',
-                  style: const TextStyle(color: Colors.red),
-                ),
+              child: ListView(
+                children: [
+                  Text(
+                    'Error: ${state.message}',
+                    style: const TextStyle(color: Colors.red),
+                  ),
+                ],
               ),
             );
           }
